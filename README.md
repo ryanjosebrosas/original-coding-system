@@ -2,7 +2,7 @@
 
 A comprehensive AI-assisted development methodology combining systematic planning, implementation discipline, and validation strategies.
 
-Built for [Claude Code](https://claude.com/claude-code) | Powered by the PIV Loop
+Built for [OpenCode](https://opencode.ai) | Powered by the PIV Loop
 
 ---
 
@@ -45,14 +45,14 @@ Context is organized in layers — auto-loaded context stays minimal so the AI h
 
 ```mermaid
 graph TD
-    CLAUDE["CLAUDE.md<br/>~2K tokens auto-loaded"] --> S["sections/<br/>6 core rules"]
-    CLAUDE -.->|"on-demand"| R["reference/<br/>20+ deep guides"]
-    CLAUDE -.->|"on-demand"| T["templates/<br/>16 templates"]
+    AGENTS["AGENTS.md<br/>~2K tokens auto-loaded"] --> S["sections/<br/>6 core rules"]
+    AGENTS -.->|"on-demand"| R["reference/<br/>20+ deep guides"]
+    AGENTS -.->|"on-demand"| T["templates/<br/>16 templates"]
 
-    CMD[".claude/commands/<br/>20 slash commands"] -->|"reads"| T
+    CMD[".opencode/commands/<br/>20 commands"] -->|"reads"| T
     CMD -->|"produces"| REQ["requests/<br/>feature plans"]
 
-    SK[".claude/skills/<br/>4 cloud skills"] -.->|"loads"| R
+    AG[".opencode/agents/<br/>12 agents"] -.->|"loads"| R
 
     MEM["memory.md<br/>cross-session context"] -.-> CMD
     ARCHON["Archon MCP<br/>task management + RAG"] -.-> CMD
@@ -68,7 +68,7 @@ Auto-loaded context is kept minimal (~2K tokens) so the AI has maximum context w
 ## Quick Start
 
 ### Prerequisites
-- [Claude Code CLI](https://claude.com/claude-code) installed
+- [OpenCode CLI](https://opencode.ai) installed
 - Git configured
 
 ### Setup
@@ -87,7 +87,7 @@ Start with `/prime` to understand the system, then try `/planning` on a small fe
 
 | Command | Description | When to Use |
 |---------|-------------|-------------|
-| `/prime` | Load codebase context | Start of every session |
+| `/prime` | Quick codebase handshake (~8K tokens) | Start of every session |
 | `/planning [feature]` | Create implementation plan | Before building any feature |
 | `/execute [plan]` | Implement from plan file | After planning |
 | `/commit` | Git commit with conventional format | After implementation |
@@ -96,7 +96,7 @@ Start with `/prime` to understand the system, then try `/planning` on a small fe
 | `/end-to-end-feature` | Full autonomous pipeline | Trusted, simple features |
 | `/new-worktree` | Create parallel branch | Multi-feature work |
 | `/parallel-e2e` | Parallel multi-feature | Advanced parallel builds |
-| `/init-c` | Generate CLAUDE.md for new project | New projects |
+| `/init-c` | Generate AGENTS.md for new project | New projects |
 
 ---
 
@@ -104,15 +104,14 @@ Start with `/prime` to understand the system, then try `/planning` on a small fe
 
 ```
 My-Coding-System/
-├── CLAUDE.md              # Auto-loaded rules (slim, ~2K tokens)
+├── AGENTS.md              # Auto-loaded rules (slim, ~2K tokens)
 ├── memory.md              # Cross-session memory
 ├── sections/              # Core rule sections (auto-loaded)
 ├── reference/             # Deep guides (on-demand, ~89K tokens)
 ├── templates/             # Reusable templates (16 files)
 ├── requests/              # Feature plans (per PIV loop)
-├── .claude/commands/      # Slash commands (20 commands)
-├── .claude/skills/        # Cloud skills (4 skills)
-└── .claude/agents/        # Subagent examples (6 agents)
+├── .opencode/commands/    # Commands (20 commands)
+└── .opencode/agents/      # Agents (12 agents)
 ```
 
 ---
@@ -131,7 +130,7 @@ My-Coding-System/
 
 | Guide | Load when... |
 |-------|-------------|
-| `reference/layer1-guide.md` | Setting up CLAUDE.md for a new project |
+| `reference/layer1-guide.md` | Setting up AGENTS.md for a new project |
 | `reference/validation-strategy.md` | Planning or running validation |
 | `reference/file-structure.md` | Looking up where files belong |
 | `reference/command-design-overview.md` | Designing or modifying slash commands |
@@ -148,7 +147,14 @@ My-Coding-System/
 
 The system manages tokens carefully to maximize context window for actual work:
 
-- **Auto-loaded**: ~2K tokens (CLAUDE.md + 6 sections)
+- **Auto-loaded**: ~2K tokens (AGENTS.md + 6 sections)
+- **`/prime`**: ~8K tokens (optimized handshake — project type, git state, memory highlights)
 - **Commands**: loaded only when invoked (largest: `/planning` ~2.2K tokens)
 - **Reference guides**: loaded only when needed (~89K tokens available)
-- **Typical session**: uses <10K tokens of system context, leaving the rest for implementation
+- **Typical session**: <15K tokens of system context, leaving 85%+ for implementation
+
+### Design Principle
+
+> Prime is a handshake, not a deep dive.
+
+The `/prime` command deliberately avoids verbose output. It provides just enough context to proceed — project purpose, current branch, top memory entries. For deeper analysis, load specific reference guides on-demand.
