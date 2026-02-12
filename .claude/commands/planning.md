@@ -313,6 +313,32 @@ If memory.md doesn't exist or has no relevant entries, note "No relevant memorie
 
 ---
 
+## PHASE 4.5: Plan Decomposition Decision
+
+**Goal**: Determine if this feature needs decomposition into multiple sub-plans.
+
+**Trigger criteria** (ANY of these → decompose):
+- Estimated Complexity is High (from Phase 1 metadata)
+- Phase 4 design has 4+ implementation phases
+- Projected task count exceeds 15 tasks
+- Feature touches 3+ distinct systems/layers
+- User explicitly requested decomposition
+
+**If decomposing**:
+1. Read `templates/PLAN-OVERVIEW-TEMPLATE.md` and `templates/SUB-PLAN-TEMPLATE.md`
+2. Split Phase 4's implementation phases into sub-plans (1 phase = 1 sub-plan, max 8 tasks each)
+3. Assign shared context to overview, per-phase context to each sub-plan
+4. Proceed to Phase 5 in "decomposed mode" (generate tasks per sub-plan)
+5. Output: overview file + N sub-plan files
+
+**If NOT decomposing** (Low/Medium complexity, <15 tasks):
+- Proceed to Phase 5 normally (single plan file, 500-700 lines)
+- This is the default — backwards compatible
+
+**Validation**: Is the decomposition decision justified? Would a single plan exceed the execution agent's effective context? Does each sub-plan have 5-8 tasks?
+
+---
+
 ## PHASE 5: Step-by-Step Task Generation
 
 **Goal**: Fill → STEP-BY-STEP TASKS section
@@ -345,6 +371,13 @@ If memory.md doesn't exist or has no relevant entries, note "No relevant memorie
 - **GOTCHA**: [specific pitfall for this project]
 - **VALIDATE**: `[exact command to verify]`
 ```
+
+**If decomposed mode (from Phase 4.5)**:
+- For each sub-plan, generate tasks using the same 7-field format (ACTION, TARGET, IMPLEMENT, PATTERN, IMPORTS, GOTCHA, VALIDATE)
+- Each sub-plan gets 5-8 tasks maximum
+- Include HANDOFF NOTES at the end of each sub-plan
+- Cross-check: no task in sub-plan N depends on reading output from sub-plan N-1 without that output being documented in the HANDOFF NOTES
+- Each sub-plan must be self-contained — executable by an agent that has ONLY read that sub-plan and the overview's CONTEXT REFERENCES
 
 **Validation**: Every task is atomic. Every task has a validation command. No task leaves uncertainty about what to implement.
 
@@ -384,9 +417,33 @@ If memory.md doesn't exist or has no relevant entries, note "No relevant memorie
 
 ## OUTPUT
 
+### Standard Mode (default)
+
 Save the completed plan to: `requests/[feature-name]-plan.md`
 
 Use the template structure from `templates/STRUCTURED-PLAN-TEMPLATE.md`. Every section must be filled — specific to this feature, not generic placeholders.
+
+### Decomposed Mode (from Phase 4.5)
+
+<!-- PLAN-SERIES -->
+
+Save to multiple files:
+- `requests/{feature}-plan-overview.md` — overview + context + plan index (use `templates/PLAN-OVERVIEW-TEMPLATE.md`)
+- `requests/{feature}-plan-01-{phase}.md` — sub-plan 1 (use `templates/SUB-PLAN-TEMPLATE.md`)
+- `requests/{feature}-plan-02-{phase}.md` — sub-plan 2
+- ... (one per implementation phase)
+
+Include in each sub-plan's header:
+- Parent Plan: `requests/{feature}-plan-overview.md`
+- Sub-plan: {N} of {total}
+- Phase: {phase name}
+
+Include EXECUTION ROUTING in overview:
+- Primary: claude2 (Sonnet) — main execution instance
+- Secondary: claude3 (Sonnet) — if primary hits rate limit
+- Fallback: claude1 (Sonnet) — last resort
+
+### For Both Modes
 
 **CRITICAL**: This plan is for ANOTHER AGENT to execute in a fresh conversation. It must contain ALL information needed — patterns, file paths with line numbers, exact commands, documentation links. The execution agent should succeed without additional research or clarification.
 

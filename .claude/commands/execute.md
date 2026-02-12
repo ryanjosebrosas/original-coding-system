@@ -20,6 +20,27 @@ Read plan file: `$ARGUMENTS`
 
 ## Execution Instructions
 
+### 0.5. Detect Plan Type
+
+Read the plan file from `$ARGUMENTS`.
+
+**If the file contains `<!-- PLAN-SERIES -->` marker** (decomposed plan overview):
+- This is a plan series — extract the sub-plan file paths from the PLAN INDEX table
+- Read EXECUTION ROUTING for instance assignment
+- Report: "Detected plan series with N sub-plans. Executing sequentially."
+- Proceed to Step 1 (Series Mode)
+
+**If the file does NOT contain `<!-- PLAN-SERIES -->`** (standard single plan):
+- This is a standard plan — proceed with existing execution flow unchanged
+- Skip all series-specific steps below
+
+**Instance Routing** (series mode only):
+- Read the EXECUTION ROUTING section from overview
+- Primary: claude2 (Sonnet) — attempt execution here first
+- Secondary: claude3 (Sonnet) — if primary returns rate limit error
+- Fallback: claude1 (Sonnet) — if secondary also limited
+- Report which instance should be used for each sub-plan
+
 ### 1. Read and Understand
 
 - Read the ENTIRE plan carefully
@@ -89,6 +110,26 @@ For EACH task in "Step by Step Tasks":
 **If Archon unavailable:**
 - Skip
 
+### 2.5. Series Mode Execution (if plan series detected in Step 0.5)
+
+For each sub-plan in PLAN INDEX order:
+
+1. **Load sub-plan**: Read `requests/{feature}-plan-{NN}-{phase}.md`
+2. **Load shared context**: Read CONTEXT REFERENCES from overview file
+3. **Execute tasks**: Follow same Step 2 process (a → b → c → d) for this sub-plan's tasks
+4. **Run sub-plan validations**: Execute VALIDATION COMMANDS from this sub-plan
+5. **Read handoff notes**: Check HANDOFF NOTES section for state to carry forward
+6. **Report progress**: "Sub-plan {N}/{total} complete. {tasks_done} tasks implemented."
+
+**Between sub-plans**:
+- In manual mode, the user should start a fresh conversation for each sub-plan to reset context. In automated mode (`claude -p`), each sub-plan runs independently.
+- The HANDOFF NOTES from sub-plan N become additional context for sub-plan N+1.
+
+**If a sub-plan fails**:
+- Stop execution, report which sub-plan and which task failed
+- Provide: "Resume from sub-plan {N} after fixing the issue"
+- Don't continue to next sub-plan — failed state propagates
+
 ### 3. Implement Testing Strategy
 
 After completing implementation tasks:
@@ -127,6 +168,8 @@ Before completing:
 
 **If Archon unavailable:**
 - Skip
+
+**If series mode**: Mark ALL tasks across all sub-plans as done in Archon. Update project description: "Plan series complete ({N} sub-plans executed)."
 
 **Outcome**: Kanban board shows feature 100% complete. Human sees green checkmarks across all tasks.
 

@@ -6,6 +6,8 @@ PLAN → IMPLEMENT → VALIDATE → (iterate)
 
 Always do **smaller iterations**. Multiple small PIV loops, never try to implement everything at once. Each loop picks ONE feature slice and builds it completely before moving on.
 
+For complex features (High complexity, 15+ tasks, 4+ phases), `/planning` automatically decomposes into multiple sub-plans — each executable in a fresh conversation with minimal context overhead. See `templates/PLAN-OVERVIEW-TEMPLATE.md` for the decomposed plan structure.
+
 ### Planning (Layer 1 + Layer 2)
 
 **Layer 1 — Project Planning** (done once, updated rarely):

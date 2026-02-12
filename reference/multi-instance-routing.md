@@ -93,6 +93,49 @@ Main Conversation (claude1, Sonnet)
   └─> Performance (claude1, Opus) ─────── premium analysis
 ```
 
+### Strategy 5: Execution Fallback Chain (for Plan Decomposition)
+
+When executing decomposed plans, distribute sub-plans across instances with fallback:
+
+```
+Planning (claude1, Opus)
+  → Produces: overview + N sub-plans
+
+Execution Fallback Chain:
+  Sub-plan 01 → claude2 (Sonnet, primary)
+  Sub-plan 02 → claude3 (Sonnet, secondary)
+  Sub-plan 03 → claude2 (Sonnet, round-robin back)
+  ...
+  If claude2 rate-limited → switch to claude3
+  If claude3 rate-limited → fall back to claude1 (Sonnet)
+```
+
+**Routing rules**:
+- `claude2` → Primary execution instance (odd-numbered sub-plans)
+- `claude3` → Secondary execution instance (even-numbered sub-plans)
+- `claude1` (Sonnet) → Fallback if both primary and secondary hit rate limits
+- Round-robin distribution keeps both instances active
+
+**Rate limit detection**:
+- If `claude -p` exits with error containing "rate_limited" or "429"
+- Or if process exceeds expected duration by 3x (indicates throttling)
+- Switch to next instance in chain
+
+**Manual execution** (recommended for complex features):
+```bash
+# Sub-plan 1 on claude2
+claude2 --model sonnet
+> /execute requests/{feature}-plan-01-foundation.md
+
+# Sub-plan 2 on claude3
+claude3 --model sonnet
+> /execute requests/{feature}-plan-02-core.md
+
+# If rate-limited, fall back to claude1
+claude1 --model sonnet  # Note: Sonnet, not Opus
+> /execute requests/{feature}-plan-03-integration.md
+```
+
 ---
 
 ## How to Configure Agents for Specific Instances
@@ -184,6 +227,12 @@ Then use: `./claude/scripts/cheap-review.sh`
 - ✅ Complex code analysis
 - ✅ Any vital task requiring Sonnet
 - ✅ Load distribution to avoid rate limits
+
+### Route to `claude2` + `claude3` (Execution - Load Balanced):
+- ✅ Sub-plan execution from decomposed plans (round-robin)
+- ✅ `/execute` for standard plans (overflow from claude1)
+- ✅ Any Sonnet implementation work
+- ✅ Integration testing and validation
 
 ---
 

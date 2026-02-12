@@ -48,10 +48,12 @@ reference/                             # On-demand guides (loaded when needed)
 templates/
   PRD-TEMPLATE.md                      # Template for Layer 1 PRD (what to build)
   STRUCTURED-PLAN-TEMPLATE.md          # Template for Layer 2 plans (per feature)
+  SUB-PLAN-TEMPLATE.md                 # Individual sub-plan template (150-250 lines, self-contained)
   VIBE-PLANNING-GUIDE.md              # Example prompts for vibe planning
   IMPLEMENTATION-PROMPT.md             # Reusable prompt for implementation phase
   VALIDATION-PROMPT.md                 # Reusable prompt for validation phase
   NEW-PROJECT-CHECKLIST.md             # Step-by-step guide for new projects
+  PLAN-OVERVIEW-TEMPLATE.md            # Master file for decomposed plan series (overview + index)
   CREATE-REFERENCE-GUIDE-PROMPT.md     # Prompt to generate on-demand reference guides
   MEMORY-TEMPLATE.md                   # Template for project memory (cross-session context)
   COMMAND-TEMPLATE.md                  # How to design new slash commands

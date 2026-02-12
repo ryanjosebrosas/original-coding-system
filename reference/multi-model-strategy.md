@@ -15,6 +15,7 @@ The PIV Loop naturally separates planning and execution into different conversat
 |-------|-------|-------------|
 | `/planning` | Opus 4.6 | `claude --model opus` |
 | `/execute` | Sonnet 4.5 | `claude` (default) |
+| `/execute` (decomposed) | Sonnet 4.5 | `claude2` or `claude3` (fallback: `claude1 sonnet`) |
 | `/code-review` | Sonnet 4.5 | `claude` (default) |
 | `/commit` | Sonnet 4.5 | `claude` (default) |
 | `/prime` | Sonnet 4.5 | `claude` (default) |
@@ -197,6 +198,32 @@ Main Agent (Sonnet or Opus) — orchestrates planning
 ```
 
 **Use for**: Debugging, root cause analysis, complex refactoring.
+
+### Strategy 5: Plan Decomposition (Complex Features)
+
+```
+Planning (claude1, Opus):
+  claude --model opus
+  > /planning complex-feature
+  → Detects High complexity
+  → Produces: overview + N sub-plans
+
+Sequential Execution (claude2/3, Sonnet):
+  claude2
+  > /execute requests/complex-feature-plan-01-foundation.md
+
+  claude3
+  > /execute requests/complex-feature-plan-02-core.md
+
+  claude2
+  > /execute requests/complex-feature-plan-03-integration.md
+```
+
+**Why this works**: Each sub-plan is 150-250 lines (vs 500-700 for a single plan). The execution agent loads less plan context, leaving more room for codebase files and implementation. Context quality stays high throughout execution.
+
+**When to use**: Features with 15+ tasks, 4+ implementation phases, or 3+ systems affected. The `/planning` command detects this automatically at Phase 4.5.
+
+**Cost impact**: Same total work, but distributed across instances. No cost increase — just better context utilization per session.
 
 ---
 
