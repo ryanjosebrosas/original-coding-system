@@ -22,7 +22,7 @@ This project becomes the running example for the rest of the system, providing c
 ### What You'll Learn in This Guide
 
 **Layer 1 Planning — Global Rules** (done once):
-- How to create CLAUDE.md with 6 essential sections
+- How to create AGENTS.md with 6 essential sections
 - Why global rules matter (the with/without comparison)
 - What belongs in Layer 1 vs what doesn't
 - How to maintain your "AI layer" over time
@@ -68,15 +68,15 @@ This guide teaches you to plan deliberately while coding systematically. This di
 
 ---
 
-## 2. Layer 1 Planning: Global Rules (CLAUDE.md)
+## 2. Layer 1 Planning: Global Rules (AGENTS.md)
 
 ### What Layer 1 Is
 
 Layer 1 = **done once, updated rarely**. It creates your "AI layer" — the rules, constraints, and conventions that govern how AI works on your code.
 
-Think of CLAUDE.md as the constitution for your project. It doesn't change with every feature, but it profoundly shapes every feature you build.
+Think of AGENTS.md as the constitution for your project. It doesn't change with every feature, but it profoundly shapes every feature you build.
 
-### The 6-Section CLAUDE.md Structure
+### The 6-Section AGENTS.md Structure
 
 **1. Core Principles** (non-negotiable rules):
 ```
@@ -156,7 +156,7 @@ Commands:
 - `uv run pytest tests/ -m unit`
 - `uv run pytest tests/ -m integration`
 
-### Why CLAUDE.md Matters
+### Why AGENTS.md Matters
 
 **Without it**: AI has no context about your conventions, makes random decisions, produces inconsistent code.
 
@@ -378,7 +378,7 @@ After vibe planning and structured planning, you often start a **NEW conversatio
 ```markdown
 Read coding-prompt.md and implement the complete feature following all steps.
 
-Follow the patterns in CLAUDE.md.
+Follow the patterns in AGENTS.md.
 
 Execute every step in order:
 1. Implement all components (models, services, APIs, tools)
@@ -647,7 +647,7 @@ Planning saves time overall. Plus, the plan becomes documentation for future you
 - Understanding AI strengths and limitations
 
 **This guide** teaches the **how**:
-- How to create Layer 1 rules (CLAUDE.md)
+- How to create Layer 1 rules (AGENTS.md)
 - How to do Layer 2 planning (vibe -> structured)
 - How to apply the 4 Pillars in practice
 - How to implement with fresh context
@@ -701,7 +701,7 @@ Coding must be systematic and planned—never let AI "vibe code" (make up the ap
 
 ### Layer 1 vs Layer 2: Different Purposes
 
-**Layer 1** (CLAUDE.md):
+**Layer 1** (AGENTS.md):
 - **Done once** (updated rarely)
 - **Stable foundation** (tech stack, core principles, architecture)
 - **Applies to all features** (global rules)
@@ -747,7 +747,7 @@ The upfront investment pays dividends throughout the feature lifecycle.
 3. **Study the structured plan template** — read `templates/STRUCTURED-PLAN-TEMPLATE.md` to understand the target output format
 4. **Run `/planning` command on your first feature** — use the command to generate a comprehensive plan following the 6-phase methodology
 5. **Compare to ad-hoc approach** — reflect on the difference between planning first vs "winging it" (reference your baseline self-assessment)
-6. **Move to the Global Rules Optimization guide** — learn how to create CLAUDE.md from scratch with the `/init-c` command and modular @sections structure
+6. **Move to the Global Rules Optimization guide** — learn how to create AGENTS.md from scratch with the `/init-c` command and modular @sections structure
 
 ---
 
@@ -755,7 +755,7 @@ The upfront investment pays dividends throughout the feature lifecycle.
 
 - **PIV Loop Overview**: See `sections/02_piv_loop.md` for the core Plan -> Implement -> Validate methodology and granularity principle
 - **4 Pillars of Context Engineering**: See `sections/03_context_engineering.md` for Memory, RAG, Prompt Engineering, and Task Management definitions
-- **Layer 1 Guide**: See `reference/layer1-guide.md` for the complete guide to creating CLAUDE.md for real projects
+- **Layer 1 Guide**: See `reference/layer1-guide.md` for the complete guide to creating AGENTS.md for real projects
 - **Validation Strategy**: See `reference/validation-strategy.md` for the complete 5-level validation pyramid
 - **Structured Plan Template**: `templates/STRUCTURED-PLAN-TEMPLATE.md` — the template used by `/planning` command for Layer 2 plans
 - **Vibe Planning Examples**: `templates/VIBE-PLANNING-GUIDE.md` — example prompts showing the exploratory planning phase
@@ -763,7 +763,7 @@ The upfront investment pays dividends throughout the feature lifecycle.
 ---
 
 **That's the PIV Loop in Practice!** You now understand:
-- Layer 1 planning (CLAUDE.md with 6 sections)
+- Layer 1 planning (AGENTS.md with 6 sections)
 - Layer 2 planning (vibe -> structured)
 - The 4 Pillars of Context Engineering
 - Implementation with fresh context
@@ -772,4 +772,4 @@ The upfront investment pays dividends throughout the feature lifecycle.
 - The difference between vibe planning (good) and vibe coding (bad)
 - How this guide bridges theory (System Foundations) to practice
 
-**Ready for the next step?** See `reference/global-rules-optimization.md` to learn how to create modular CLAUDE.md files with @sections, generate global rules automatically with `/init-c`, and build on-demand reference guides.
+**Ready for the next step?** See `reference/global-rules-optimization.md` to learn how to create modular AGENTS.md files with @sections, generate global rules automatically with `/init-c`, and build on-demand reference guides.

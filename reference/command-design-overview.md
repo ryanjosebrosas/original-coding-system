@@ -3,8 +3,8 @@
 Slash commands are markdown files that act as reusable, on-demand prompts. They implement the on-demand loading strategy (see `reference/global-rules-optimization.md`).
 
 **Two scopes:**
-- **Project commands** (`.claude/commands/`) — shared with your team via version control. Use for team standards and project-specific workflows.
-- **Personal commands** (`~/.claude/commands/`) — just you, across all projects. Use for personal workflows and preferences.
+- **Project commands** (`.opencode/commands/`) — shared with your team via version control. Use for team standards and project-specific workflows.
+- **Personal commands** (`~/.opencode/commands/`) — just you, across all projects. Use for personal workflows and preferences.
 
 ### INPUT → PROCESS → OUTPUT Framework
 
@@ -57,7 +57,7 @@ All core commands integrate with `memory.md` (if it exists) for cross-session me
 
 ### Skills vs Commands
 
-Commands (`.claude/commands/`) and Skills (`.claude/skills/`) are now unified — both use the same INPUT→PROCESS→OUTPUT framework and identical frontmatter. They coexist for flexible context loading.
+Commands (`.opencode/commands/`) and Skills (`.opencode/skills/`) are now unified — both use the same INPUT→PROCESS→OUTPUT framework and identical frontmatter. They coexist for flexible context loading.
 
 | Aspect | Commands | Skills |
 |--------|----------|--------|
@@ -77,7 +77,7 @@ Commands (`.claude/commands/`) and Skills (`.claude/skills/`) are now unified �
 
 **Example: Planning Methodology Skill**
 
-The `/planning` command (292 lines) has a companion skill at `.claude/skills/planning-methodology/` that demonstrates progressive disclosure:
+The `/planning` command (292 lines) has a companion skill at `.opencode/skills/planning-methodology/` that demonstrates progressive disclosure:
 - **Tier 1** (~100 tokens at session start): Skill metadata — name and description. AI knows planning methodology exists but doesn't load it.
 - **Tier 2** (~100 lines when invoked): Full SKILL.md with 6-phase overview, key rules, and reference pointers.
 - **Tier 3** (on-demand during execution): `references/6-phase-process.md` and `references/template-guide.md` loaded only when actively planning.
@@ -141,7 +141,7 @@ When encountering issues, think through where the fix belongs:
 
 | Fix Location | When to Use |
 |---|---|
-| **Global rules** (CLAUDE.md/sections) | Convention that applies to ALL tasks |
+| **Global rules** (AGENTS.md/sections) | Convention that applies to ALL tasks |
 | **On-demand context** (reference/) | Task-type-specific guidance |
 | **Commands** (planning, execute, etc.) | Process/workflow issue |
 | **Templates** (structured plan, PRD) | Output format/structure issue |
@@ -149,7 +149,7 @@ When encountering issues, think through where the fix belongs:
 
 #### Generic vs. Project-Customized Commands
 
-As you evolve commands through meta-reasoning, they often become project-specific. Recommendation: maintain this template as your **generic baseline** and create project-customized versions in each project's `.claude/commands/`. The more you evolve, the more customized — which is good for that project but may not transfer to others.
+As you evolve commands through meta-reasoning, they often become project-specific. Recommendation: maintain this template as your **generic baseline** and create project-customized versions in each project's `.opencode/commands/`. The more you evolve, the more customized — which is good for that project but may not transfer to others.
 
 ### Creating New Commands
 
@@ -169,7 +169,7 @@ Subagents complement commands — commands define WHAT to do, agents define WHO 
 - **Command references agent**: A slash command instructs the main agent to delegate to a specific subagent, then acts on results (e.g., "use the code-reviewer agent to review the diff, then fix only critical issues")
 - **Agent produces artifact for command**: A subagent saves a report file that a subsequent command consumes (e.g., agent writes review → `/code-review-fix` reads it)
 
-Agents live in `.claude/agents/*.md` (project) or `~/.claude/agents/*.md` (personal). Use `templates/AGENT-TEMPLATE.md` for the design guide. See `reference/subagents-overview.md` for the full subagent documentation.
+Agents live in `.opencode/agents/*.md` (project) or `~/.opencode/agents/*.md` (personal). Use `templates/AGENT-TEMPLATE.md` for the design guide. See `reference/subagents-overview.md` for the full subagent documentation.
 
 ### GitHub Integration (Remote Workflows)
 
@@ -178,7 +178,7 @@ When using commands remotely via GitHub Actions, the same INPUT → PROCESS → 
 - **Extra INPUT**: GitHub context (repository, issue number, branch name, issue body)
 - **Configuration flags**: `$CREATE_BRANCH`, `$CREATE_PR`, `$COMMENT_ON_ISSUE` — control what the agent handles vs what the workflow handles deterministically
 - **Extra OUTPUT**: Branch creation, PR creation, issue comments
-- **Automated reviews**: CodeRabbit (GitHub App) auto-reviews PRs; Claude Code auto-applies fixes via `claude-fix-coderabbit.yml`
+- **Automated reviews**: CodeRabbit (GitHub App) auto-reviews PRs; OpenCode auto-applies fixes via `claude-fix-coderabbit.yml`
 
 Prompt templates for GitHub live in `.github/workflows/prompts/`. Example workflows live in `reference/github-workflows/`. See `reference/github-integration.md` for the full guide.
 

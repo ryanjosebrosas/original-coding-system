@@ -8,7 +8,7 @@ Subagents are isolated AI instances with custom system prompts that run in their
 - The main agent delegates work via the Task tool
 - Each subagent works independently and returns results to the main agent
 - Really just another markdown file — a prompt in your prompt toolbox
-- Lives in `.claude/agents/` (project) or `~/.claude/agents/` (personal)
+- Lives in `.opencode/agents/` (project) or `~/.opencode/agents/` (personal)
 
 Subagents are not a new concept — the `/planning` command already uses them. Phases 2 and 3 launch Explore and general-purpose Task agents in parallel for research. The subagents deep dive guide makes this pattern explicit and teaches you to create your own.
 
@@ -34,10 +34,13 @@ Two handoff points where context can be lost. The main agent summarizes YOUR req
 | System compliance checks across modules | Quick targeted changes |
 | Plan vs execution analysis | Tasks needing iterative back-and-forth |
 | Context-heavy tasks that would pollute main thread | Single-file focused edits |
+| Context discovery (internal patterns + external docs) | Tasks with no external dependencies |
 
 ### Parallel Execution
 
 Up to 10 concurrent subagents — this is the real power. Instead of one agent researching 5 aspects sequentially, launch 5 agents each researching one aspect simultaneously. Results return to the main conversation when complete.
+
+**For large batches (5+ parallel tasks)**: Use `@subagent-batchexecutor` to coordinate parallel worker delegations. BatchExecutor handles error propagation, status tracking, and structured reporting.
 
 Warning: many agents returning detailed results can consume significant main context. Keep agent outputs concise, or use file-based reports where agents save findings to disk instead of returning them inline.
 
@@ -54,7 +57,7 @@ Critical pattern: include "instruct the main agent to NOT start fixing issues wi
 
 ### Creating Custom Subagents
 
-File location: `.claude/agents/*.md` (project) or `~/.claude/agents/*.md` (personal). Structure: YAML frontmatter + markdown body. The markdown body IS the system prompt.
+File location: `.opencode/agents/*.md` (project) or `~/.opencode/agents/*.md` (personal). Structure: YAML frontmatter + markdown body. The markdown body IS the system prompt.
 
 Key frontmatter fields:
 
@@ -95,23 +98,202 @@ The `/planning` command already uses this pattern — launching Explore and gene
 | Explore | Haiku | Read-only | File discovery, codebase search |
 | Plan | Inherits | Read-only | Codebase analysis for planning |
 | General-purpose | Inherits | All | Complex research, multi-step tasks |
+| **OpenAgent** | Sonnet | All | Universal primary agent, workflow coordination |
+| **OpenCoder** | Sonnet | All | Development orchestrator, complex coding |
 
 Already used in `/planning` command (Phases 2 & 3 launch Explore + general-purpose in parallel).
+
+**Core Agents** (OpenAgent, OpenCoder) are primary agents with staged workflows:
+- OpenAgent: Analyze → Discover → Propose → Approve → Execute → Validate → Summarize
+- OpenCoder: Discover → Propose → Init Session → Plan → Execute → Validate & Handoff
 
 **Model selection for agents**: When choosing `model` in frontmatter (haiku, sonnet, opus), see `reference/multi-model-strategy.md` for cost-performance trade-offs and task routing guidance.
 
 **Multi-instance routing**: For teams or power users routing work across multiple Claude instances, see `reference/multi-instance-routing.md`.
 
-### Example Agents
+### Complete Agent Inventory
 
-Example research agents available in `.claude/agents/_examples/`. Copy to `.claude/agents/` in your project to activate.
+24 agents total organized by category. Core agents are always active; others are in `.opencode/agents/` or `_examples/`.
+
+#### Core Orchestrator Agents (Always Active)
 
 | Agent | Model | Tools | Purpose |
 |-------|-------|-------|---------|
-| research-codebase | Haiku | Read, Glob, Grep | File discovery, pattern extraction, codebase exploration |
-| research-external | Sonnet | Read, Glob, Grep, WebSearch, WebFetch | Documentation search, best practices, version compatibility |
+| **core-openagent** | Sonnet | All | Universal primary agent, workflow coordination |
+| **core-opencoder** | Sonnet | All | Development orchestrator, complex coding |
 
-These are distinct from Built-in agents above — Built-in agents are always available, example agents require user activation. Use both research agents in parallel for comprehensive feature research (codebase patterns + external documentation simultaneously).
+#### Discovery Subagents
+
+| Agent | Model | Tools | Purpose |
+|-------|-------|-------|---------|
+| subagent-contextscout | Haiku | Read, Glob, Grep | Internal context discovery (sections/, reference/, templates/) |
+| subagent-externalscout | Sonnet | Read, WebFetch, WebSearch | External docs fetcher for libraries/frameworks |
+
+#### Task Management Subagents
+
+| Agent | Model | Tools | Purpose |
+|-------|-------|-------|---------|
+| subagent-taskmanager | Sonnet | Read, Glob, Grep | Task breakdown with Archon integration |
+| subagent-batchexecutor | Sonnet | Read, Glob | Parallel execution coordinator |
+
+#### Code Execution Subagents
+
+| Agent | Model | Tools | Purpose |
+|-------|-------|-------|---------|
+| subagent-coderagent | Sonnet | Read, Write, Edit, Glob, Grep, Bash | Atomic coding task executor |
+
+#### Quality Assurance Subagents
+
+| Agent | Model | Tools | Purpose |
+|-------|-------|-------|---------|
+| subagent-buildagent | Haiku | Read, Bash, Glob | Build validation runner (read-only) |
+| subagent-testengineer | Haiku | Read, Write, Edit, Glob, Grep, Bash | Test authoring specialist |
+
+#### Documentation Subagents
+
+| Agent | Model | Tools | Purpose |
+|-------|-------|-------|---------|
+| subagent-docwriter | Sonnet | Read, Write, Edit, Glob, Grep | Technical documentation specialist |
+
+#### Domain Specialist Agents
+
+| Agent | Model | Tools | Purpose |
+|-------|-------|-------|---------|
+| specialist-frontend | Sonnet | Read, Write, Edit, Glob, Grep, Bash | Frontend architecture, React/Vue, CSS, accessibility |
+| specialist-backend | Sonnet | Read, Write, Edit, Glob, Grep, Bash | API design, database patterns, system architecture |
+| specialist-devops | Sonnet | Read, Write, Edit, Glob, Grep, Bash | CI/CD, infrastructure, Docker, Kubernetes |
+| specialist-data | Sonnet | Read, Write, Edit, Glob, Grep, Bash | Database design, ETL, analytics, data modeling |
+| specialist-copywriter | Haiku | Read, Write, Edit, Glob, Grep | UI copy, microcopy, error messages |
+| specialist-technical-writer | Haiku | Read, Write, Edit, Glob, Grep | Technical docs, API docs, developer guides |
+
+#### Research Agents (Example)
+
+| Agent | Model | Tools | Purpose |
+|-------|-------|-------|---------|
+| research-codebase | Haiku | Read, Glob, Grep | File discovery, pattern extraction |
+| research-external | Sonnet | Read, Glob, Grep, WebSearch, WebFetch | Documentation search, best practices |
+
+#### Code Review Agents (Example)
+
+| Agent | Model | Tools | Purpose |
+|-------|-------|-------|---------|
+| code-review-type-safety | Haiku | Read, Glob, Grep, Bash | Type annotations, type checking |
+| code-review-security | Haiku | Read, Glob, Grep, Bash | Security vulnerabilities |
+| code-review-architecture | Haiku | Read, Glob, Grep | Architecture compliance |
+| code-review-performance | Haiku | Read, Glob, Grep | Performance issues |
+
+#### Utility Agents (Example)
+
+| Agent | Model | Tools | Purpose |
+|-------|-------|-------|---------|
+| plan-validator | Haiku | Read, Glob, Grep | Plan structure validation |
+| test-generator | Haiku | Read, Glob, Grep | Test case suggestions |
+
+### Agent Summary
+
+| Category | Count | Models |
+|----------|-------|--------|
+| Core Orchestrators | 2 | 2 Sonnet |
+| Discovery | 2 | 1 Haiku, 1 Sonnet |
+| Task Management | 2 | 2 Sonnet |
+| Code Execution | 1 | 1 Sonnet |
+| Quality Assurance | 2 | 2 Haiku |
+| Documentation | 1 | 1 Sonnet |
+| Domain Specialists | 6 | 4 Sonnet, 2 Haiku |
+| Research (Example) | 2 | 1 Haiku, 1 Sonnet |
+| Code Review (Example) | 4 | 4 Haiku |
+| Utility (Example) | 2 | 2 Haiku |
+| **Total** | **24** | **11 Sonnet, 13 Haiku** |
+
+**Key distinction**:
+- **Core agents** (OpenAgent, OpenCoder) — Always active, primary workflow handlers
+- **Subagents** — Workers called by core agents for specific tasks
+- **Specialists** — Domain experts for architecture/design decisions
+- **Example agents** — Copy-to-activate templates in `_examples/`
+
+### Context Discovery Pattern
+
+Before any coding task, the recommended pattern is:
+
+```text
+1. ContextScout discovers internal patterns (sections/, reference/, templates/, memory.md)
+2. ExternalScout fetches current docs for external dependencies
+3. Core agent loads discovered context
+4. Implementation proceeds with full context
+```
+
+**Model selection rationale**:
+- **ContextScout** uses Haiku: Pattern matching against known file structure is well-suited for fast, inexpensive model
+- **ExternalScout** uses Sonnet: Synthesis and summarization of external docs requires higher quality reasoning
+
+**Decision matrix**:
+
+| Scenario | ContextScout | ExternalScout | Both |
+|----------|--------------|---------------|------|
+| Pure internal task | Yes | No | - |
+| External library setup | No | Yes | - |
+| Feature with external lib | Yes (standards) | Yes (lib docs) | Yes |
+
+### Task Management Pattern (Archon Integration)
+
+TaskManager and BatchExecutor integrate with Archon MCP for real-time task tracking:
+
+```text
+1. TaskManager breaks down feature into Archon tasks
+2. BatchExecutor coordinates parallel batches (5+ tasks)
+3. Worker agents implement individual tasks
+4. Status updates visible in Archon Kanban
+```
+
+**Archon Integration Rules**:
+- Tasks created via `manage_task(action="create", ...)`
+- Status flow: `todo` → `doing` → `review` → `done`
+- **CRITICAL**: Only ONE task in "doing" status at a time
+- See `reference/archon-workflow.md` for full tool reference
+
+**Decision matrix**:
+
+| Feature Complexity | Approach |
+|-------------------|----------|
+| Simple (1-3 files) | Direct execution, skip TaskManager |
+| Medium (4-6 files) | TaskManager creates Archon tasks |
+| Complex (7+ files) | TaskManager + BatchExecutor for parallel batches |
+
+**Session Context**: TaskManager and BatchExecutor use `.tmp/sessions/{id}/context.md` files for subagent handoffs. Template at `.tmp/sessions/SESSION-CONTEXT-TEMPLATE.md`.
+
+### Code Execution & QA Pattern
+
+Execution agents implement code; QA agents validate it. Both are workers, not orchestrators:
+
+```text
+1. CoderAgent implements atomic tasks following session context
+2. BuildAgent runs lint/typecheck/build validation (read-only)
+3. TestEngineer writes tests following project patterns
+4. Code review agents analyze quality (complements TestEngineer)
+```
+
+**Agent Type Distinction**:
+
+| Agent Type | Mode | Purpose |
+|------------|------|---------|
+| Code review agents | READ-ONLY | Analyze code for quality issues |
+| BuildAgent | READ-ONLY | Run validation commands |
+| TestEngineer | WRITE | Create test files |
+| CoderAgent | WRITE | Implement code changes |
+
+**Key difference from code review agents**:
+- Code review agents (type-safety, security, architecture, performance) analyze existing code
+- TestEngineer writes new tests to cover code
+- BuildAgent runs build/lint commands and reports errors
+- CoderAgent implements atomic coding tasks
+
+**Model assignment rationale**:
+
+| Agent | Model | Why |
+|-------|-------|-----|
+| CoderAgent | Sonnet | Code quality requires higher capability |
+| BuildAgent | Haiku | Command execution is pattern matching |
+| TestEngineer | Haiku | Test writing follows existing patterns |
 
 ### Agents vs Skills vs Commands
 

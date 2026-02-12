@@ -20,7 +20,7 @@ Perform technical code review on changed files in this pull request.
 ### Gather Context
 
 Read these files to understand codebase standards:
-- CLAUDE.md (project rules and conventions)
+- AGENTS.md (project rules and conventions)
 - README.md (project overview)
 - Key files in /core or similar directories
 - Documentation in /docs directory

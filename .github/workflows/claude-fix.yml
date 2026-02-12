@@ -1,4 +1,4 @@
-name: Claude Code Fix (Write Access)
+name: OpenCode Fix (Write Access)
 
 on:
   issue_comment:
@@ -70,7 +70,7 @@ jobs:
           echo "$TEMPLATE" >> $GITHUB_OUTPUT
           echo "${DELIMITER}" >> $GITHUB_OUTPUT
 
-      - name: Run Claude Code
+      - name: Run OpenCode
         uses: anthropics/claude-code-action@beta
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}

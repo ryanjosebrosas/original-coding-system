@@ -8,7 +8,7 @@ This guide explains **how to extend the PIV Loop with specialized worker agents*
 
 ### The Journey to Parallel Execution
 
-The System Foundations guide established the **why** — the system gap and mental models. The PIV Loop Practice guide taught the **how** — the PIV Loop in practice. The Global Rules Optimization guide taught **how to build** — modular CLAUDE.md and strategic context loading. The Command Design Framework guide taught **how to automate** — slash commands and the INPUT→PROCESS→OUTPUT framework. The Planning Methodology guide taught **how to plan** — the 6-phase planning methodology. The Implementation Discipline guide taught **execution discipline** — implementing from plans reliably and evolving the system through meta-reasoning. The Validation Discipline guide taught **validation discipline** — the 5-level pyramid, code review, system review, and divergence analysis. The GitHub Orchestration guide taught **remote orchestration** — using GitHub Actions as the orchestration layer for remote, trigger-based workflows. The Remote Agentic System guide taught **remote system architecture** — building a custom application for remote PIV Loops with real-time conversation and persistent sessions. The MCP, Skills & Archon guide taught **external access** — MCP servers for tool access and Cloud Skills for progressive knowledge loading.
+The System Foundations guide established the **why** — the system gap and mental models. The PIV Loop Practice guide taught the **how** — the PIV Loop in practice. The Global Rules Optimization guide taught **how to build** — modular AGENTS.md and strategic context loading. The Command Design Framework guide taught **how to automate** — slash commands and the INPUT→PROCESS→OUTPUT framework. The Planning Methodology guide taught **how to plan** — the 6-phase planning methodology. The Implementation Discipline guide taught **execution discipline** — implementing from plans reliably and evolving the system through meta-reasoning. The Validation Discipline guide taught **validation discipline** — the 5-level pyramid, code review, system review, and divergence analysis. The GitHub Orchestration guide taught **remote orchestration** — using GitHub Actions as the orchestration layer for remote, trigger-based workflows. The Remote Agentic System guide taught **remote system architecture** — building a custom application for remote PIV Loops with real-time conversation and persistent sessions. The MCP, Skills & Archon guide taught **external access** — MCP servers for tool access and Cloud Skills for progressive knowledge loading.
 
 This guide teaches **parallel execution and context isolation** — how to extend the PIV Loop with specialized worker agents that run independently, in parallel, each with their own focused instructions and isolated context window.
 
@@ -103,7 +103,7 @@ When a subagent produces bad results, the instinct is to fix the analysis logic.
 
 ## 4. Built-in Agents
 
-Claude Code ships with several built-in agents you can use immediately:
+OpenCode ships with several built-in agents you can use immediately:
 
 | Agent | Model | Tools | Best For |
 |-------|-------|-------|----------|
@@ -299,7 +299,7 @@ Confirmed limit: **10 concurrent subagents**. You can queue more in the same con
 
 ### Pattern A in Practice
 
-The `/code-review` command uses Pattern A when agents exist in `.claude/agents/_examples/`. Four specialized agents review the same diff in parallel — each expert in one area (type-safety, security, architecture, performance). Results are combined into a comprehensive review.
+The `/code-review` command uses Pattern A when agents exist in `.opencode/agents/_examples/`. Four specialized agents review the same diff in parallel — each expert in one area (type-safety, security, architecture, performance). Results are combined into a comprehensive review.
 
 ### Pattern C in Practice
 
@@ -361,7 +361,7 @@ If you answered "no" to all three, subagents add overhead without benefit. Stick
 
 ### Three Creation Methods
 
-1. **Manual**: Create `.claude/agents/your-agent.md` with YAML frontmatter + markdown body. Full control, recommended for experienced users.
+1. **Manual**: Create `.opencode/agents/your-agent.md` with YAML frontmatter + markdown body. Full control, recommended for experienced users.
 
 2. **`/agents` command**: Claude generates the agent based on your task description. Good starting point — automatically pulls in project patterns. Customize the output afterward.
 
@@ -369,8 +369,8 @@ If you answered "no" to all three, subagents add overhead without benefit. Stick
 
 ### File Locations
 
-- `.claude/agents/*.md` — project-specific agents (committed to repo, shared with team)
-- `~/.claude/agents/*.md` — personal agents (your machine only, across all projects)
+- `.opencode/agents/*.md` — project-specific agents (committed to repo, shared with team)
+- `~/.opencode/agents/*.md` — personal agents (your machine only, across all projects)
 
 ### Frontmatter Reference
 
@@ -384,8 +384,8 @@ If you answered "no" to all three, subagents add overhead without benefit. Stick
 
 ### Key Rules
 
-- **Agents are project-specific** — don't create agents in the template's `.claude/agents/` directory (use `_examples/` for reference examples only)
-- **Session restart required** — manually added agents require restarting the Claude Code session to load
+- **Agents are project-specific** — don't create agents in the template's `.opencode/agents/` directory (use `_examples/` for reference examples only)
+- **Session restart required** — manually added agents require restarting the OpenCode session to load
 - **The markdown body IS the system prompt** — everything after the YAML frontmatter becomes the agent's instructions
 - **Test before parallelizing** — verify a single agent works correctly before running multiple in parallel
 
@@ -404,7 +404,7 @@ For the full step-by-step creation walkthrough, see `reference/subagents-guide.m
 ### Already in Use
 
 - **`/planning`** command: Launches Explore + general-purpose agents in parallel for research (Phases 2 & 3)
-- **`/code-review`** command: Uses parallel review agents when available in `.claude/agents/_examples/`
+- **`/code-review`** command: Uses parallel review agents when available in `.opencode/agents/_examples/`
 
 ### Trust Progression
 
@@ -463,7 +463,7 @@ When a subagent produces unexpected results, work backwards through this checkli
 **Challenge**: Create 2+ specialized review agents and run them in parallel on the same diff.
 
 **Steps**:
-1. Copy and customize agents from `.claude/agents/_examples/` (start with type-safety + architecture)
+1. Copy and customize agents from `.opencode/agents/_examples/` (start with type-safety + architecture)
 2. Adapt frontmatter and system prompts for your project's tech stack
 3. Run `/code-review` with the customized agents available
 4. Compare: does parallel review catch issues that single-agent review misses?
@@ -536,7 +536,7 @@ These mistakes appear frequently when creating your first agents:
 - **Subagent overview**: `reference/subagents-overview.md` — on-demand subagents guide
 - **Creation guide**: `reference/subagents-guide.md` — step-by-step creation, frontmatter reference, advanced patterns
 - **Agent template**: `templates/AGENT-TEMPLATE.md` — starter template for new agents
-- **Example agents**: `.claude/agents/_examples/` — 4 review agents (type-safety, security, architecture, performance)
+- **Example agents**: `.opencode/agents/_examples/` — 4 review agents (type-safety, security, architecture, performance)
 - **Execution discipline**: `reference/implementation-discipline.md` — prerequisite concepts for agent workflows
 - **GitHub integration**: `reference/github-orchestration.md` — remote agent workflows via GitHub Actions
 

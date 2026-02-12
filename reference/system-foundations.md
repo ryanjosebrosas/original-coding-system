@@ -77,7 +77,7 @@ The template is structured in four intentional blocks:
 What you're establishing **before** learning systems.
 - System Foundations: Baseline assessment and mental models
 - PIV Loop Practice: The PIV Loop (Plan -> Implement -> Validate)
-- Global Rules Optimization: Global rules (CLAUDE.md, principles, conventions)
+- Global Rules Optimization: Global rules (AGENTS.md, principles, conventions)
 - **Exercise 1**: Baseline feature implementation (no system constraints)
 - Outcome: Understand what you're trying to improve
 
@@ -233,7 +233,7 @@ If any checkbox is uncertain, re-run the baseline. This number becomes your pers
 This template teaches **capabilities**, not tools.
 
 **Tools** are specific software:
-- Claude Code (Anthropic's IDE)
+- OpenCode (Anthropic's IDE)
 - Cursor (AI-powered VS Code)
 - GitHub Copilot
 - Codex (OpenAI API)
@@ -250,7 +250,7 @@ This template teaches **capabilities**, not tools.
 
 Tools change. Features get added and removed. UI evolves. But capabilities are durable.
 
-**Example**: You learn the PIV Loop using Claude Code in a terminal. Later:
+**Example**: You learn the PIV Loop using OpenCode in a terminal. Later:
 - Your team switches to Cursor (same IDE features, different UI)
 - Your company adopts GitHub Copilot for enterprise compliance
 - A new AI tool launches with better capabilities
@@ -263,23 +263,23 @@ Same workflow, different execution:
 
 | Scenario | Tool | Execution |
 |----------|------|-----------|
-| Local development | Claude Code | Terminal + IDE |
+| Local development | OpenCode | Terminal + IDE |
 | Embedded in IDE | Cursor | VS Code sidebar |
 | 24/7 automation | GitHub Actions | Remote CI/CD |
-| Team collaboration | Claude Code + GitHub | Issue-triggered workflows |
+| Team collaboration | OpenCode + GitHub | Issue-triggered workflows |
 | Future AI tool | [Unknown] | [Unknown] |
 
 The **capability** (structured planning -> implementation -> validation) works everywhere. Only the **tool interface** changes.
 
 ### Anti-Pattern: Vendor Lock-In Thinking
 
-**Wrong**: "I'm learning Claude Code. When a better tool exists, I'll have to relearn everything."
+**Wrong**: "I'm learning OpenCode. When a better tool exists, I'll have to relearn everything."
 
 **Right**: "I'm learning how to structure AI coding workflows. The PIV Loop, planning discipline, and validation strategies transfer to any tool."
 
 When you read this template:
 - "PIV Loop" is a capability (applies to all tools)
-- "Claude Code commands" are tactics (apply to this tool)
+- "OpenCode commands" are tactics (apply to this tool)
 - "memory.md integration" is a pattern (file-based, portable to any tool)
 - "Trust progression" is a capability (applies everywhere)
 
@@ -464,7 +464,7 @@ In a real deadline scenario, planning SAVES time. This is the Implementation Dis
 This template has three layers:
 
 1. **Template documentation** (what you're reading) — answers "why" and "what"
-2. **Slash commands** (`.claude/commands/`) — answers "how" in specific scenarios
+2. **Slash commands** (`.opencode/commands/`) — answers "how" in specific scenarios
 3. **Reference guides** (`reference/`) — deep dives on specific topics
 
 Start with documentation, try the commands, then reference specific guides.
@@ -473,7 +473,7 @@ Start with documentation, try the commands, then reference specific guides.
 
 Absolutely. The system is framework/language agnostic. To integrate:
 
-1. **Create CLAUDE.md** using `/init-c` command
+1. **Create AGENTS.md** using `/init-c` command
 2. **Customize for your stack** (copy templates, update to your language)
 3. **Create a PRD** for your project (what you're building)
 4. **Start small** (one feature using `/planning -> /execute -> /commit`)
@@ -488,7 +488,7 @@ The template is a starting point. Every project evolves its own version.
 1. **Read this guide** (you're doing this now)
 2. **Establish your baseline** (Section 3 — Exercise 1 if available)
 3. **Understand the template roadmap** (Section 2 — know what's coming)
-4. **Move to CLAUDE.md** and follow `@sections/` for core global rules
+4. **Move to AGENTS.md** and follow `@sections/` for core global rules
 5. **Start with `/planning` command** for your first feature
 6. **Measure improvement** by re-running baseline assessment after working through the core system guides
 
@@ -496,10 +496,10 @@ The template is a starting point. Every project evolves its own version.
 
 ## Related Resources
 
-- **Template Structure**: See CLAUDE.md intro for the full template overview
-- **Decision Framework**: Section 05 of CLAUDE.md explains when to proceed vs ask
+- **Template Structure**: See AGENTS.md intro for the full template overview
+- **Decision Framework**: Section 05 of AGENTS.md explains when to proceed vs ask
 - **Planning Deep Dive**: Section 09 explains slash commands and trust progression
 - **Validation Strategy**: Section 07 explains the 5-level validation pyramid
 - **Your Baseline**: Section 3 (Baseline Self-Assessment) — use this now
 - **PIV Loop Practice**: `reference/piv-loop-practice.md` — PIV Loop methodology in depth
-- **Global Rules**: `reference/global-rules-optimization.md` — CLAUDE.md organization and optimization
+- **Global Rules**: `reference/global-rules-optimization.md` — AGENTS.md organization and optimization

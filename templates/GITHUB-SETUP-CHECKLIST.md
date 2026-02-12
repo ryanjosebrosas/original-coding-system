@@ -1,6 +1,6 @@
 # GitHub Actions Setup Checklist
 
-> Step-by-step guide for adding automated code review (CodeRabbit) and AI coding agent workflows (Claude Code) to your GitHub repository.
+> Step-by-step guide for adding automated code review (CodeRabbit) and AI coding agent workflows (OpenCode) to your GitHub repository.
 > This enables automated PR reviews, review-fix loops, and issue-triggered PIV Loops.
 
 ---
@@ -8,7 +8,7 @@
 ## Prerequisites
 
 - [ ] GitHub repository (public or private)
-- [ ] Claude Code installed and authenticated locally (for OAuth token generation)
+- [ ] OpenCode installed and authenticated locally (for OAuth token generation)
 - [ ] Repository admin access (to install Apps, configure secrets, and permissions)
 - [ ] CodeRabbit account (free for open source, 14-day Pro trial for private repos)
 
@@ -42,9 +42,9 @@ See the [CodeRabbit documentation](https://docs.coderabbit.ai/) for full configu
 
 ---
 
-## Step 3: Add Claude Code OAuth Token Secret
+## Step 3: Add OpenCode OAuth Token Secret
 
-1. Run `claude setup-token` locally (requires Claude Code installed and authenticated)
+1. Run `claude setup-token` locally (requires OpenCode installed and authenticated)
 2. Copy the generated OAuth token
 3. Go to your repository on GitHub
 4. Navigate to **Settings** → **Secrets and variables** → **Actions**
@@ -114,7 +114,7 @@ The three prompt files:
 
 ```bash
 git add .coderabbit.yaml .github/workflows/ .github/workflows/prompts/
-git commit -m "feat: add CodeRabbit + Claude Code automated review-fix loop"
+git commit -m "feat: add CodeRabbit + OpenCode automated review-fix loop"
 git push
 ```
 
@@ -130,7 +130,7 @@ Verify:
 1. Create a new branch and make a change with an intentional issue (e.g., unused variable, missing error handling)
 2. Open a Pull Request
 3. Watch CodeRabbit post a review (usually within 1-2 minutes)
-4. Watch the Claude Code fix workflow trigger and apply suggestions
+4. Watch the OpenCode fix workflow trigger and apply suggestions
 5. Watch CodeRabbit re-review the fixed code
 6. Verify the loop stops after `MAX_ITERATIONS` or when no more issues are found
 
@@ -149,7 +149,7 @@ For issue-triggered fixes:
 |---------|----------|
 | CodeRabbit doesn't review PRs | Check App installation: Settings → Integrations → CodeRabbit |
 | Reviews are too noisy | Set `reviews.profile: "chill"` in `.coderabbit.yaml` |
-| Claude Code workflow doesn't trigger | Verify `CLAUDE_CODE_OAUTH_TOKEN` secret exists; check Actions tab for errors |
+| OpenCode workflow doesn't trigger | Verify `CLAUDE_CODE_OAUTH_TOKEN` secret exists; check Actions tab for errors |
 | Comment not recognized | Ensure comment starts with exact trigger (e.g., `@claude-fix`) |
 | Can't create PR | Enable PR creation in Settings → Actions → General |
 | Infinite loop | Check `MAX_ITERATIONS` setting; verify `[claude-fix]` commit prefix |

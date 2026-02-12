@@ -32,7 +32,7 @@ find . -type d -not -path '*/\.*' -not -path '*/node_modules/*' -not -path '*/__
 ### 2. Read Core Documentation
 
 Read these files to understand project standards:
-- CLAUDE.md (or similar global rules file)
+- AGENTS.md (or similar global rules file)
 - README files at project root and major directories
 - Any architecture documentation in docs/
 

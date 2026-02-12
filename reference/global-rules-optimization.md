@@ -1,6 +1,6 @@
 # Global Rules & Layer 1 Optimization
 
-This guide explains **how to organize your CLAUDE.md for maximum effectiveness** — covering modular organization with @sections, the Two-Question Framework for auto-load vs on-demand decisions, strategic context loading to avoid token bloat, and building Layer 1 with AI — going deeper than the guide at `reference/layer1-guide.md`.
+This guide explains **how to organize your AGENTS.md for maximum effectiveness** — covering modular organization with @sections, the Two-Question Framework for auto-load vs on-demand decisions, strategic context loading to avoid token bloat, and building Layer 1 with AI — going deeper than the guide at `reference/layer1-guide.md`.
 
 ---
 
@@ -10,7 +10,7 @@ This guide explains **how to organize your CLAUDE.md for maximum effectiveness**
 
 The System Foundations guide established the **why** — the system gap, architecture, and baseline assessment. The PIV Loop Practice guide taught the **how** — the PIV Loop in practice, Layer 1 vs Layer 2 planning, the 4 Pillars of Context Engineering, and validation methodology. This guide teaches you **how to build and optimize** your global rules.
 
-This is the construction step. You're not learning concepts or practicing workflows — you're learning how to create the foundation that everything else builds on: your CLAUDE.md file.
+This is the construction step. You're not learning concepts or practicing workflows — you're learning how to create the foundation that everything else builds on: your AGENTS.md file.
 
 ### What You'll Learn
 
@@ -19,13 +19,13 @@ This is the construction step. You're not learning concepts or practicing workfl
 - **The context bloat problem** and why it matters
 - **The Two-Question Framework** for deciding what to auto-load vs load on-demand
 - **Loading strategies** — always-loaded vs on-demand, with two loading methods
-- **10 recommended sections** for a comprehensive CLAUDE.md
+- **10 recommended sections** for a comprehensive AGENTS.md
 - **Building Layer 1 with AI** — two copy-paste prompts for generating rules
-- **Practical exercise** — auditing a real 600-line CLAUDE.md to cut bloat by 60%
+- **Practical exercise** — auditing a real 600-line AGENTS.md to cut bloat by 60%
 
 ### Why This Matters
 
-Without this guide, you might create a CLAUDE.md that's too long (wasting context), too short (missing critical rules), or poorly organized (hard to maintain). The average bloated CLAUDE.md wastes 60-65% of its auto-loaded tokens on content that's only needed occasionally.
+Without this guide, you might create a AGENTS.md that's too long (wasting context), too short (missing critical rules), or poorly organized (hard to maintain). The average bloated AGENTS.md wastes 60-65% of its auto-loaded tokens on content that's only needed occasionally.
 
 This guide teaches you to solve this systematically — not by guessing, but by applying a framework that tells you exactly where each piece of context belongs.
 
@@ -45,7 +45,7 @@ The concept is the same across all AI coding tools — only the filename differs
 
 | Tool | Global Rules File |
 |------|-------------------|
-| Claude Code | `CLAUDE.md` |
+| OpenCode | `AGENTS.md` |
 | Codex | `AGENTS.md` |
 | Cursor | `AGENTS.md` or `.cursorrules` |
 | Windsurf | `AGENTS.md` or `.windsurf` |
@@ -61,15 +61,15 @@ The concept is the same across all AI coding tools — only the filename differs
 - Place alongside README.md
 
 **Parent directories** (advanced):
-- Claude Code looks upward and loads parent CLAUDE.md files
+- OpenCode looks upward and loads parent AGENTS.md files
 - Useful for monorepos with shared conventions across packages
 
 **Child directories** (advanced):
-- Nested CLAUDE.md files for subsection-specific rules
+- Nested AGENTS.md files for subsection-specific rules
 - Only loaded when working in that directory
 - Useful when different parts of codebase have different conventions
 
-**Home folder** (`~/.claude/`):
+**Home folder** (`~/.opencode/`):
 - Personal rules that apply across ALL projects
 - Loaded in every session regardless of project
 
@@ -83,10 +83,10 @@ Two approaches to organizing your global rules file:
 
 ### Version 1: Single File
 
-All rules in one consolidated CLAUDE.md file.
+All rules in one consolidated AGENTS.md file.
 
 ```
-CLAUDE.md    # Everything in one place
+AGENTS.md    # Everything in one place
 ```
 
 **Pros**: Simple to navigate, easy to search (Ctrl+F), no file fragmentation.
@@ -97,10 +97,10 @@ CLAUDE.md    # Everything in one place
 
 ### Version 2: Modular Files (Recommended for Growth)
 
-Main CLAUDE.md with `@` references to separate section files.
+Main AGENTS.md with `@` references to separate section files.
 
 ```
-CLAUDE.md                      # Slim file with @references
+AGENTS.md                      # Slim file with @references
 sections/
 ├── 01_core_principles.md
 ├── 02_tech_stack.md
@@ -108,7 +108,7 @@ sections/
 └── ...
 ```
 
-The `@` syntax tells Claude Code to load the referenced file inline:
+The `@` syntax tells OpenCode to load the referenced file inline:
 ```markdown
 ## Core Principles
 @sections/01_core_principles.md
@@ -133,9 +133,9 @@ The `@` syntax tells Claude Code to load the referenced file inline:
 
 ### Converting Between Versions
 
-**V1 → V2**: Split your CLAUDE.md into logical sections, save each as a separate `.md` file in `sections/`, create a new CLAUDE.md with `@` references.
+**V1 → V2**: Split your AGENTS.md into logical sections, save each as a separate `.md` file in `sections/`, create a new AGENTS.md with `@` references.
 
-**V2 → V1**: Copy content from all modular files into a single CLAUDE.md, remove `@` references, add section dividers (`---`).
+**V2 → V1**: Copy content from all modular files into a single AGENTS.md, remove `@` references, add section dividers (`---`).
 
 ---
 
@@ -153,7 +153,7 @@ Loading everything in global rules auto-loads hundreds of lines every session �
 
 ### The 80/20 Insight
 
-In a practical exercise, a real project CLAUDE.md was 601 lines. Analysis revealed:
+In a practical exercise, a real project AGENTS.md was 601 lines. Analysis revealed:
 
 - **One section (tool docstrings) = 400+ lines = 66% of the entire file**
 - That section was only needed when creating agent tools — a rare task type
@@ -175,11 +175,11 @@ This is the key decision framework for organizing your Layer 1 content.
 ### Question 1: Is this constant or task-specific?
 
 - **Constant** (stable, reusable across many tasks) → Layer 1. Go to Question 2.
-- **Task-specific** (only for one specific task) → Layer 2 (structured plan). Does NOT belong in CLAUDE.md.
+- **Task-specific** (only for one specific task) → Layer 2 (structured plan). Does NOT belong in AGENTS.md.
 
 ### Question 2: Needed every session?
 
-- **YES** → Auto-load in CLAUDE.md (or `sections/`)
+- **YES** → Auto-load in AGENTS.md (or `sections/`)
 - **NO** → Load on-demand (in `reference/` folder)
 
 ### Visual Decision Tree
@@ -193,7 +193,7 @@ Is this constant or task-specific?
            │
            Is it needed EVERY session?
                │
-               ├─ YES → Auto-load (CLAUDE.md or sections/)
+               ├─ YES → Auto-load (AGENTS.md or sections/)
                │
                └─ NO → On-demand (reference/ folder)
 ```
@@ -212,7 +212,7 @@ Is this constant or task-specific?
 
 **Example 3: "Feature plan for user authentication"**
 - Q1: Constant? No — specific to this one feature.
-- **Result**: Layer 2 — goes in `requests/user-auth-plan.md`, not CLAUDE.md at all.
+- **Result**: Layer 2 — goes in `requests/user-auth-plan.md`, not AGENTS.md at all.
 
 **Example 4: "Logging Rules" (structured logging, fix_suggestion)**
 - Q1: Constant? Yes — every file needs logging, conventions are always the same.
@@ -253,7 +253,7 @@ The split was guided directly by the Two-Question Framework: MCP concepts are ne
 
 **Purpose**: Core principles and architecture that apply to ALL development tasks.
 
-**Location**: `CLAUDE.md` (or modular `sections/`)
+**Location**: `AGENTS.md` (or modular `sections/`)
 
 **Content types**:
 - Core development principles (naming, logging, types)
@@ -286,7 +286,7 @@ The split was guided directly by the Two-Question Framework: MCP concepts are ne
 
 ### Two Methods to Load On-Demand Guides
 
-**Method 1: Reference in CLAUDE.md** — Mention the guide and when to read it.
+**Method 1: Reference in AGENTS.md** — Mention the guide and when to read it.
 ```markdown
 ## Task-Specific Reference Guides
 
@@ -299,7 +299,7 @@ Read: `reference/API_guide.md`
 
 **Method 2: Include in Commands (Recommended)** — Reference the guide in slash command prompts.
 ```markdown
-# .claude/commands/build-api-endpoint.md
+# .opencode/commands/build-api-endpoint.md
 Read @reference/API_guide.md before proceeding.
 Now create a new API endpoint for {feature}...
 ```
@@ -323,9 +323,9 @@ The biggest wins come from moving **low frequency + large size** sections to on-
 
 ---
 
-## 7. Recommended CLAUDE.md Sections
+## 7. Recommended AGENTS.md Sections
 
-Here are the 10 recommended sections for a comprehensive CLAUDE.md:
+Here are the 10 recommended sections for a comprehensive AGENTS.md:
 
 | # | Section | Purpose | Typical Size |
 |---|---------|---------|-------------|
@@ -400,7 +400,7 @@ uv sync && uv run pytest && uv run ruff check .
 
 Two copy-paste prompts for building Layer 1 using AI assistance.
 
-### Prompt 1: Create Global Rules (CLAUDE.md)
+### Prompt 1: Create Global Rules (AGENTS.md)
 
 **Purpose**: Generate your project's global rules automatically.
 
@@ -408,7 +408,7 @@ Two copy-paste prompts for building Layer 1 using AI assistance.
 1. AI analyzes your codebase (package.json, pyproject.toml, config files)
 2. Examines folder structure and 3-5 representative files
 3. Extracts patterns, conventions, architectural decisions
-4. Generates CLAUDE.md documenting what already exists
+4. Generates AGENTS.md documenting what already exists
 
 **For new projects**:
 1. AI asks clarifying questions (project type, domain, tech preferences, scale)
@@ -452,10 +452,10 @@ Two copy-paste prompts for building Layer 1 using AI assistance.
 
 | Situation | Which Prompt | Output |
 |-----------|-------------|--------|
-| New project, no CLAUDE.md yet | Prompt 1 (Create Global Rules) | `CLAUDE.md` (100-500 lines) |
-| Existing project, undocumented | Prompt 1 (Create Global Rules) | `CLAUDE.md` from codebase analysis |
+| New project, no AGENTS.md yet | Prompt 1 (Create Global Rules) | `AGENTS.md` (100-500 lines) |
+| Existing project, undocumented | Prompt 1 (Create Global Rules) | `AGENTS.md` from codebase analysis |
 | Need guide for specific task type | Prompt 2 (Create Reference Guide) | `reference/{task}_guide.md` (50-200 lines) |
-| Starting from this template | `/init-c` command | Project-customized CLAUDE.md |
+| Starting from this template | `/init-c` command | Project-customized AGENTS.md |
 
 **Pro tip**: Run Prompt 1 first to establish global rules, then Prompt 2 for each common task type in your project. This builds out your full Layer 1 context — both auto-loaded rules and on-demand guides.
 
@@ -467,7 +467,7 @@ The following exercise demonstrates the Two-Question Framework applied to a real
 
 ### The Challenge
 
-Given a **601-line CLAUDE.md** from a real agent project, categorize each section using three labels:
+Given a **601-line AGENTS.md** from a real agent project, categorize each section using three labels:
 
 - **Auto-Load** — Needed in every session
 - **On-Demand** — Constants for specific task types
@@ -534,7 +534,7 @@ Given a **601-line CLAUDE.md** from a real agent project, categorize each sectio
 
 ### Anti-Pattern Warning
 
-**Don't stuff one-off fixes into global rules.** When a system review or code review reveals an issue, ask whether the fix belongs in global rules (applies to all tasks) or in a specific plan/command (applies to one task type). Adding every lesson to CLAUDE.md recreates the bloat problem you're trying to solve.
+**Don't stuff one-off fixes into global rules.** When a system review or code review reveals an issue, ask whether the fix belongs in global rules (applies to all tasks) or in a specific plan/command (applies to one task type). Adding every lesson to AGENTS.md recreates the bloat problem you're trying to solve.
 
 ### Relationship to Other Guides
 
@@ -553,13 +553,13 @@ This guide builds the foundation that later guides depend on:
 
 **Short answer**: Version 1 for small projects with stable conventions. Version 2 for growing projects or teams.
 
-**Long answer**: Version 1 (single file) is simpler to set up and navigate — everything in one place, easy to search. It works well when your CLAUDE.md is under ~200 lines and rarely changes.
+**Long answer**: Version 1 (single file) is simpler to set up and navigate — everything in one place, easy to search. It works well when your AGENTS.md is under ~200 lines and rarely changes.
 
 Version 2 (modular @sections) adds initial complexity but pays off as your project grows. Individual sections can be updated independently, diffs are smaller and more reviewable, and different team members can own different sections. If you're starting small but expect growth, starting with Version 2 saves you from a later migration.
 
 Most projects that use this template should use Version 2, since the template already provides the modular structure.
 
-### "How many sections should my CLAUDE.md have?"
+### "How many sections should my AGENTS.md have?"
 
 **Short answer**: 6-10 auto-loaded sections, plus on-demand reference guides as needed.
 
@@ -582,11 +582,11 @@ When truly uncertain, err toward auto-loading small sections and on-demand for l
 
 ### "Can I just use /init-c to generate everything?"
 
-**Short answer**: `/init-c` creates the initial CLAUDE.md, but you should review and customize it.
+**Short answer**: `/init-c` creates the initial AGENTS.md, but you should review and customize it.
 
 **Long answer**: The `/init-c` command (built from the "Create Global Rules" prompt) generates a solid starting point by analyzing your codebase or asking clarifying questions. But AI-generated rules are a first draft, not a final product.
 
-After running `/init-c`, review the output for: accuracy (does it match your actual conventions?), completeness (is anything important missing?), specificity (are examples from YOUR code, not generic?), and length (100-500 lines target). Customize as needed, then commit. Your CLAUDE.md will evolve over time as you discover what matters — see the System Evolution principle in `reference/command-design-overview.md`.
+After running `/init-c`, review the output for: accuracy (does it match your actual conventions?), completeness (is anything important missing?), specificity (are examples from YOUR code, not generic?), and length (100-500 lines target). Customize as needed, then commit. Your AGENTS.md will evolve over time as you discover what matters — see the System Evolution principle in `reference/command-design-overview.md`.
 
 ### "How do I know if my global rules are too long?"
 
@@ -619,9 +619,9 @@ Don't update for every small issue. The system evolution principle applies: fix 
 ## Next Steps
 
 1. **Read this guide** (you're doing this now)
-2. **Review your current CLAUDE.md** — Is it Version 1 or Version 2? Is anything bloated? Apply the Two-Question Framework to each section
+2. **Review your current AGENTS.md** — Is it Version 1 or Version 2? Is anything bloated? Apply the Two-Question Framework to each section
 3. **Apply the Two-Question Framework** — Categorize each section as auto-load, on-demand, or redundant
-4. **Use `/init-c` if starting a new project** — Generates CLAUDE.md automatically by analyzing your codebase or asking clarifying questions
+4. **Use `/init-c` if starting a new project** — Generates AGENTS.md automatically by analyzing your codebase or asking clarifying questions
 5. **Create reference guides for on-demand content** — Use `templates/CREATE-REFERENCE-GUIDE-PROMPT.md` to generate task-specific guides
 6. **Continue to the Command Design Framework guide** — Learn slash commands, the recommended Method 2 for loading on-demand guides, and the INPUT → PROCESS → OUTPUT framework
 
@@ -633,7 +633,7 @@ Don't update for every small issue. The system evolution principle applies: fix 
 - **PIV Loop**: See `sections/02_piv_loop.md` for the core Plan → Implement → Validate methodology and how Layer 1 fits into the bigger picture
 - **Context Engineering**: See `sections/03_context_engineering.md` for the 4 Pillars (Memory, RAG, Prompt Engineering, Task Management)
 - **Generate Global Rules**: Use the `/init-c` command or `templates/CREATE-REFERENCE-GUIDE-PROMPT.md` to build Layer 1 with AI assistance
-- **Structured Plan Template**: `templates/STRUCTURED-PLAN-TEMPLATE.md` — For Layer 2 task-specific plans (what does NOT go in CLAUDE.md)
+- **Structured Plan Template**: `templates/STRUCTURED-PLAN-TEMPLATE.md` — For Layer 2 task-specific plans (what does NOT go in AGENTS.md)
 - **Slash Commands**: See `reference/command-design-overview.md` for Method 2 on-demand loading via commands and the trust progression
 
 ---
@@ -644,7 +644,7 @@ Don't update for every small issue. The system evolution principle applies: fix 
 - The context bloat problem and the 80/20 insight
 - The Two-Question Framework for deciding auto-load vs on-demand
 - Two loading strategies and two loading methods
-- 10 recommended CLAUDE.md sections with examples
+- 10 recommended AGENTS.md sections with examples
 - Building Layer 1 with AI (two prompts, `/init-c`)
 - Practical exercise for auditing and optimizing global rules
 

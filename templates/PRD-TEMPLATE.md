@@ -1,7 +1,7 @@
 # PRD Template (Product Requirements Document)
 
 > Use this template to define the full scope of your MVP. The PRD completes Layer 1
-> planning — it answers **what** you're building, while CLAUDE.md answers **how**.
+> planning — it answers **what** you're building, while AGENTS.md answers **how**.
 >
 > **Create this FIRST** for new projects. It guides everything: global rules,
 > on-demand context, and individual feature plans (Layer 2).

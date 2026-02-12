@@ -166,7 +166,7 @@ claude2 design-review           # Route to design account
 
 ### Method 3: Agent Frontmatter — NOT YET SUPPORTED
 
-> **Status**: As of Claude Code's current version, agent frontmatter does NOT support an `instance` field. Supported fields are: `name`, `description`, `tools`, `disallowedTools`, `model`, `maxTurns`, `skills`, `mcpServers`, `hooks`, `memory`, `color`, `permissionMode`. There is no mechanism to route a subagent to a specific Claude account via frontmatter.
+> **Status**: As of OpenCode's current version, agent frontmatter does NOT support an `instance` field. Supported fields are: `name`, `description`, `tools`, `disallowedTools`, `model`, `maxTurns`, `skills`, `mcpServers`, `hooks`, `memory`, `color`, `permissionMode`. There is no mechanism to route a subagent to a specific Claude account via frontmatter.
 
 ```yaml
 ---
@@ -184,7 +184,7 @@ tools: ["Read", "Glob", "Grep", "Bash"]
 Create routing scripts for common workflows:
 
 ```bash
-# .claude/scripts/cheap-review.sh
+# .opencode/scripts/cheap-review.sh
 #!/bin/bash
 export CLAUDE_INSTANCE=claude-zai
 claude code-review "$@"
@@ -308,14 +308,14 @@ Agent frontmatter does NOT support `instance` — use wrapper scripts or command
 ### Step 3: Create Routing Wrapper Scripts
 
 ```bash
-mkdir -p .claude/scripts
+mkdir -p .opencode/scripts
 
 # cheap-review.sh
 echo '#!/bin/bash
 export CLAUDE_INSTANCE=claude-zai
-claude /code-review "$@"' > .claude/scripts/cheap-review.sh
+claude /code-review "$@"' > .opencode/scripts/cheap-review.sh
 
-chmod +x .claude/scripts/cheap-review.sh
+chmod +x .opencode/scripts/cheap-review.sh
 ```
 
 ### Step 4: Update Commands to Use Routing
@@ -383,7 +383,7 @@ agents = [
 ### Cost Tracking
 - Work spread across accounts = harder to track total cost
 - Use instance routing strategically, not randomly
-- Document routing rules in CLAUDE.md
+- Document routing rules in AGENTS.md
 
 ### Context Isolation
 - Each instance is separate → no shared conversation history
@@ -449,7 +449,7 @@ export CLAUDE_INSTANCE=claude-zai
 claude /code-review
 
 # Wrapper script
-./.claude/scripts/cheap-review.sh
+./.opencode/scripts/cheap-review.sh
 ```
 
 ---
@@ -458,9 +458,9 @@ claude /code-review
 
 1. **Test routing**: Try `claude-zai --version` and other instances
 2. **Create wrapper scripts**: For common cheap tasks (see Method 4)
-3. **Document routing rules**: Add to your project's CLAUDE.md
+3. **Document routing rules**: Add to your project's AGENTS.md
 4. **Monitor costs**: Track savings from routing cheap tasks to claude-zai
-5. **Watch for updates**: Agent frontmatter `instance` support may be added in future Claude Code versions
+5. **Watch for updates**: Agent frontmatter `instance` support may be added in future OpenCode versions
 
 ---
 
@@ -468,7 +468,7 @@ claude /code-review
 
 ### 1. Does agent frontmatter support `instance` field?
 
-**NO.** As of the current Claude Code version, the supported agent frontmatter fields are: `name`, `description`, `tools`, `disallowedTools`, `model`, `maxTurns`, `skills`, `mcpServers`, `hooks`, `memory`, `color`, `permissionMode`. There is no `instance` field. Source: [Claude Code Sub-agents Documentation](https://code.claude.com/docs/en/sub-agents.md).
+**NO.** As of the current OpenCode version, the supported agent frontmatter fields are: `name`, `description`, `tools`, `disallowedTools`, `model`, `maxTurns`, `skills`, `mcpServers`, `hooks`, `memory`, `color`, `permissionMode`. There is no `instance` field. Source: [OpenCode Sub-agents Documentation](https://code.claude.com/docs/en/sub-agents.md).
 
 ### 2. Can the Task tool accept an instance parameter?
 

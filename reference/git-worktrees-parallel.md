@@ -8,7 +8,7 @@ This guide explains **how to parallelize feature implementation using Git worktr
 
 ### The Parallelization Journey
 
-The System Foundations guide established the **why** — the system gap and foundational mental models. The PIV Loop Practice guide taught the **how** — the PIV Loop in practice. The Global Rules Optimization guide taught **how to build** — modular CLAUDE.md and strategic context loading. The Command Design Framework guide taught **how to automate** — slash commands and the INPUT->PROCESS->OUTPUT framework. The Planning Methodology guide taught **how to plan** — the 6-phase planning methodology. The Implementation Discipline guide taught **execution discipline** — implementing from plans reliably and evolving the system through meta-reasoning. The Validation Discipline guide taught **validation discipline** — the 5-level pyramid, code review, system review, and divergence analysis. The GitHub Orchestration guide taught **remote orchestration** — GitHub Actions as the orchestration layer. The Remote Agentic System guide taught **remote system architecture** — a custom application running the PIV Loop remotely with real-time conversation. The MCP Skills & Archon guide taught **external integration** — MCP servers for tool access and Cloud Skills for progressive knowledge loading. The Subagents Deep Dive guide taught **research parallelization** — subagents for parallel exploration with context isolation. This guide teaches **implementation parallelization** — git worktrees for parallel feature development with full code isolation.
+The System Foundations guide established the **why** — the system gap and foundational mental models. The PIV Loop Practice guide taught the **how** — the PIV Loop in practice. The Global Rules Optimization guide taught **how to build** — modular AGENTS.md and strategic context loading. The Command Design Framework guide taught **how to automate** — slash commands and the INPUT->PROCESS->OUTPUT framework. The Planning Methodology guide taught **how to plan** — the 6-phase planning methodology. The Implementation Discipline guide taught **execution discipline** — implementing from plans reliably and evolving the system through meta-reasoning. The Validation Discipline guide taught **validation discipline** — the 5-level pyramid, code review, system review, and divergence analysis. The GitHub Orchestration guide taught **remote orchestration** — GitHub Actions as the orchestration layer. The Remote Agentic System guide taught **remote system architecture** — a custom application running the PIV Loop remotely with real-time conversation. The MCP Skills & Archon guide taught **external integration** — MCP servers for tool access and Cloud Skills for progressive knowledge loading. The Subagents Deep Dive guide taught **research parallelization** — subagents for parallel exploration with context isolation. This guide teaches **implementation parallelization** — git worktrees for parallel feature development with full code isolation.
 
 This is the culmination of the parallelization journey. The Subagents Deep Dive guide taught you to think in parallel; this guide teaches you to build in parallel. Together, they represent the complete shift from sequential AI-assisted development to parallel AI-assisted development.
 
@@ -20,7 +20,7 @@ This is the culmination of the parallelization journey. The Subagents Deep Dive 
 - **The worktree workflow** — setup, parallel execution, and safe merging with validation gates
 - **The live demonstration** — real stats from parallel implementation of two features simultaneously
 - **"Build one, mirror many"** — the scaling pattern that enables 10+ parallel agents
-- **Out-of-the-box remote solutions** — Google Jules, OpenAI Codex, Claude Code Web, Cursor 2, and their limitations
+- **Out-of-the-box remote solutions** — Google Jules, OpenAI Codex, OpenCode Web, Cursor 2, and their limitations
 - **Industry direction** — the shift toward agent-first development and workflow engineering
 - **Best practices** — dependency management, port allocation, cleanup, and customization
 - **Trust progression** — when you're ready to parallelize and how to avoid amplifying bad patterns
@@ -69,7 +69,7 @@ main-repo/                          # Your normal repository
         └── README.md
 ```
 
-Each worktree is a complete working directory. Claude Code running in `worktrees/feature-search/` sees entirely different files than Claude Code running in `worktrees/feature-export/`. Commits from both show up in the same repository history.
+Each worktree is a complete working directory. OpenCode running in `worktrees/feature-search/` sees entirely different files than OpenCode running in `worktrees/feature-export/`. Commits from both show up in the same repository history.
 
 ### Why This Works for Parallel AI Development
 
@@ -185,7 +185,7 @@ The workflow has three phases: Setup, Execute, Merge. Each phase has specific co
 
 ### Phase 2: Execute in Parallel
 
-Open separate terminals for each worktree. Each gets its own Claude Code instance with its own context window:
+Open separate terminals for each worktree. Each gets its own OpenCode instance with its own context window:
 
 ```
 Terminal 1:                              Terminal 2:
@@ -196,9 +196,9 @@ claude                                   claude
 
 Both agents work simultaneously — reading from their own plan, implementing in their own directory, committing to their own branch. There is zero risk of interference because they're operating on completely separate file systems.
 
-**Key detail**: Each worktree has its own CLAUDE.md, its own `.claude/commands/`, and its own context. The agent in `worktrees/feature-search/` doesn't know the agent in `worktrees/feature-export/` exists. This is by design — full isolation means full independence.
+**Key detail**: Each worktree has its own AGENTS.md, its own `.opencode/commands/`, and its own context. The agent in `worktrees/feature-search/` doesn't know the agent in `worktrees/feature-export/` exists. This is by design — full isolation means full independence.
 
-**Plan placement**: Plans should be placed inside the worktree directory before launching Claude Code. In the demo, plans went to `.agents/plans/` inside each worktree. Locally, you might use `requests/` per your project convention. The key is the plan must be accessible from inside the worktree.
+**Plan placement**: Plans should be placed inside the worktree directory before launching OpenCode. In the demo, plans went to `.agents/plans/` inside each worktree. Locally, you might use `requests/` per your project convention. The key is the plan must be accessible from inside the worktree.
 
 ### Phase 3: Merge (`/merge-worktrees`)
 
@@ -247,7 +247,7 @@ The demonstration used an Obsidian note-taking agent project to show parallel im
    - `worktrees/manage-notes/.agents/plans/note-manager-plan.md` (942 lines)
    - `worktrees/manage-folders/.agents/plans/folder-manage-plan.md` (886 lines)
 
-3. **Execute in parallel**: Using a terminal splitter (Ghostty), two Claude Code instances ran `/execute` simultaneously — each reading its own plan, implementing in its own worktree.
+3. **Execute in parallel**: Using a terminal splitter (Ghostty), two OpenCode instances ran `/execute` simultaneously — each reading its own plan, implementing in its own worktree.
 
 4. **Merge**: `/merge-worktrees manage-notes manage-folders` — integration branch created, each feature merged and tested individually, full validation passed, both tools integrated into main branch.
 
@@ -320,7 +320,7 @@ This section surveys tools that provide remote parallel coding out of the box:
 |------|----------|-------------|
 | **Google Jules** | GitHub integration | Remote agent execution, auto-PR creation |
 | **OpenAI Codex** | Cloud sandbox | Parallel coding environments with container isolation |
-| **Claude Code Web** | Configurable environments | Remote Claude Code with custom Docker images |
+| **OpenCode Web** | Configurable environments | Remote OpenCode with custom Docker images |
 | **Cursor 2** | Agent-first design | Agent mode comes BEFORE the editor |
 | **Archon** | Open source | Agent work orders with task management |
 
@@ -332,7 +332,7 @@ These tools **do NOT use your custom commands, system prompts, or workflows**. T
 
 This means:
 - Your `/planning` command's 6-phase methodology? Ignored.
-- Your `CLAUDE.md` global rules? Partially loaded at best.
+- Your `AGENTS.md` global rules? Partially loaded at best.
 - Your project-specific validation strategy? Not available.
 - Your memory.md cross-session context? Available but writes are lost.
 
@@ -361,7 +361,7 @@ Evidence: Cursor 2 puts agent mode BEFORE the editor — the agent-first paradig
 | **Feedback** | Immediate terminal output | Real-time (Telegram) or async (GitHub) |
 | **Scale** | 2-3 agents (local resources) | 10+ agents (cloud resources) |
 | **Cost** | Free (your hardware) | ~$14/month (VPS hosting) |
-| **Custom commands** | Full support (local `.claude/commands/`) | Full support (via `/load-commands`) |
+| **Custom commands** | Full support (local `.opencode/commands/`) | Full support (via `/load-commands`) |
 | **Best for** | Development, iterative work | Production workflows, team collaboration |
 
 ### When to Choose Each
@@ -390,7 +390,7 @@ Each worktree has **independent dependencies** — they don't share `node_module
 
 ### Port Allocation
 
-Assign dedicated ports per worktree to avoid conflicts. Convention: Worktree 1 on port 8124, Worktree 2 on port 8125, etc. Document port assignments in your project's CLAUDE.md or README.
+Assign dedicated ports per worktree to avoid conflicts. Convention: Worktree 1 on port 8124, Worktree 2 on port 8125, etc. Document port assignments in your project's AGENTS.md or README.
 
 ### Cleanup Protocol
 
@@ -438,7 +438,7 @@ Before using worktrees, verify:
 
 - **`/execute` works reliably** — you've run 5+ features sequentially with consistent results
 - **Validation catches issues** — your test suite, type checking, and linting are automated
-- **Patterns are documented** — CLAUDE.md, on-demand reference guides, and structured plans are established
+- **Patterns are documented** — AGENTS.md, on-demand reference guides, and structured plans are established
 - **Architecture supports it** — features are isolated in vertical slices
 - **Plans are comprehensive** — your structured plans have enough detail for an agent to succeed without additional research
 
@@ -474,7 +474,7 @@ This is the key insight about trust progression: parallel execution is a **multi
 2. Create structured plans for each feature
 3. Run `/new-worktree feature-a feature-b`
 4. Place plans in each worktree
-5. Open two terminals, launch Claude Code in each, run `/execute` in both
+5. Open two terminals, launch OpenCode in each, run `/execute` in both
 6. After both complete, run `/merge-worktrees feature-a feature-b`
 7. Verify the merged result passes all tests
 
@@ -485,7 +485,7 @@ This is the key insight about trust progression: parallel execution is a **multi
 **Challenge**: Try one out-of-the-box remote coding solution to understand its capabilities and limitations.
 
 **Steps**:
-1. Pick one tool: Google Jules, OpenAI Codex, or Claude Code Web
+1. Pick one tool: Google Jules, OpenAI Codex, or OpenCode Web
 2. Connect it to a test repository
 3. Give it a simple task (e.g., "add a health check endpoint")
 4. Compare the output to what your `/execute` command would produce
@@ -499,7 +499,7 @@ This is the key insight about trust progression: parallel execution is a **multi
 
 ### "Can I use more than 2 worktrees?"
 
-**Short answer**: Yes — the `/new-worktree` command supports 1-10 worktrees natively. **Long answer**: Pass multiple branch names as arguments: `/new-worktree feature/a feature/b feature/c`. The command spawns one Task agent per branch (max 10 concurrent — the subagent limit). Each gets a dedicated port (8124 + index). For `/merge-worktrees`, pass all branches to merge them sequentially with test-after-each validation. Local resource constraints (RAM, CPU) may limit practical concurrency to 3-5 simultaneous Claude Code instances.
+**Short answer**: Yes — the `/new-worktree` command supports 1-10 worktrees natively. **Long answer**: Pass multiple branch names as arguments: `/new-worktree feature/a feature/b feature/c`. The command spawns one Task agent per branch (max 10 concurrent — the subagent limit). Each gets a dedicated port (8124 + index). For `/merge-worktrees`, pass all branches to merge them sequentially with test-after-each validation. Local resource constraints (RAM, CPU) may limit practical concurrency to 3-5 simultaneous OpenCode instances.
 
 ### "What if my features share files?"
 
@@ -534,27 +534,27 @@ For research agents (subagents in `/planning`), overlap prevention comes from pa
 ## 14. Next Steps
 
 1. Read `reference/git-worktrees-overview.md` for the worktree overview
-2. Review `.claude/commands/new-worktree.md` and `.claude/commands/merge-worktrees.md` for command specifications
+2. Review `.opencode/commands/new-worktree.md` and `.opencode/commands/merge-worktrees.md` for command specifications
 3. Customize the worktree commands for your project's tech stack (dependency sync, validation, health checks)
 4. Build one feature excellently — establish the patterns that parallel agents will mirror
 5. Try parallel implementation on two isolated features using the worktree workflow
 6. Read `reference/remote-agentic-system.md` for the remote system when you need to scale beyond local resources
-7. Explore out-of-the-box remote tools (Jules, Codex, Claude Code Web) to understand the landscape
+7. Explore out-of-the-box remote tools (Jules, Codex, OpenCode Web) to understand the landscape
 
 ---
 
 ## 15. Related Resources
 
 - **Worktree overview**: `reference/git-worktrees-overview.md` — on-demand guide on worktrees
-- **Worktree setup command**: `.claude/commands/new-worktree.md` — `/new-worktree` specification
-- **Merge command**: `.claude/commands/merge-worktrees.md` — `/merge-worktrees` specification
+- **Worktree setup command**: `.opencode/commands/new-worktree.md` — `/new-worktree` specification
+- **Merge command**: `.opencode/commands/merge-worktrees.md` — `/merge-worktrees` specification
 - **Subagents guide**: `reference/subagents-guide.md` — Subagents Deep Dive context isolation (complementary to worktrees)
 - **Subagents overview**: `reference/subagents-overview.md` — on-demand subagent guide
 - **Remote system guide**: `reference/remote-agentic-system.md` — remote parallel execution at scale
 - **GitHub Orchestration guide**: `reference/github-orchestration.md` — GitHub Actions (prerequisite for remote workflows)
-- **Execute command**: `.claude/commands/execute.md` — used inside each worktree
+- **Execute command**: `.opencode/commands/execute.md` — used inside each worktree
 - **Structured plan template**: `templates/STRUCTURED-PLAN-TEMPLATE.md` — plans that agents execute in worktrees
-- **Worktree command specifications**: See `.claude/commands/new-worktree.md` and `.claude/commands/merge-worktrees.md`
+- **Worktree command specifications**: See `.opencode/commands/new-worktree.md` and `.opencode/commands/merge-worktrees.md`
 
 ---
 

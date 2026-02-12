@@ -14,7 +14,7 @@ The system uses an **orchestrator pattern** with two generic interfaces:
 This creates **M+N integrations** instead of M×N. Adding a new platform (e.g., Slack) only requires implementing `IPlatformAdapter` — it automatically works with all coding assistants. Adding a new assistant only requires implementing `IAssistantClient` — it works with all platforms.
 
 ```
-Apps (Telegram, GitHub, Slack)  →  Orchestrator  →  Coding Assistants (Claude Code, Codex)
+Apps (Telegram, GitHub, Slack)  →  Orchestrator  →  Coding Assistants (OpenCode, Codex)
          IPlatformAdapter              ↕                  IAssistantClient
 ```
 
@@ -30,20 +30,20 @@ Telegram gives the closest experience to using a CLI locally. GitHub is ideal fo
 
 ### Command System (Remote)
 
-Your local `.claude/commands/` or `.codex/commands/` work remotely:
+Your local `.opencode/commands/` or `.codex/commands/` work remotely:
 
-1. `/load-commands .claude/commands` — Load commands from the cloned repository
+1. `/load-commands .opencode/commands` — Load commands from the cloned repository
 2. `/command-invoke {name} {args}` — Execute a loaded command (same INPUT→PROCESS→OUTPUT framework)
 3. `/commands` — List all loaded commands
 
-The system auto-detects `.claude/` or `.codex/` folders to determine which coding assistant to use. Commands like `plan-feature` and `execute` automatically trigger **session separation** — a new conversation starts between planning and execution, just like switching contexts locally.
+The system auto-detects `.opencode/` or `.codex/` folders to determine which coding assistant to use. Commands like `plan-feature` and `execute` automatically trigger **session separation** — a new conversation starts between planning and execution, just like switching contexts locally.
 
 ### PIV Loop — Remote Workflow
 
 The full PIV Loop runs remotely via GitHub Issues:
 
 1. **Create Issue** — Describe the feature or bug (this becomes the auto-injected context)
-2. **Load commands** — `@remote-agent /load-commands .claude/commands`
+2. **Load commands** — `@remote-agent /load-commands .opencode/commands`
 3. **Prime** — `@remote-agent /command-invoke prime` (issue context auto-injected)
 4. **Plan** — `@remote-agent /command-invoke plan-feature "description"` (creates branch, pushes plan)
 5. **Validate plan** — Review the plan in the feature branch on GitHub
@@ -58,7 +58,7 @@ Key difference from local: fresh context between plan and execute is handled aut
 
 - **Postgres database** stores sessions, conversations, and codebase references
 - **Session persistence** — survives container restarts
-- **Concurrent sessions** — multiple agents on different issues simultaneously (e.g., Codex on Telegram + Claude Code on GitHub)
+- **Concurrent sessions** — multiple agents on different issues simultaneously (e.g., Codex on Telegram + OpenCode on GitHub)
 - **`/reset`** — Clear conversation and start fresh
 - **`/repos`** — List cloned repositories
 
@@ -86,7 +86,7 @@ The Remote System is the final level: full PIV Loop with real-time conversation,
 ### Getting Started
 
 1. Clone the repository: `github.com/dynamous-community/remote-coding-agent`
-2. Prerequisites: Docker, GitHub account, Claude Code or Codex, Telegram or GitHub
+2. Prerequisites: Docker, GitHub account, OpenCode or Codex, Telegram or GitHub
 3. Configure environment variables (database, GitHub token, coding assistant, platform)
 4. Run: `docker compose up --build -d`
 5. See `reference/remote-system-guide.md` for detailed setup and cloud deployment

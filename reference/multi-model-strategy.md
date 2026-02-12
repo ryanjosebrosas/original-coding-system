@@ -307,23 +307,24 @@ Use Opus for:
 
 - **Default model**: Sonnet 4.5 (set via `ANTHROPIC_MODEL` environment variable)
 - **Planning sessions**: Opus 4.6 (start with `claude --model opus` or `cplan` alias)
-- **Code review agents** (all 4): `model: haiku` in frontmatter
+- **Code review agents** (all 4): `model: haiku`, `instance: claude-zai` in frontmatter
+- **Utility agents** (2): `model: haiku`, `instance: claude-zai` — plan-validator + test-generator
 - **Built-in Explore agent**: Haiku (used in `/planning` for codebase search)
-- **Research agents**: Haiku (codebase) + Sonnet (external)
+- **Research agents**: Haiku (codebase) + Sonnet (external), both `instance: claude-zai`
 
 ### ⏳ Optional Enhancements
 
 - Opus for complex debugging (escalation pattern: Sonnet → Opus when stuck)
 - Explicit cost tracking per task
-- `opusplan` mode for Claude Code's built-in plan mode (uses Opus for `/plan`, Sonnet for execution — note: this is different from our `/planning` slash command)
+- `opusplan` mode for OpenCode's built-in plan mode (uses Opus for `/plan`, Sonnet for execution — note: this is different from our `/planning` slash command)
 
 ---
 
 ## Adding Model Strategy to Your Project
 
-### Option 1: Document in CLAUDE.md
+### Option 1: Document in AGENTS.md
 
-Add a section to your project's CLAUDE.md:
+Add a section to your project's AGENTS.md:
 
 ```markdown
 ## Model Selection
@@ -341,7 +342,7 @@ For tasks you do frequently, create Haiku agents:
 ---
 name: test-generator
 model: haiku
-tools: ["Read", "Glob", "Grep", "Write"]
+tools: ["Read", "Glob", "Grep"]
 ---
 ```
 
@@ -367,22 +368,32 @@ Launch a Task agent with model="haiku" to generate tests following existing patt
 
 **Why**: Main reasoning in Opus for superior plan quality. Codebase exploration delegated to Haiku (cheap pattern matching). External research delegated to Sonnet (good synthesis at lower cost than Opus).
 
-### Code Review Command (All Haiku)
+### Code Review Command (All Haiku + claude-zai)
 
 ```
 /code-review → Main agent (Sonnet)
-  ├─> Type Safety agent (Haiku)
-  ├─> Security agent (Haiku)
-  ├─> Architecture agent (Haiku)
-  └─> Performance agent (Haiku)
+  ├─> Type Safety agent (Haiku, claude-zai)
+  ├─> Security agent (Haiku, claude-zai)
+  ├─> Architecture agent (Haiku, claude-zai)
+  └─> Performance agent (Haiku, claude-zai)
 ```
 
-**Why all Haiku**: Review is checking against known patterns. Haiku is 10x cheaper and just as good for this task.
+**Why all Haiku**: Review is checking against known patterns. Haiku benchmarks at 90%+ quality for pattern-based review (Qodo: 6.55/10 vs Sonnet 6.20/10). 4 Haiku agents cost ~40% of 1 Sonnet doing sequential review.
+
+### Utility Agents (Haiku + claude-zai)
+
+```
+plan-validator → Validates plan structure before /execute (Haiku, claude-zai)
+test-generator → Suggests test cases from changed code (Haiku, claude-zai)
+```
+
+**Why Haiku**: Both agents are advisory and read-only. Plan validation and test suggestion are pattern matching against templates and existing test patterns.
 
 ### Execute Command (Sonnet)
 
 ```
 /execute → Implementation agent (Sonnet, inherited)
+  └─> (optional) plan-validator (Haiku, claude-zai) — Step 1.25
 ```
 
 **Why Sonnet**: Writing code requires reasoning, not just pattern matching. Sonnet is the right balance of capability and cost.
@@ -412,11 +423,11 @@ With MAX subscription (recommended), all models draw from a shared usage pool. C
 | **Heavy usage cost** | $200/month flat | Can exceed $3,000+/month |
 | **Model selection** | All models share usage pool | Each model has different per-token rates |
 | **Cost optimization** | Maximize quality per usage unit | Minimize token count |
-| **Best for** | Interactive development (Claude Code, claude.ai) | CI/CD without OAuth, programmatic integrations |
+| **Best for** | Interactive development (OpenCode, claude.ai) | CI/CD without OAuth, programmatic integrations |
 
-**Recommendation**: Use MAX subscription for all interactive Claude Code work. API billing is only needed for CI/CD runners without OAuth support or programmatic API integrations.
+**Recommendation**: Use MAX subscription for all interactive OpenCode work. API billing is only needed for CI/CD runners without OAuth support or programmatic API integrations.
 
-**WARNING**: If `ANTHROPIC_API_KEY` is set in your environment, Claude Code silently switches to API billing instead of your subscription. Remove or unset `ANTHROPIC_API_KEY` to use subscription billing.
+**WARNING**: If `ANTHROPIC_API_KEY` is set in your environment, OpenCode silently switches to API billing instead of your subscription. Remove or unset `ANTHROPIC_API_KEY` to use subscription billing.
 
 ### Relative Model Usage (applies to both billing models)
 
@@ -432,7 +443,7 @@ Even with MAX subscription, model choice affects how fast you consume your usage
 
 ### API Pricing Reference
 
-The per-token API pricing below is for reference only — most Claude Code users should use MAX subscription.
+The per-token API pricing below is for reference only — most OpenCode users should use MAX subscription.
 
 Assuming 10K tokens input + 5K tokens output:
 

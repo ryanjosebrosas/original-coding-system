@@ -8,7 +8,7 @@ This guide explains **how to design, build, and evolve** slash commands — reus
 
 ### The Journey from Construction to Automation
 
-The System Foundations guide established the **why** — the system gap and learning architecture. The PIV Loop Practice guide taught the **how** — the PIV Loop in practice. The Global Rules Optimization guide taught **how to build** — modular CLAUDE.md, the Two-Question Framework, and strategic context loading. This guide teaches you **how to automate** — turning manual prompts into reusable, chainable commands.
+The System Foundations guide established the **why** — the system gap and learning architecture. The PIV Loop Practice guide taught the **how** — the PIV Loop in practice. The Global Rules Optimization guide taught **how to build** — modular AGENTS.md, the Two-Question Framework, and strategic context loading. This guide teaches you **how to automate** — turning manual prompts into reusable, chainable commands.
 
 This is the automation layer. You're not learning concepts or building rules — you're learning how to create the reusable prompts that drive your entire workflow.
 
@@ -55,7 +55,7 @@ The INPUT section provides everything the agent needs — not generic advice, bu
 You are reviewing code for a FastAPI application using:
 - Python 3.12 with strict type hints
 - Pydantic for validation
-Read the project rules: @CLAUDE.md
+Read the project rules: @AGENTS.md
 Current state: !`git status`
 ```
 
@@ -202,7 +202,7 @@ Based on the guide above, create a new tool for: $ARGUMENTS
 2. `$ARGUMENTS` receives user input
 3. Agent has the guide in context and knows what to build
 
-**Why this matters**: `@` references **guarantee** the guide is loaded. Unlike Method 1 (mentioning the guide in CLAUDE.md and hoping AI loads it), this is deterministic. Every time the command runs, the guide is there.
+**Why this matters**: `@` references **guarantee** the guide is loaded. Unlike Method 1 (mentioning the guide in AGENTS.md and hoping AI loads it), this is deterministic. Every time the command runs, the guide is there.
 
 ### Frontmatter: Command Configuration
 
@@ -254,7 +254,7 @@ Section 09 lists the Core 4 and their purposes. Here's how each is designed inte
 
 **Process outline:**
 1. Analyze project structure (directory tree, key files)
-2. Read core documentation (CLAUDE.md, README, PRD if exists)
+2. Read core documentation (AGENTS.md, README, PRD if exists)
 3. Identify and read key implementation files (entry points, config, models)
 4. Understand current state (git log, git status, active branch)
 
@@ -601,7 +601,7 @@ Commands improve through use:
 2. **Review plans before executing** — The plan is your checkpoint; catch issues before code is written
 3. **Refine commands based on use** — When output is consistently suboptimal, update the command (system evolution)
 4. **Add project specifics** — Generic commands work, but project-customized commands work better
-5. **Share with team** — Project commands (`.claude/commands/`) are version-controlled and benefit everyone
+5. **Share with team** — Project commands (`.opencode/commands/`) are version-controlled and benefit everyone
 
 ---
 
@@ -659,7 +659,7 @@ Both exercises use the same INPUT→PROCESS→OUTPUT framework. Exercise 1 optim
 
 **Short answer**: The framework transfers; the syntax is tool-specific.
 
-**Long answer**: INPUT→PROCESS→OUTPUT applies to any AI tool (Cursor, Codex, Copilot). The syntax (`$ARGUMENTS`, `!`, `@`, frontmatter) is Claude Code specific, but the patterns transfer. When switching tools, adapt syntax, keep framework.
+**Long answer**: INPUT→PROCESS→OUTPUT applies to any AI tool (Cursor, Codex, Copilot). The syntax (`$ARGUMENTS`, `!`, `@`, frontmatter) is OpenCode specific, but the patterns transfer. When switching tools, adapt syntax, keep framework.
 
 ---
 
@@ -679,7 +679,7 @@ Both exercises use the same INPUT→PROCESS→OUTPUT framework. Exercise 1 optim
 - **Command design overview**: `reference/command-design-overview.md` — on-demand command reference
 - **Command template**: `templates/COMMAND-TEMPLATE.md` — design guide for creating new commands
 - **Structured plan template**: `templates/STRUCTURED-PLAN-TEMPLATE.md` — the output format `/planning` produces
-- **Existing commands**: `.claude/commands/` — see how the Core 4 and other commands are implemented
+- **Existing commands**: `.opencode/commands/` — see how the Core 4 and other commands are implemented
 - **Global Rules Optimization guide** (prerequisite): `reference/global-rules-optimization.md` — global rules, Two-Question Framework, on-demand loading
 - **Planning Methodology guide** (next): `reference/planning-methodology-guide.md` — 6-phase planning methodology
 

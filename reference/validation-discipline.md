@@ -177,7 +177,7 @@ docker compose up -d test-db && pytest tests/integration/ && docker compose down
 
 **What to look for**:
 - Does the implementation match the plan? (Or did the AI drift?)
-- Are the right patterns being followed? (Check against CLAUDE.md conventions)
+- Are the right patterns being followed? (Check against AGENTS.md conventions)
 - Is the approach sound architecturally? (Or is it a hack that will cause problems later?)
 - Are there security concerns the automated checks missed?
 - Is there unnecessary complexity? (YAGNI violations)
@@ -395,7 +395,7 @@ Each agent returns structured findings that the main agent can parse and combine
 
 Copy the example agents to your project:
 ```bash
-cp .claude/agents/_examples/code-review-*.md .claude/agents/
+cp .opencode/agents/_examples/code-review-*.md .opencode/agents/
 ```
 
 The `/code-review` command automatically detects these agents and switches to parallel mode. If no agents are found, it falls back to single-agent sequential review.
@@ -438,7 +438,7 @@ When validation catches an issue, don't just fix the code. Ask:
 
 | Fix Location | When to Use | Example |
 |---|---|---|
-| **Global rules** (CLAUDE.md/sections) | Convention that applies to ALL tasks | "Always use structured logging" |
+| **Global rules** (AGENTS.md/sections) | Convention that applies to ALL tasks | "Always use structured logging" |
 | **On-demand context** (reference/) | Task-type-specific guidance | "When building APIs, follow this contract pattern" |
 | **Commands** (planning, execute, etc.) | Process/workflow issue | "Planning produces plans that are too long" |
 | **Templates** (structured plan, PRD) | Output format/structure issue | "Plans are missing validation commands section" |
@@ -652,16 +652,16 @@ A: Varies by feature size. For a well-planned feature: 0-2 critical, 2-5 major, 
 ## 11. Reference Files
 
 **Commands**:
-- `.claude/commands/code-review.md` — Technical code review command
-- `.claude/commands/code-review-fix.md` — Fix issues from code review
-- `.claude/commands/execution-report.md` — Implementation report command
-- `.claude/commands/system-review.md` — Divergence analysis command
+- `.opencode/commands/code-review.md` — Technical code review command
+- `.opencode/commands/code-review-fix.md` — Fix issues from code review
+- `.opencode/commands/execution-report.md` — Implementation report command
+- `.opencode/commands/system-review.md` — Divergence analysis command
 
 **Agents**:
-- `.claude/agents/_examples/code-review-type-safety.md` — Type safety reviewer
-- `.claude/agents/_examples/code-review-security.md` — Security reviewer
-- `.claude/agents/_examples/code-review-architecture.md` — Architecture reviewer
-- `.claude/agents/_examples/code-review-performance.md` — Performance reviewer
+- `.opencode/agents/_examples/code-review-type-safety.md` — Type safety reviewer
+- `.opencode/agents/_examples/code-review-security.md` — Security reviewer
+- `.opencode/agents/_examples/code-review-architecture.md` — Architecture reviewer
+- `.opencode/agents/_examples/code-review-performance.md` — Performance reviewer
 
 **Related guides**:
 - `reference/implementation-discipline.md` — The execute phase that validation follows

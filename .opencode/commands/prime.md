@@ -46,6 +46,17 @@ If `memory.md` exists at project root, scan it and extract for output:
 
 Do NOT copy full sections — extract only top entries.
 
+### 5.5. Agent Inventory (Quick Count)
+
+Report agents in `.opencode/agents/` (if directory exists):
+- Count by prefix: core-*, subagent-*, specialist-*, example agents in `_examples/`
+- Format: "Agents: X core, Y subagent, Z specialist (W examples dormant)"
+
+**If research/review agents not activated** (exist only in `_examples/`):
+- Note: "Research/review agents available but not activated. Run `/activate-agents` to enable."
+
+Keep this lightweight — just count, don't load agent files.
+
 ## Output Report
 
 **Token budget**: Keep output under 50 lines / ~1500 tokens. Prime is a handshake, not a deep dive.
@@ -62,6 +73,11 @@ Do NOT copy full sections — extract only top entries.
 - Latest session note
 
 (If no memory.md found, note "No memory.md — consider `templates/MEMORY-TEMPLATE.md`")
+
+### Agent Inventory
+- Active agents: X (core: N, subagent: N, specialist: N)
+- Dormant examples: N (in `_examples/`)
+- (If agents directory not found, note "No agents configured")
 
 ### Ready State
 

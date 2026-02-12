@@ -8,7 +8,7 @@ This guide explains **how to build and deploy a remote AI coding system** — co
 
 ### The Journey to Remote Execution
 
-The System Foundations guide established the **why** — the system gap and learning architecture. The PIV Loop Practice guide taught the **how** — the PIV Loop in practice. The Global Rules Optimization guide taught **how to build** — modular CLAUDE.md and strategic context loading. The Command Design Framework guide taught **how to automate** — slash commands and the INPUT→PROCESS→OUTPUT framework. The Planning Methodology guide taught **how to plan** — the 6-phase planning methodology. The Implementation Discipline guide taught **execution discipline** — implementing from plans reliably and evolving the system through meta-reasoning. The Validation Discipline guide taught **validation discipline** — the 5-level pyramid, code review, system review, and divergence analysis. The GitHub Orchestration guide taught **GitHub integration** — using GitHub Actions as the orchestration layer for remote, trigger-based workflows. This guide teaches **remote system architecture** — how to build a custom application that runs your entire PIV Loop remotely with real-time conversation, multi-platform access, and persistent sessions.
+The System Foundations guide established the **why** — the system gap and learning architecture. The PIV Loop Practice guide taught the **how** — the PIV Loop in practice. The Global Rules Optimization guide taught **how to build** — modular AGENTS.md and strategic context loading. The Command Design Framework guide taught **how to automate** — slash commands and the INPUT→PROCESS→OUTPUT framework. The Planning Methodology guide taught **how to plan** — the 6-phase planning methodology. The Implementation Discipline guide taught **execution discipline** — implementing from plans reliably and evolving the system through meta-reasoning. The Validation Discipline guide taught **validation discipline** — the 5-level pyramid, code review, system review, and divergence analysis. The GitHub Orchestration guide taught **GitHub integration** — using GitHub Actions as the orchestration layer for remote, trigger-based workflows. This guide teaches **remote system architecture** — how to build a custom application that runs your entire PIV Loop remotely with real-time conversation, multi-platform access, and persistent sessions.
 
 This represents the culmination of the trust progression. Everything from the preceding guides now runs remotely, accessible from any platform, any device, 24/7.
 
@@ -16,7 +16,7 @@ This represents the culmination of the trust progression. Everything from the pr
 
 - **The orchestrator pattern** — M+N vs M×N integration architecture and why it matters
 - **IPlatformAdapter interface** — how platforms (Telegram, GitHub, Slack) communicate with the system
-- **IAssistantClient interface** — how coding assistants (Claude Code, Codex) are abstracted
+- **IAssistantClient interface** — how coding assistants (OpenCode, Codex) are abstracted
 - **Environment & authentication setup** — database, tokens, platform credentials, Docker configuration
 - **Telegram setup** — BotFather workflow, real-time streaming, closest-to-CLI experience
 - **GitHub webhook setup** — ngrok for local, DNS + Caddy for cloud, event configuration
@@ -61,7 +61,7 @@ Applications (Telegram, GitHub, Slack)
          |  IPlatformAdapter
     ORCHESTRATOR
          |  IAssistantClient
-Coding Assistants (Claude Code, Codex)
+Coding Assistants (OpenCode, Codex)
          |
     POSTGRES DB
   (sessions, conversations, codebases)
@@ -88,7 +88,7 @@ Standardizes how the system interacts with any coding assistant:
 | `startSession(prompt)` | Begin a new coding session | `claude` with system prompt, `codex` with initial instruction |
 | `resumeSession(sessionId)` | Continue an existing session | Resume after container restart |
 | `sendMessage(sessionId, message)` | Send instruction to assistant | `/command-invoke execute` |
-| `endSession(sessionId)` | Clean up session resources | Close Claude Code process |
+| `endSession(sessionId)` | Clean up session resources | Close OpenCode process |
 
 Different assistants have different auth methods (`claude setup-token` vs `.codex/auth.json`), different streaming formats, and different capabilities. The interface abstracts all of this — the orchestrator doesn't need to know which assistant it's talking to.
 
@@ -116,7 +116,7 @@ Different assistants have different auth methods (`claude setup-token` vs `.code
 
 GitHub is not a chat app — posting every tool call would flood the issue with dozens of comments. Only the final summary matters. Telegram IS a chat app — real-time streaming shows all intermediate steps, giving the closest experience to using a local CLI.
 
-The output mode is configured per platform adapter, not per assistant. The same Claude Code session streams to Telegram but summarizes to GitHub.
+The output mode is configured per platform adapter, not per assistant. The same OpenCode session streams to Telegram but summarizes to GitHub.
 
 ### Context Injection Timing
 
@@ -141,10 +141,10 @@ For GitHub, this means the issue/PR body is included in the first message to the
 | **GitHub (CLI)** | `GH_TOKEN` | GitHub CLI operations (create PR, comment) | Personal access token or fine-grained token |
 | **GitHub (Clone)** | `GITHUB_TOKEN` | Repository cloning | Can be same token, different permissions |
 | **GitHub (Webhook)** | `GITHUB_WEBHOOK_SECRET` | Verify webhook payloads | `openssl rand -base64 32` |
-| **Claude Code** | `CLAUDE_CODE_OAUTH_TOKEN` | Claude Code authentication | **(Recommended)** Via `claude setup-token` (year-long, uses MAX/Pro subscription) |
+| **OpenCode** | `CLAUDE_CODE_OAUTH_TOKEN` | OpenCode authentication | **(Recommended)** Via `claude setup-token` (year-long, uses MAX/Pro subscription) |
 | **Codex** | 4 values from `~/.codex/auth.json` | Codex authentication | Run `codex login` first, then copy values |
 | **Telegram** | `TELEGRAM_BOT_TOKEN` | Bot API access | From @BotFather |
-| **Config** | `DEFAULT_ASSISTANT` | Which assistant to use | Auto-detected from `.claude/` or `.codex/` folders |
+| **Config** | `DEFAULT_ASSISTANT` | Which assistant to use | Auto-detected from `.opencode/` or `.codex/` folders |
 
 ### Two GitHub Tokens Explained
 
@@ -152,7 +152,7 @@ The system needs TWO GitHub tokens because they serve different purposes:
 - **`GH_TOKEN`** — Used by the GitHub CLI (`gh`) for operations like creating PRs, commenting on issues, managing branches. Needs `repo` scope
 - **`GITHUB_TOKEN`** — Used for `git clone` operations when pulling repositories into the container. Can be the same token but may have different permission requirements
 
-### Claude Code Authentication
+### OpenCode Authentication
 
 ```bash
 claude setup-token
@@ -163,7 +163,7 @@ This runs an OAuth flow that generates a long-lived token. Key details:
 - Uses your Claude MAX/Pro subscription credits (not separate API credits)
 - Store the resulting token as `CLAUDE_CODE_OAUTH_TOKEN` in `.env`
 
-**Important**: If `ANTHROPIC_API_KEY` is also set in your environment, Claude Code will use API billing instead of your subscription — this can result in significantly higher costs. Remove or unset `ANTHROPIC_API_KEY` to ensure subscription billing.
+**Important**: If `ANTHROPIC_API_KEY` is also set in your environment, OpenCode will use API billing instead of your subscription — this can result in significantly higher costs. Remove or unset `ANTHROPIC_API_KEY` to ensure subscription billing.
 
 ### Docker Build Notes
 
@@ -191,8 +191,8 @@ After starting the Docker container:
 ```
 /help                                        # See available commands
 /clone https://github.com/user/repo          # Clone a repository
-                                             # System auto-detects .claude/ or .codex/
-/load-commands .claude/commands               # Load your slash commands
+                                             # System auto-detects .opencode/ or .codex/
+/load-commands .opencode/commands               # Load your slash commands
 /commands                                     # List loaded commands
 /command-invoke prime                         # Start a PIV loop
 ```
@@ -288,7 +288,7 @@ Requirements:
 #### Step 2: Load Commands
 
 ```
-@remote-agent /load-commands .claude/commands
+@remote-agent /load-commands .opencode/commands
 ```
 
 Result: 16 commands loaded (prime, planning, execute, validate, etc.)
@@ -519,7 +519,7 @@ The experience building this system reinforces the Planning Methodology guide's 
 | Guide | Concept | Remote Application |
 |-------|---------|-------------------|
 | **System Foundations + PIV Loop Practice** | PIV Loop | Runs remotely via GitHub Issues — create issue, plan, execute, validate, merge |
-| **Global Rules Optimization** | Layer 1 context | PRD + CLAUDE.md + on-demand context all created for the remote project itself |
+| **Global Rules Optimization** | Layer 1 context | PRD + AGENTS.md + on-demand context all created for the remote project itself |
 | **Command Design Framework** | Slash commands | Work via `/load-commands` + `/command-invoke`; auto-detect assistant type |
 | **Planning Methodology** | 6-phase planning | Runs remotely, plan saved to feature branch and pushed |
 | **Implementation Discipline** | Execution discipline | Execute in fresh session (automatic separation), reads plan from branch |
@@ -560,9 +560,9 @@ The Remote System is the final level: full PIV Loop with real-time conversation,
 1. Clone the repo: `git clone https://github.com/dynamous-community/remote-coding-agent`
 2. Install prerequisites: Docker, Telegram app
 3. Create a Telegram bot via @BotFather
-4. Configure `.env` with database, Claude Code token (`claude setup-token`), and Telegram bot token
+4. Configure `.env` with database, OpenCode token (`claude setup-token`), and Telegram bot token
 5. Run: `docker compose up --build -d`
-6. In Telegram: `/help` → `/clone <your-repo-url>` → `/load-commands .claude/commands` → `/commands`
+6. In Telegram: `/help` → `/clone <your-repo-url>` → `/load-commands .opencode/commands` → `/commands`
 
 **Success criteria**: You can invoke `/command-invoke prime` and see real-time streaming output in Telegram.
 
@@ -573,7 +573,7 @@ The Remote System is the final level: full PIV Loop with real-time conversation,
 **Steps**:
 1. Configure GitHub webhook (ngrok + webhook secret + event subscriptions)
 2. Create a GitHub Issue describing a small feature
-3. Comment: `@remote-agent /load-commands .claude/commands`
+3. Comment: `@remote-agent /load-commands .opencode/commands`
 4. Comment: `@remote-agent /command-invoke prime`
 5. Comment: `@remote-agent /command-invoke plan-feature "<description>"`
 6. Review the plan on the feature branch
@@ -616,7 +616,7 @@ The Remote System is the final level: full PIV Loop with real-time conversation,
 
 ### "What does it cost to run?"
 
-**Short answer**: Free locally; ~$14/month in the cloud. **Long answer**: Local development uses Docker on your machine (free) + ngrok free tier. Cloud deployment costs ~$14/month for a minimal DigitalOcean droplet (2GB RAM, 1 CPU). The system itself doesn't run LLMs — it orchestrates Claude Code or Codex, which use their own subscription credits. Total cost is hosting + your existing coding assistant subscription.
+**Short answer**: Free locally; ~$14/month in the cloud. **Long answer**: Local development uses Docker on your machine (free) + ngrok free tier. Cloud deployment costs ~$14/month for a minimal DigitalOcean droplet (2GB RAM, 1 CPU). The system itself doesn't run LLMs — it orchestrates OpenCode or Codex, which use their own subscription credits. Total cost is hosting + your existing coding assistant subscription.
 
 ### "Can multiple team members use the same instance?"
 
@@ -624,7 +624,7 @@ The Remote System is the final level: full PIV Loop with real-time conversation,
 
 ### "Do my local slash commands work remotely?"
 
-**Short answer**: Yes, via `/load-commands` + `/command-invoke`. **Long answer**: After cloning your repo in the remote system, run `/load-commands .claude/commands` to load all your slash commands. Then invoke them with `/command-invoke <name> <args>`. The system detects `.claude/` vs `.codex/` folders to pick the right coding assistant. Commands follow the same INPUT→PROCESS→OUTPUT framework — the only adaptation is that plans save to `.agents/plans/` (GitHub convention) instead of `requests/` (local convention).
+**Short answer**: Yes, via `/load-commands` + `/command-invoke`. **Long answer**: After cloning your repo in the remote system, run `/load-commands .opencode/commands` to load all your slash commands. Then invoke them with `/command-invoke <name> <args>`. The system detects `.opencode/` vs `.codex/` folders to pick the right coding assistant. Commands follow the same INPUT→PROCESS→OUTPUT framework — the only adaptation is that plans save to `.agents/plans/` (GitHub convention) instead of `requests/` (local convention).
 
 ---
 
@@ -644,7 +644,7 @@ The Remote System is the final level: full PIV Loop with real-time conversation,
 
 - **Remote system overview**: `reference/remote-system-overview.md` — on-demand architecture summary
 - **GitHub integration**: `reference/github-integration.md` — GitHub Actions (GitHub Orchestration guide, prerequisite concepts)
-- **Execute command**: `.claude/commands/execute.md` — used remotely via `/command-invoke`
+- **Execute command**: `.opencode/commands/execute.md` — used remotely via `/command-invoke`
 - **Implementation Discipline guide**: `reference/implementation-discipline.md` — execution discipline feeding remote workflows
 - **Validation Discipline guide**: `reference/validation-discipline.md` — validation discipline for remote quality
 - **GitHub Orchestration guide**: `reference/github-orchestration.md` — GitHub Actions comparison (prerequisite)

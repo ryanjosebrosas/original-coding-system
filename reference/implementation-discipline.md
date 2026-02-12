@@ -8,7 +8,7 @@ This guide explains **how to implement from plans reliably, evolve your system t
 
 ### The Journey from Methodology to Discipline
 
-The System Foundations guide established the **why** — the system gap and learning architecture. The PIV Loop Practice guide taught the **how** — the PIV Loop in practice. The Global Rules Optimization guide taught **how to build** — modular CLAUDE.md and strategic context loading. The Command Design Framework guide taught **how to automate** — slash commands and the INPUT→PROCESS→OUTPUT framework. The Planning Methodology guide taught **how to plan** — the 6-phase planning methodology that produces implementation-ready plans. This guide teaches **execution discipline** — how to implement from plans reliably and evolve the system when things go wrong.
+The System Foundations guide established the **why** — the system gap and learning architecture. The PIV Loop Practice guide taught the **how** — the PIV Loop in practice. The Global Rules Optimization guide taught **how to build** — modular AGENTS.md and strategic context loading. The Command Design Framework guide taught **how to automate** — slash commands and the INPUT→PROCESS→OUTPUT framework. The Planning Methodology guide taught **how to plan** — the 6-phase planning methodology that produces implementation-ready plans. This guide teaches **execution discipline** — how to implement from plans reliably and evolve the system when things go wrong.
 
 This is deliberately the **shortest guide** in the series. The brevity is the point — it proves the PIV Loop thesis: when planning is thorough, implementation becomes simple.
 
@@ -49,7 +49,7 @@ When you get planning right, implementation becomes almost automatic. The execut
 
 ### Purpose
 
-The execute command is the bridge between planning and code. The structured plan defines **what** tasks to execute; the execute command specifies **how** to handle each task. See `.claude/commands/execute.md` for the full implementation.
+The execute command is the bridge between planning and code. The structured plan defines **what** tasks to execute; the execute command specifies **how** to handle each task. See `.opencode/commands/execute.md` for the full implementation.
 
 ### Two Critical Components
 
@@ -84,7 +84,7 @@ This per-task cycle prevents the AI from implementing everything in a rush and t
 
 ### Current Execute Command Structure
 
-The command follows seven sections (see `.claude/commands/execute.md`):
+The command follows seven sections (see `.opencode/commands/execute.md`):
 
 | Step | Purpose |
 |------|---------|
@@ -202,7 +202,7 @@ Step 4 is critical — don't accept all AI suggestions blindly. Human judgment s
 
 | Fix Location | When to Use | Example |
 |---|---|---|
-| **Global rules** (CLAUDE.md/sections) | Convention applies to ALL tasks | "Always use structured logging" |
+| **Global rules** (AGENTS.md/sections) | Convention applies to ALL tasks | "Always use structured logging" |
 | **On-demand context** (reference/) | Task-type-specific guidance | Streaming patterns guide |
 | **Commands** (planning, execute) | Process/workflow issue | Add plan length constraint |
 | **Templates** (structured plan, PRD) | Output format/structure issue | Add new section to plan template |
@@ -339,7 +339,7 @@ As you evolve commands through meta-reasoning, they often become project-specifi
 - **Template repo**: Generic commands, widely applicable
 - **Project repo**: Customized commands, evolved through meta-reasoning for that specific codebase
 
-The more you evolve, the more customized — which is good for that project but may not transfer to others. This divergence is healthy and expected. Maintain this template as your generic baseline; create project-customized versions in each project's `.claude/commands/`.
+The more you evolve, the more customized — which is good for that project but may not transfer to others. This divergence is healthy and expected. Maintain this template as your generic baseline; create project-customized versions in each project's `.opencode/commands/`.
 
 ---
 
@@ -468,7 +468,7 @@ rules, and templates.
 ## Next Steps
 
 1. Read `sections/02_piv_loop.md` for the always-loaded PIV Loop overview
-2. Read `.claude/commands/execute.md` to see the current execute command implementation
+2. Read `.opencode/commands/execute.md` to see the current execute command implementation
 3. Try Exercise 1 — run a complete PIV loop on a small feature
 4. Apply meta-reasoning to one issue you encounter (Exercise 2)
 5. Read `reference/planning-methodology-guide.md` for the planning phase that feeds into execution
@@ -480,7 +480,7 @@ rules, and templates.
 
 - **PIV Loop overview**: `sections/02_piv_loop.md` — always-loaded overview of Plan → Implement → Validate
 - **Command design**: `reference/command-design-overview.md` — on-demand command design with meta-reasoning overview
-- **Execute command**: `.claude/commands/execute.md` — the actual execute command implementation
+- **Execute command**: `.opencode/commands/execute.md` — the actual execute command implementation
 - **Structured Plan Template**: `templates/STRUCTURED-PLAN-TEMPLATE.md` — the plan format that `/execute` consumes
 - **Planning Methodology guide** (prerequisite): `reference/planning-methodology-guide.md` — planning phase that feeds into execution
 - **Validation Discipline guide** (next): `reference/validation-discipline.md` — validation phase that follows execution

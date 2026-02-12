@@ -6,14 +6,14 @@ Think of MCP as USB-C for AI — a universal connector standard that lets any AI
 
 ### MCP Protocol Fundamentals
 
-MCP is an open standard developed by Anthropic and donated to the Linux Foundation's AAIF. It uses a client-server architecture: your AI tool (Claude Code, Cursor, Codex) is the client, external services are servers.
+MCP is an open standard developed by Anthropic and donated to the Linux Foundation's AAIF. It uses a client-server architecture: your AI tool (OpenCode, Cursor, Codex) is the client, external services are servers.
 
 Each server exposes up to three capabilities:
 - **Tools** — Functions the AI can call (e.g., query database, take screenshot, create issue)
 - **Resources** — Data the AI can read (e.g., file contents, API responses)
 - **Prompts** — Pre-built workflows the AI can execute
 
-Supported by all major coding assistants: Claude Code, Cursor, Codex, Gemini CLI. Three transport types: HTTP (cloud services, recommended), SSE (deprecated), stdio (local processes). Add servers with `claude mcp add`, manage with `claude mcp list/get/remove`.
+Supported by all major coding assistants: OpenCode, Cursor, Codex, Gemini CLI. Three transport types: HTTP (cloud services, recommended), SSE (deprecated), stdio (local processes). Add servers with `claude mcp add`, manage with `claude mcp list/get/remove`.
 
 ### The Token Cost Problem
 
@@ -130,7 +130,7 @@ Convert `/planning` from command to skill to demonstrate progressive disclosure:
 
 **Result**: 80-85% token reduction at session start, zero reduction per actual planning session. Best for teams with 10+ commands.
 
-**Implementation**: Skills and Commands coexist — keep planning.md for backward compatibility, add `.claude/skills/planning-methodology/` for users who want progressive loading.
+**Implementation**: Skills and Commands coexist — keep planning.md for backward compatibility, add `.opencode/skills/planning-methodology/` for users who want progressive loading.
 
 ### Archon: Knowledge + Task Management
 
@@ -147,7 +147,7 @@ See `reference/mcp-skills-archon.md` for setup instructions.
 ### Reference Files
 
 - `reference/mcp-skills-archon.md` — Detailed setup guide for MCP servers, skills creation, and Archon
-- `sections/15_archon_workflow.md` — Archon task management & RAG workflow rules (auto-loaded via CLAUDE.md @reference)
+- `sections/15_archon_workflow.md` — Archon task management & RAG workflow rules (auto-loaded via AGENTS.md @reference)
 - Load when: setting up MCP servers for a project, creating custom skills, troubleshooting token usage
 - MCP official docs: https://modelcontextprotocol.io
 - Skills docs: https://code.claude.com/docs/en/skills

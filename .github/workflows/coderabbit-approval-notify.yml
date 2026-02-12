@@ -43,7 +43,7 @@ jobs:
             message += '**When ready to merge:**\n';
             message += '- Click "Merge pull request" button, or\n';
             message += '- Run: `gh pr merge ' + prNumber + ' --squash`\n\n';
-            message += '_🤖 Automated fixes applied by Claude Code based on CodeRabbit feedback._';
+            message += '_🤖 Automated fixes applied by OpenCode based on CodeRabbit feedback._';
 
             await github.rest.issues.createComment({
               issue_number: prNumber,

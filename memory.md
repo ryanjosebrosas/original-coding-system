@@ -16,6 +16,8 @@
 - [2026-02-12] Moved Archon workflow to on-demand reference — Auto-loaded pointer is 5 lines, full guide at `reference/archon-workflow.md`
 - [2026-02-13] Added agent orchestration layer — Session context, handoff protocol, routing guide enable multi-agent coordination
 - [2026-02-13] Session context is optional for simple plans — Only 4+ tasks trigger session initialization in /execute
+- [2026-02-13] Command-agent integration — 12 commands enhanced with optional agent integration (graceful fallback if unavailable)
+- [2026-02-13] Adopted opencode-worktree plugin — Zero-friction parallel development with `worktree_create`/`worktree_delete` tools
 
 ## Architecture Patterns
 <!-- Format: - **Pattern name**: Description. Used in: location -->
@@ -27,6 +29,8 @@
 - **Flat agent naming**: Prefix convention (`core-`, `subagent-`, `specialist-`) instead of subdirectories. Used in: `.opencode/agents/`
 - **Session Context Pattern**: `.tmp/sessions/{id}/context.md` provides shared state for multi-agent workflows. Used in: complex /execute
 - **Handoff Protocol**: Standardized output format (Mission Echo, Findings, Summary) enables agent chaining. Used in: all subagents
+- **Command-Agent Integration**: Commands check for agent availability with fallback (`ls .opencode/agents/{agent}.md`). Used in: 12 commands
+- **Worktree Plugin**: Use `worktree_create`/`worktree_delete` tools for parallel workflows. Config: `.opencode/worktree.jsonc`. Used in: `/new-worktree`, `/parallel-e2e`, `/merge-worktrees`
 
 ## Gotchas & Pitfalls
 <!-- Format: - **Area**: What goes wrong — How to avoid -->

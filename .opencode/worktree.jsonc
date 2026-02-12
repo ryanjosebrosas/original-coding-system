@@ -1,0 +1,19 @@
+{
+  "$schema": "https://registry.kdco.dev/schemas/worktree.json",
+  "sync": {
+    // Files to copy from main worktree
+    "copyFiles": [".env", ".env.local"],
+    // Directories to symlink (saves disk space, faster setup)
+    "symlinkDirs": ["node_modules", ".venv"],
+    // Patterns to exclude from sync
+    "exclude": ["*.log", ".git"]
+  },
+  "hooks": {
+    // Run after worktree creation - customize for your stack
+    // Python: "uv sync" or "pip install -r requirements.txt"
+    // Node.js: "npm install" or "pnpm install" or "yarn install"
+    "postCreate": [],
+    // Run before worktree deletion
+    "preDelete": []
+  }
+}

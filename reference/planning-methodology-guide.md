@@ -8,7 +8,7 @@ This guide explains **how to plan features systematically** — covering the 6-p
 
 ### The Journey from Automation to Methodology
 
-The System Foundations guide established the **why** — the system gap and learning architecture. The PIV Loop Practice guide taught the **how** — the PIV Loop in practice. The Global Rules Optimization guide taught **how to build** — modular CLAUDE.md and strategic context loading. The Command Design Framework guide taught **how to automate** — slash commands and the INPUT→PROCESS→OUTPUT framework. This guide teaches you **how to transform planning** from ad-hoc conversation into a systematic methodology that produces implementation-ready plans.
+The System Foundations guide established the **why** — the system gap and learning architecture. The PIV Loop Practice guide taught the **how** — the PIV Loop in practice. The Global Rules Optimization guide taught **how to build** — modular AGENTS.md and strategic context loading. The Command Design Framework guide taught **how to automate** — slash commands and the INPUT→PROCESS→OUTPUT framework. This guide teaches you **how to transform planning** from ad-hoc conversation into a systematic methodology that produces implementation-ready plans.
 
 This is the planning revolution. You're not learning new tools or automation — you're learning the methodology that makes the `/planning` command produce plans with 85%+ first-pass implementation success.
 
@@ -98,7 +98,7 @@ This example matters because it demonstrates every concept in this guide in a re
 
 ### What the PRD Is
 
-The PRD (Product Requirements Document) defines **what** to build. It complements CLAUDE.md (which defines **how** to build). Together they form the core of Layer 1 planning.
+The PRD (Product Requirements Document) defines **what** to build. It complements AGENTS.md (which defines **how** to build). Together they form the core of Layer 1 planning.
 
 As covered in `sections/02_piv_loop.md`, Layer 1 is done once and updated rarely. The PRD is the anchor document — it feeds into global rules, on-demand context, and every Layer 2 feature plan.
 
@@ -574,7 +574,7 @@ This works but is repetitive. Every planning session repeats the same steps in r
 
 ### Two Approaches
 
-**Approach 1: Template-Driven (Claude Code style)**
+**Approach 1: Template-Driven (OpenCode style)**
 
 - 6 explicit phases, each with a clear goal (which template sections to fill)
 - Each phase has validation criteria
@@ -604,8 +604,8 @@ The planning command should be:
 
 ### Steps to Build
 
-1. Create `.claude/commands/plan-feature.md` (or update existing `/planning`)
-2. Restart Claude Code to load the new command
+1. Create `.opencode/commands/plan-feature.md` (or update existing `/planning`)
+2. Restart OpenCode to load the new command
 3. Test: `/plan-feature "Add another LLM provider"`
 4. Evaluate output against the template structure
 5. Iterate and refine — each use reveals improvements
@@ -624,7 +624,7 @@ The planning command should be:
 
 **Short answer**: For greenfield projects, yes. For existing projects, usually not.
 
-**Long answer**: The PRD defines **what** to build. Greenfield projects need this document first — it feeds into global rules (CLAUDE.md) and on-demand context. For existing projects where the product scope is already established through working code, skip the formal PRD and go straight to analyzing the codebase for global rules. However, if you're adding a major new capability to an existing project, a focused PRD for that capability is valuable.
+**Long answer**: The PRD defines **what** to build. Greenfield projects need this document first — it feeds into global rules (AGENTS.md) and on-demand context. For existing projects where the product scope is already established through working code, skip the formal PRD and go straight to analyzing the codebase for global rules. However, if you're adding a major new capability to an existing project, a focused PRD for that capability is valuable.
 
 ### "Can I skip planning phases?"
 

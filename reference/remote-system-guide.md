@@ -11,7 +11,7 @@ On-demand reference for setting up and deploying the Remote Agentic Coding Syste
 
 - **Docker** (recommended) or Node.js for local development
 - **GitHub account** with a personal access token (classic, `repo` scope)
-- **One coding assistant**: Claude Code or Codex (or both)
+- **One coding assistant**: OpenCode or Codex (or both)
 - **One platform**: Telegram or GitHub (or both)
 
 ---
@@ -30,7 +30,7 @@ For local Postgres, use the default connection string from `docker-compose.yml`.
 
 ### Coding Assistant
 
-**Claude Code** (pick one auth method):
+**OpenCode** (pick one auth method):
 | Variable | Description |
 |----------|-------------|
 | `CLAUDE_CODE_OAUTH_TOKEN` | **(Recommended)** OAuth token from `claude setup-token` (uses your MAX/Pro subscription) |
@@ -46,7 +46,7 @@ For local Postgres, use the default connection string from `docker-compose.yml`.
 | `CODEX_ACCESS_TOKEN` | From `~/.codex/auth.json` |
 | `CODEX_REFRESH_TOKEN` | From `~/.codex/auth.json` |
 
-Set `DEFAULT_ASSISTANT` to `claude` or `codex` to control which is used by default. The system auto-detects `.claude/` or `.codex/` folders in repositories.
+Set `DEFAULT_ASSISTANT` to `claude` or `codex` to control which is used by default. The system auto-detects `.opencode/` or `.codex/` folders in repositories.
 
 ### Platform
 
@@ -146,7 +146,7 @@ Deploy to any Ubuntu Linux instance (DigitalOcean, Hetzner, etc.). Full guide: `
 | `/help` | List available system commands |
 | `/clone {url}` | Clone a GitHub repository into the workspace |
 | `/repos` | List cloned repositories |
-| `/load-commands {path}` | Load slash commands from a directory (e.g., `.claude/commands`) |
+| `/load-commands {path}` | Load slash commands from a directory (e.g., `.opencode/commands`) |
 | `/commands` | List loaded commands |
 | `/command-invoke {name} {args}` | Execute a loaded command |
 | `/reset` | Clear conversation, start fresh session |
@@ -160,7 +160,7 @@ Comment `@remote-agent {message}` on any Issue or PR in a webhook-connected repo
 
 ```
 /clone {repo-url}
-/load-commands .claude/commands
+/load-commands .opencode/commands
 /command-invoke prime
 /command-invoke plan-feature "Build feature X"
   → (review plan in feature branch)

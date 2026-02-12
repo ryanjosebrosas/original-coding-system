@@ -1,44 +1,50 @@
 # Agent Design Template
 
-> Use this guide when creating new subagents for `.claude/agents/`.
-> Every agent should follow the Role → Mission → Context → Approach → Output framework.
+> Use this guide when creating new agents for `.opencode/agents/` (project) or `~/.config/opencode/agents/` (global).
+> The filename becomes the agent name (e.g., `review.md` → `@review` agent).
 
 ---
 
-## The Framework: Role → Mission → Context → Approach → Output
+## Quick Start
 
-Every effective subagent answers five questions:
+```markdown
+---
+description: Use this agent when {triggering scenario}. {What it does}.
+mode: subagent
+model: anthropic/claude-sonnet-4-20250514
+tools:
+  write: false
+  edit: false
+---
 
-### 1. Role Definition: What IS this agent?
+You are a {role} specializing in {domain}. Your mission: {singular purpose}.
 
-- Clear identity and specialized expertise
-- What domain does it operate in?
-- What makes it different from a general-purpose agent?
+## Context Gathering
+- Read: {files needed}
+- Provided by caller: {what main agent gives you}
 
-### 2. Core Mission: WHY does this agent exist?
+## Approach
+1. {First step}
+2. {Second step}
+3. {Third step}
 
-- Singular purpose — one focused job
-- An agent that tries to do everything does nothing well
-- State the mission in one sentence
+## Output Format
+{Structured output with metadata}
 
-### 3. Context Gathering: What does it NEED?
+---
+When done, instruct the main agent to {what happens next}.
+```
 
-- What files or info must it read?
-- What does the main agent provide vs what must the agent fetch?
-- How do you keep context focused without missing critical info?
+---
 
-### 4. Analysis Approach: What STEPS does it follow?
+## File Location
 
-- Numbered, specific instructions
-- Order of operations matters
-- Include evaluation criteria and depth of analysis
+| Scope | Path |
+|-------|------|
+| Project | `.opencode/agents/{name}.md` |
+| Global | `~/.config/opencode/agents/{name}.md` |
 
-### 5. Output Format: What do you WANT back?
-
-- The most critical section — controls what the main agent sees
-- Structured, parsable, includes metadata
-- Explicit about what happens next
-- Who consumes this output? (human, main agent, another command)
+The filename becomes the agent identifier (e.g., `code-reviewer.md` creates `@code-reviewer`).
 
 ---
 
@@ -46,144 +52,180 @@ Every effective subagent answers five questions:
 
 | Field | Required | Values | Description |
 |-------|----------|--------|-------------|
-| `name` | Yes | `lowercase-with-hyphens` | Unique identifier |
-| `description` | Yes | text | When to use — guides autonomous delegation |
-| `model` | No | `haiku` / `sonnet` / `opus` | Default: inherits from parent |
-| `tools` | No | list or `["*"]` | Default: inherits all tools |
-| `color` | No | color name | Visual indicator in terminal |
-| `maxTurns` | No | number | Limit agentic turns |
-| `skills` | No | list | Skills to preload |
-| `mcpServers` | No | list | MCP servers available |
-
-See `reference/subagents-guide.md` for complete field documentation with all options.
-
----
-
-## Two Invocation Modes
-
-### Autonomous Delegation
-
-The main agent auto-delegates based on the `description` field. Write descriptions with "Use this agent when..." and include examples of triggering scenarios.
-
-Best for: recurring tasks where you want hands-free delegation.
-
-### Manual Invocation
-
-User or command explicitly requests the agent. Write descriptions more generally.
-
-Best for: specialized tasks where you want control over when the agent runs.
-
-Tip: Start manual, move to autonomous once you trust the agent's output consistently.
+| `description` | **Yes** | text (1-1024 chars) | When to use — guides autonomous delegation and `@` autocomplete |
+| `mode` | No | `primary` / `subagent` / `all` | Default: `all`. Primary = Tab-cyclable, Subagent = `@` invokable |
+| `model` | No | `provider/model-id` | Default: inherits from parent or global config |
+| `temperature` | No | `0.0` - `1.0` | Default: model-specific (typically 0, Qwen uses 0.55) |
+| `top_p` | No | `0.0` - `1.0` | Alternative to temperature for randomness |
+| `steps` | No | number | Max agentic iterations before text-only response |
+| `tools` | No | object | Enable/disable specific tools (see below) |
+| `permission` | No | object | Control `ask`/`allow`/`deny` for actions |
+| `hidden` | No | `true` / `false` | Hide from `@` autocomplete (subagents only) |
+| `color` | No | hex or theme color | Visual indicator (e.g., `#FF5733`, `accent`) |
+| `disable` | No | `true` / `false` | Disable the agent entirely |
 
 ---
 
-## Output Format Patterns
+## Tools Configuration
 
-### Report Pattern
-Agent saves findings to a file. Consumer: another command or human review.
-- Include: file path for report, structured findings, severity levels, file/line references
-- Example: code reviewer saves report to `.agents/code-reviews/review.md`
-
-### Summary Pattern
-Agent returns concise summary to main agent. Consumer: main agent decision-making.
-- Include: key findings, action items, metrics
-- Example: research agent returns bullet-point summary of 5 API options
-
-### Action Pattern
-Agent performs side effects and reports. Consumer: system + human.
-- Include: what was done, what changed, what needs manual verification
-- Example: migration agent applies changes and lists affected files
-
-Critical: always include metadata (files analyzed, line numbers) and instructions for what main agent should do next.
+```yaml
+tools:
+  write: false      # Disable file creation
+  edit: false       # Disable file editing
+  bash: false       # Disable shell commands
+  skill: false      # Disable skill loading
+  mymcp_*: false    # Disable all tools from MCP server (wildcard)
+```
 
 ---
 
-## Controlling Main Agent Behavior
+## Permissions Configuration
 
-After the subagent completes, the main agent decides what to do. Control this via:
+```yaml
+permission:
+  edit: deny                    # Disable all edits
+  bash: ask                     # Prompt before any bash command
+  webfetch: deny                # Disable web fetching
+  skill:
+    "*": deny                   # Deny all skills by default
+    "internal-*": allow         # Allow specific pattern
+  task:
+    "*": deny                   # Deny all subagent invocations
+    "code-reviewer": allow      # Allow specific subagent
+```
 
-**In agent output format** (agent-side): Add at end of system prompt:
-> "When done, instruct the main agent to NOT start fixing any issues without the user's approval."
-
-**In calling command** (command-side): Add in the slash command:
-> "After the agent completes, only address critical issues, then report to user."
-
-Without this, the main agent may automatically act on all findings when you just wanted a report. Use both for safety.
+For bash, use specific commands or glob patterns:
+```yaml
+permission:
+  bash:
+    "*": ask                    # Ask for everything by default
+    "git status *": allow       # Allow git status
+    "git diff": allow           # Allow git diff
+    "git *": ask                # Ask for other git commands
+```
 
 ---
 
-## Starter Template
+## Agent Types
 
-Copy and adapt this for new agents:
+### Primary Agents
+- Cyclable via **Tab** key during session
+- Handle main conversation
+- Examples: `build` (default, all tools), `plan` (restricted)
+
+### Subagents
+- Invoked via **@ mention** or by primary agents via Task tool
+- Specialized for specific tasks
+- Examples: `general` (full tools, no todo), `explore` (read-only)
+
+---
+
+## Design Framework: Role → Mission → Context → Approach → Output
+
+### 1. Role Definition
+- Clear identity and specialized expertise
+- What makes it different from general-purpose agents?
+
+### 2. Core Mission
+- Singular purpose in one sentence
+- Agents that try to do everything do nothing well
+
+### 3. Context Gathering
+- What files/info must it read?
+- What does the caller provide vs what must the agent fetch?
+
+### 4. Analysis Approach
+- Numbered, specific instructions
+- Include evaluation criteria and depth
+
+### 5. Output Format
+- Structured, parsable, includes metadata
+- Explicit about what happens next
+
+---
+
+## Output Patterns
+
+| Pattern | Consumer | Includes |
+|---------|----------|----------|
+| **Report** | Another command or human | File path, findings, severity, line refs |
+| **Summary** | Main agent decision-making | Key findings, action items, metrics |
+| **Action** | System + human | What was done, what changed, verification steps |
+
+---
+
+## Complete Example: Security Auditor
 
 ```markdown
 ---
-name: {agent-name}
-description: Use this agent when {triggering scenario}. {What it does and why}.
-model: sonnet
-tools: ["Read", "Glob", "Grep"]
+description: Performs security audits and identifies vulnerabilities in code
+mode: subagent
+model: anthropic/claude-sonnet-4-20250514
+temperature: 0.1
+tools:
+  write: false
+  edit: false
+  bash: false
+permission:
+  skill:
+    "security-*": allow
+color: "#ff6b6b"
 ---
 
-# Role: {Agent Name}
+You are a security expert specializing in code vulnerability assessment.
 
-You are a {role description} specializing in {domain}. Your singular purpose is {mission statement}.
+## Mission
+Identify security issues without making direct changes to the codebase.
 
 ## Context Gathering
-
-Read the following to understand the task:
-- {file or info the agent needs}
-- {file or info the agent needs}
+Read the following based on scope:
+- Entry points: API routes, form handlers, file uploads
+- Auth: Session management, password handling, tokens
+- Data: Database queries, file operations, external APIs
 
 ## Approach
-
-1. {First step — what to analyze}
-2. {Second step — how to evaluate}
-3. {Third step — how to classify findings}
+1. Map attack surface (all user inputs, external integrations)
+2. Check input validation at each entry point
+3. Review authentication and authorization flows
+4. Scan for common vulnerabilities (injection, XSS, CSRF)
+5. Check dependency security (package.json, requirements.txt)
 
 ## Output Format
 
-Return analysis in this structure:
-
-### Mission Understanding
-[Explain your understanding of your mission]
-
-### Context Analyzed
+### Scope Analyzed
 - Files reviewed: [list with line counts]
+- Entry points: [count and types]
 
 ### Findings
-For each finding:
-- **Severity**: Critical / Major / Minor
-- **Category**: {category}
-- **Location**: {file:line}
-- **Description**: {what's wrong}
-- **Suggested Fix**: {how to fix}
+For each issue:
+- **Severity**: Critical / High / Medium / Low
+- **Type**: [OWASP category]
+- **Location**: `file:line`
+- **Description**: [what's vulnerable]
+- **Remediation**: [how to fix]
 
 ### Summary
-- Total findings: X (Critical: Y, Major: Z, Minor: W)
-- Overall assessment: [brief judgment]
-
-### Recommendations
-1. [Specific actionable recommendation]
-2. [Specific actionable recommendation]
+- Total issues: X (Critical: Y, High: Z, Medium: W, Low: V)
+- Risk level: [Critical/High/Medium/Low]
 
 ---
-When done, instruct the main agent to {what should happen next — e.g., "present findings to user without making changes"}.
+When done, instruct the main agent to present findings to the user without making changes. Require user approval before any remediation.
 ```
 
 ---
 
 ## When to Create an Agent
 
-Create an agent when:
-- Context-heavy task you've done 3+ times manually
-- You need parallelization (multiple aspects researched simultaneously)
+**Create when:**
+- Context-heavy task done 3+ times manually
+- Need parallelization (multiple aspects simultaneously)
 - Specialized review against documented standards
-- You want controlled output format that doesn't change
+- Want controlled output format
 
-Don't create agents for:
-- One-off tasks (just prompt directly)
-- Simple operations that don't need isolation
-- Tasks needing full main conversation context
+**Don't create for:**
+- One-off tasks (prompt directly)
+- Simple operations without isolation needs
+- Tasks needing full conversation context
 
 ---
 
@@ -191,9 +233,9 @@ Don't create agents for:
 
 | Pitfall | Fix |
 |---------|-----|
-| Vague role definition | Be specific about singular purpose |
-| No output format | Define explicit structure for findings |
+| Missing `description` | Required field — guides delegation |
+| Vague description | Include triggering scenarios ("Use when...") |
+| No output format | Define explicit structure |
 | No main agent instructions | Tell it what to do (or not do) with results |
-| Too much context | Specify exact files needed, not "read everything" |
-| Tool overreach | Reviewers don't need write access — restrict tools |
+| Tool overreach | Reviewers don't need write — restrict tools |
 | Missing metadata | Include files reviewed, line numbers, severity |

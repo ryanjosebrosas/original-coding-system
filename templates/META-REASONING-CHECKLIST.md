@@ -26,9 +26,9 @@ Use this exact prompt (the "don't make changes yet" instruction is critical):
 ### Step 3: AI Examines the System
 
 The AI will analyze these locations for root cause:
-- Global rules (CLAUDE.md / sections/)
+- Global rules (AGENTS.md / sections/)
 - On-demand context (reference/)
-- Commands (.claude/commands/)
+- Commands (.opencode/commands/)
 - Templates (templates/)
 - Vibe planning prompts (your inputs)
 
@@ -54,7 +54,7 @@ Review the AI's suggestions and choose which to implement. You may:
 
 | Fix Location | When to Use | Example |
 |---|---|---|
-| **Global rules** (CLAUDE.md/sections) | Convention applies to ALL tasks | "Always use structured logging" |
+| **Global rules** (AGENTS.md/sections) | Convention applies to ALL tasks | "Always use structured logging" |
 | **On-demand context** (reference/) | Task-type-specific guidance | Streaming patterns guide |
 | **Commands** (planning, execute) | Process/workflow issue | Add plan length constraint |
 | **Templates** (structured plan, PRD) | Output format/structure issue | Add new section to plan template |

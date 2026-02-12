@@ -63,7 +63,7 @@ So that <benefit/value>
   - Logging patterns and standards
 - Extract common patterns for the feature's domain
 - Document anti-patterns to avoid
-- Check CLAUDE.md for project-specific rules and conventions
+- Check AGENTS.md for project-specific rules and conventions
 
 **3. Dependency Analysis**
 

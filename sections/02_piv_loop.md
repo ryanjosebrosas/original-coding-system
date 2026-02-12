@@ -12,7 +12,7 @@ For complex features (High complexity, 15+ tasks, 4+ phases), `/planning` automa
 
 **Layer 1 — Project Planning** (done once, updated rarely):
 - **PRD** — defines **what** to build. Use template: `templates/PRD-TEMPLATE.md`
-- **CLAUDE.md** — defines **how** to build (tech stack, conventions, patterns)
+- **AGENTS.md** — defines **how** to build (tech stack, conventions, patterns)
 - **On-demand context** — reference guides, external docs (in `reference/`)
 
 **Layer 2 — Task Planning** (done for every feature):
@@ -27,7 +27,7 @@ For complex features (High complexity, 15+ tasks, 4+ phases), `/planning` automa
 ### Implementation
 - Start a **new conversation** (fresh context)
 - Feed ONLY the structured plan: `/execute requests/{feature}-plan.md`
-- Or use prompt: `templates/IMPLEMENTATION-PROMPT.md` (for non-Claude Code tools)
+- Or use prompt: `templates/IMPLEMENTATION-PROMPT.md` (for non-OpenCode tools)
 - Trust but verify: watch loosely, don't micromanage
 
 ### Validation

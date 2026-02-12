@@ -3,14 +3,14 @@ When applying this template to a real project, Layer 1 has three components:
 ### Layer 1 Components
 
 1. **PRD** — defines **what** to build (MVP scope, features, success criteria). Use `templates/PRD-TEMPLATE.md`
-2. **CLAUDE.md** — defines **how** to build (global rules, tech stack, architecture). Use `/init-c`
+2. **AGENTS.md** — defines **how** to build (global rules, tech stack, architecture). Use `/init-c`
 3. **On-demand context** — reference guides, external docs, tool designs (in `reference/`)
 
 ### Creation Order
 
 **New (greenfield) projects:**
 1. Create PRD first (research phase — vibe plan to define scope)
-2. Use PRD to create global rules (CLAUDE.md)
+2. Use PRD to create global rules (AGENTS.md)
 3. Create on-demand context from PRD + external sources
 4. Validate no contradictions between PRD, rules, and context
 
@@ -20,11 +20,11 @@ When applying this template to a real project, Layer 1 has three components:
 3. Create on-demand context
 4. Validate no contradictions
 
-### CLAUDE.md Sections
+### AGENTS.md Sections
 
-Your CLAUDE.md should cover these sections. Use `/init-c` to generate them automatically, or fill in manually.
+Your AGENTS.md should cover these sections. Use `/init-c` to generate them automatically, or fill in manually.
 
-**Always-loaded (in CLAUDE.md via @sections/):**
+**Always-loaded (in AGENTS.md via @sections/):**
 1. **Core Principles** — non-negotiable rules (type safety, KISS, YAGNI)
 2. **Tech Stack** — language, framework, package manager, linting, database
 3. **Architecture** — directory layout, design patterns, file naming
@@ -42,7 +42,7 @@ Your CLAUDE.md should cover these sections. Use `/init-c` to generate them autom
 
 **How to load on-demand guides:**
 
-- **Method 1: Reference in CLAUDE.md** — mention the guide and when to read it. Flexible but AI must remember to load it.
+- **Method 1: Reference in AGENTS.md** — mention the guide and when to read it. Flexible but AI must remember to load it.
 - **Method 2: Include in slash commands (recommended)** — reference the guide in slash command prompts using `@reference/guide.md`. Guarantees the guide is loaded for the task. More reliable, better for consistency.
 - See `templates/COMMAND-TEMPLATE.md` for how to design commands with the INPUT → PROCESS → OUTPUT framework.
 
@@ -58,6 +58,6 @@ When using a project template, you must reconcile template rules with your proje
 - Modular organization (Version 1 vs Version 2 with @sections)
 - The Two-Question Framework for auto-load vs on-demand decisions
 - Two methods for loading on-demand reference guides
-- 10 recommended CLAUDE.md sections with examples
+- 10 recommended AGENTS.md sections with examples
 - Building Layer 1 with AI (two prompts, `/init-c` command)
-- Practical exercise: auditing and optimizing a bloated CLAUDE.md
+- Practical exercise: auditing and optimizing a bloated AGENTS.md

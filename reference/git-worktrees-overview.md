@@ -2,11 +2,58 @@
 
 Git worktrees enable parallel feature development by providing isolated working directories for each branch. Unlike subagents (which provide context isolation), worktrees provide **code isolation** — completely separate file systems where multiple coding agents can work simultaneously without conflicts.
 
+## Plugin-Based Worktrees (Recommended)
+
+The `opencode-worktree` plugin provides zero-friction worktree management with automatic terminal spawning.
+
+### Installation
+
+```bash
+curl -fsSL https://ocx.kdco.dev/install.sh | sh
+ocx registry add https://registry.kdco.dev --name kdco
+ocx add kdco/worktree
+```
+
+### Tools
+
+| Tool | Purpose |
+|------|---------|
+| `worktree_create(branch, baseBranch?)` | Create worktree + spawn terminal with OpenCode |
+| `worktree_delete(reason)` | Auto-commit + cleanup worktree |
+
+### Configuration
+
+See `.opencode/worktree.jsonc` for sync rules and hooks:
+- `sync.copyFiles` — files to copy from main worktree (e.g., `.env`)
+- `sync.symlinkDirs` — directories to symlink (e.g., `node_modules`)
+- `hooks.postCreate` — commands to run after creation (e.g., `npm install`)
+
+### Plugin vs Manual
+
+| Aspect | Plugin | Manual |
+|--------|--------|--------|
+| Terminal spawning | Automatic | Manual |
+| File sync | Configured | Manual |
+| Cleanup | Auto-commit + delete | Manual steps |
+| Storage | `~/.local/share/opencode/worktree/` | `./worktrees/` |
+
+### Fallback
+
+If plugin unavailable, commands fall back to manual git worktree operations (see below).
+
+### tmux Integration
+
+For session persistence and unified viewing: `/tmux-worktrees feature/a feature/b`
+
+Benefits: All worktrees in one terminal, detach/reattach, keyboard navigation. See `reference/tmux-integration.md`.
+
+---
+
 ### What Git Worktrees Are
 
 - Isolated working directories for different branches in the same repository
 - Each worktree has its own `.git` file pointing to the main repository
-- Multiple Claude Code instances can run simultaneously, each in its own worktree
+- Multiple OpenCode instances can run simultaneously, each in its own worktree
 - Full isolation: no risk of one agent's changes affecting another's work
 - Lives in `worktrees/` directory (convention from the worktrees guide)
 
@@ -185,7 +232,7 @@ Before creating parallel worktrees, verify feature isolation:
 - Chains: prime → plan all (sequential) → create worktrees → execute via `claude -p` (parallel) → merge → commit → PR
 - Requires: `claude` CLI with `-p` support, `jq`, proven `/end-to-end-feature` + `/new-worktree` + `/merge-worktrees`
 
-Full specifications: See the worktree command files in `.claude/commands/`
+Full specifications: See the worktree command files in `.opencode/commands/`
 
 ### Trust Progression (Complete)
 
@@ -216,6 +263,6 @@ Both use the same PIV Loop methodology. Both require vertical slice architecture
 ### Reference Files
 
 - `reference/git-worktrees-parallel.md` — Deep-dive guide: parallelization patterns, vertical slices, industry direction
-- `.claude/commands/new-worktree.md` — Worktree creation command
-- `.claude/commands/merge-worktrees.md` — Merge validation command
+- `.opencode/commands/new-worktree.md` — Worktree creation command
+- `.opencode/commands/merge-worktrees.md` — Merge validation command
 - Load when: setting up parallel implementation, customizing worktree commands, troubleshooting merge conflicts

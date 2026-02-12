@@ -7,7 +7,7 @@
 
 Read requests/{feature}-plan.md and implement the complete feature following all steps.
 
-Follow the patterns in CLAUDE.md.
+Follow the patterns in AGENTS.md.
 
 Execute every step in order:
 1. Read all relevant files listed in the plan

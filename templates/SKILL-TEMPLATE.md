@@ -1,103 +1,262 @@
 # Creating a New Skill
 
-Skills extend commands with directory structure and progressive disclosure.
+Skills define reusable behavior via `SKILL.md` definitions loaded on-demand through the native `skill` tool.
 
-## When to Create a Skill
-
-Use a Skill (not a Command) when:
-- Workflow requires supporting files (templates, examples, references)
-- Content exceeds 250 lines with distinct sections
-- You want auto-loading based on task context
-- Better organization via subdirectories improves clarity
-
-Use a Command (not a Skill) when:
-- Simple, single-file workflow
-- Under 200 lines
-- No supporting files needed
-- User-only invocation (no auto-loading)
-
-## Directory Structure
-
-```
-.claude/skills/
-  {skill-name}/           # Kebab-case, descriptive
-    SKILL.md              # Entry point (required)
-    references/           # Detailed guides (optional)
-      detailed-guide.md
-    examples/             # Usage examples (optional)
-      good-example.md
-      bad-example.md
-    scripts/              # Executable scripts (optional)
-      setup.sh
-```
-
-## SKILL.md Format
-
-### Frontmatter (YAML)
-
-```yaml
 ---
-description: "Brief description for auto-loading decision (~100 tokens)"
-argument-hint: [arg1] [arg2]  # Optional
-allowed-tools: Read, Bash(git:*), Edit  # Optional
-disable-model-invocation: false  # Set true to prevent auto-loading
-user-invocable: true  # Set false to hide from / menu
----
-```
 
-### Body (Markdown)
-
-Follow INPUT → PROCESS → OUTPUT framework:
+## Quick Start
 
 ```markdown
-# Skill Name
+---
+name: my-skill
+description: Brief description (1-1024 chars) for agent decision-making
+---
 
-## INPUT
-- What context does the AI need?
-- What should the user provide?
+## What I Do
+- Bullet point of capability
+- Another capability
 
-## PROCESS
+## When to Use Me
+Use this skill when {specific scenario}.
+
+## Instructions
 1. Step 1 with validation
 2. Step 2 with validation
-3. Reference supporting files: `@references/detailed-guide.md`
-
-## OUTPUT
-- What format should results take?
-- What files are created/modified?
+3. Return results in {format}
 ```
 
-## Progressive Disclosure
+---
 
-- **Tier 1 (Metadata)**: `description` field (~100 tokens) loaded at session start
-- **Tier 2 (Full SKILL.md)**: Loaded when skill invoked or auto-loaded by AI
-- **Tier 3 (Supporting files)**: Loaded when explicitly referenced in SKILL.md
+## File Location
 
-## Example: Planning Methodology Skill
+Create one folder per skill with a `SKILL.md` inside:
+
+| Scope | Path |
+|-------|------|
+| Project (OpenCode) | `.opencode/skills/{name}/SKILL.md` |
+| Global (OpenCode) | `~/.config/opencode/skills/{name}/SKILL.md` |
+| Project (Claude-compatible) | `.claude/skills/{name}/SKILL.md` |
+| Global (Claude-compatible) | `~/.claude/skills/{name}/SKILL.md` |
+| Project (Agent-compatible) | `.agents/skills/{name}/SKILL.md` |
+| Global (Agent-compatible) | `~/.agents/skills/{name}/SKILL.md` |
+
+---
+
+## Frontmatter Reference
+
+| Field | Required | Constraints |
+|-------|----------|-------------|
+| `name` | **Yes** | 1-64 chars, lowercase alphanumeric, single hyphens, no leading/trailing/consecutive hyphens |
+| `description` | **Yes** | 1-1024 characters |
+| `license` | No | e.g., `MIT`, `Apache-2.0` |
+| `compatibility` | No | e.g., `opencode`, `claude` |
+| `metadata` | No | String-to-string map for custom data |
+
+### Name Validation Rules
+
+Regex: `^[a-z0-9]+(-[a-z0-9]+)*$`
+
+| Valid | Invalid |
+|-------|---------|
+| `git-release` | `Git-Release` (uppercase) |
+| `code-review` | `code_review` (underscore) |
+| `api-docs` | `-api-docs` (leading hyphen) |
+| `test-runner` | `test--runner` (consecutive hyphens) |
+| `mcp-tools` | `mcp-tools-` (trailing hyphen) |
+
+**Important**: The `name` in frontmatter must match the directory name containing `SKILL.md`.
+
+---
+
+## How Discovery Works
+
+### Project Skills
+OpenCode walks up from your current directory until it reaches the git worktree, loading any matching `skills/*/SKILL.md` files.
+
+### Global Skills
+Also loaded from `~/.config/opencode/skills/*/SKILL.md` and compatible paths.
+
+---
+
+## Tool Description
+
+Skills appear in the `skill` tool description available to agents:
+
+```xml
+<available_skills>
+  <skill>
+    <name>git-release</name>
+    <description>Create consistent releases and changelogs</description>
+  </skill>
+</available_skills>
+```
+
+Agents load skills via:
+```
+skill({ name: "git-release" })
+```
+
+---
+
+## Permissions
+
+### Global Permissions (opencode.json)
+
+```json
+{
+  "permission": {
+    "skill": {
+      "*": "allow",
+      "internal-*": "deny",
+      "experimental-*": "ask"
+    }
+  }
+}
+```
+
+| Permission | Behavior |
+|------------|----------|
+| `allow` | Skill loads immediately |
+| `deny` | Skill hidden from agent, access rejected |
+| `ask` | User prompted before loading |
+
+### Per-Agent Override
+
+**For custom agents** (in agent frontmatter):
+```yaml
+permission:
+  skill:
+    "documents-*": allow
+```
+
+**For built-in agents** (in `opencode.json`):
+```json
+{
+  "agent": {
+    "plan": {
+      "permission": {
+        "skill": {
+          "internal-*": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+### Disable Skill Tool
+
+**For custom agents**:
+```yaml
+tools:
+  skill: false
+```
+
+**For built-in agents**:
+```json
+{
+  "agent": {
+    "plan": {
+      "tools": {
+        "skill": false
+      }
+    }
+  }
+}
+```
+
+---
+
+## Directory Structure (Optional Extensions)
 
 ```
-.claude/skills/planning-methodology/
-  SKILL.md                    # 80-100 lines (high-level 6-phase overview)
-  references/
-    STRUCTURED-PLAN-TEMPLATE.md  # Template loaded during Phase 4
-    PHASE-1-SCOPING.md           # Deep-dive loaded on-demand
-    PHASE-2-RESEARCH.md          # Deep-dive loaded on-demand
-  examples/
-    good-plan-500-lines.md       # Example of well-scoped plan
-    bad-plan-overscoped.md       # Example of what to avoid
+.opencode/skills/
+  git-release/
+    SKILL.md              # Entry point (required)
+    references/           # Detailed guides (optional)
+      changelog-format.md
+    examples/             # Usage examples (optional)
+      example-release.md
+    scripts/              # Executable scripts (optional)
+      validate-version.sh
 ```
 
-**Token savings**: ~100 tokens upfront (description) vs ~600 tokens (full planning.md command).
+Reference supporting files in SKILL.md:
+```markdown
+See `references/changelog-format.md` for detailed formatting rules.
+```
 
-## Testing Your Skill
+---
 
-1. Invoke explicitly: `/skill-name [args]`
-2. Check context: `/context` to see token usage
-3. Verify auto-loading: Start conversation with task description, see if skill loads
-4. Test supporting files: Reference `@references/file.md` in SKILL.md, verify it loads
+## Complete Example
 
-## Backward Compatibility
+`.opencode/skills/git-release/SKILL.md`:
 
-- Existing commands in `.claude/commands/` continue working
-- Skills in `.claude/skills/` coexist with commands
-- If both exist with same name, Skill takes precedence
-- No migration required — Skills are additive
+```markdown
+---
+name: git-release
+description: Create consistent releases and changelogs from merged PRs
+license: MIT
+compatibility: opencode
+metadata:
+  audience: maintainers
+  workflow: github
+---
+
+## What I Do
+- Draft release notes from merged PRs since last tag
+- Propose semantic version bump based on changes
+- Provide copy-pasteable `gh release create` command
+
+## When to Use Me
+Use this skill when preparing a tagged release. Ask clarifying questions if the target versioning scheme is unclear.
+
+## Instructions
+
+### 1. Gather Changes
+```bash
+git log $(git describe --tags --abbrev=0)..HEAD --oneline
+gh pr list --state merged --limit 20
+```
+
+### 2. Categorize Changes
+- **feat:** → Minor version bump
+- **fix:** → Patch version bump
+- **breaking:** → Major version bump
+
+### 3. Generate Changelog
+Group by type with PR links and author credits.
+
+### 4. Propose Command
+```bash
+gh release create v{version} --title "v{version}" --notes-file RELEASE_NOTES.md
+```
+
+## Output
+- Proposed version: `v{X.Y.Z}`
+- Changelog content
+- Ready-to-run release command
+```
+
+---
+
+## Troubleshooting
+
+| Issue | Check |
+|-------|-------|
+| Skill not appearing | `SKILL.md` spelled in all caps |
+| Missing from tool | Frontmatter has `name` and `description` |
+| Name conflict | Skill names must be unique across all locations |
+| Access denied | Check `permission.skill` settings |
+| Hidden skill | Skills with `deny` are hidden from agents |
+
+---
+
+## When to Use Skill vs Command
+
+| Use Skill | Use Command |
+|-----------|-------------|
+| Auto-loading based on task context | User-only invocation |
+| Supporting files (templates, examples) | Single-file workflow |
+| Progressive disclosure (tiered loading) | Simple, under 200 lines |
+| Reusable across projects | Project-specific workflow |

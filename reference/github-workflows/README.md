@@ -7,7 +7,7 @@ Example workflow YAML files and review automation setup for your GitHub reposito
 This template uses a two-part system for automated code quality:
 
 1. **CodeRabbit** (GitHub App) — Automatically reviews every PR. No workflow YAML needed. Install once from the GitHub Marketplace.
-2. **Claude Code** (GitHub Action) — Reacts to CodeRabbit's reviews and auto-applies suggested fixes, or handles issue-triggered fix/create tasks.
+2. **OpenCode** (GitHub Action) — Reacts to CodeRabbit's reviews and auto-applies suggested fixes, or handles issue-triggered fix/create tasks.
 
 Together they create an automated review-fix loop: CodeRabbit reviews → Claude fixes → CodeRabbit re-reviews → repeat (up to MAX_ITERATIONS).
 

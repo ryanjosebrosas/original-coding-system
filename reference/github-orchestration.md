@@ -8,7 +8,7 @@ This guide explains **how GitHub serves as the orchestration layer for AI coding
 
 ### The Journey from Validation to Remote Orchestration
 
-The System Foundations guide established the **why** — the system gap and learning architecture. The PIV Loop Practice guide taught the **how** — the PIV Loop in practice. The Global Rules Optimization guide taught **how to build** — modular CLAUDE.md and strategic context loading. The Command Design Framework guide taught **how to automate** — slash commands and the INPUT→PROCESS→OUTPUT framework. The Planning Methodology guide taught **how to plan** — the 6-phase planning methodology. The Implementation Discipline guide taught **execution discipline** — implementing from plans and evolving the system through meta-reasoning. The Validation Discipline guide taught **validation discipline** — the 5-level pyramid, dual review system, and divergence analysis. This guide teaches **remote orchestration** — how to run your entire PIV Loop through GitHub, with AI agents triggered by issues and PRs.
+The System Foundations guide established the **why** — the system gap and learning architecture. The PIV Loop Practice guide taught the **how** — the PIV Loop in practice. The Global Rules Optimization guide taught **how to build** — modular AGENTS.md and strategic context loading. The Command Design Framework guide taught **how to automate** — slash commands and the INPUT→PROCESS→OUTPUT framework. The Planning Methodology guide taught **how to plan** — the 6-phase planning methodology. The Implementation Discipline guide taught **execution discipline** — implementing from plans and evolving the system through meta-reasoning. The Validation Discipline guide taught **validation discipline** — the 5-level pyramid, dual review system, and divergence analysis. This guide teaches **remote orchestration** — how to run your entire PIV Loop through GitHub, with AI agents triggered by issues and PRs.
 
 This is the **only tool-specific section** in the template. GitHub isn't just another tool — it's the infrastructure layer that coordinates tasks, tracks changes, and assigns work to AI agents. No matter how powerful coding agents become, you'll always need this orchestration layer.
 
@@ -18,7 +18,7 @@ This is the **only tool-specific section** in the template. GitHub isn't just an
 - **GitHub Actions fundamentals** — workflow anatomy, triggers, setup requirements
 - **Three integration approaches** — Hybrid, Autonomous, Deterministic with configuration flags
 - **Prompt template adaptation** — transforming local commands into GitHub-compatible templates
-- **The automated review-fix loop** — CodeRabbit + Claude Code for hands-off PR improvement
+- **The automated review-fix loop** — CodeRabbit + OpenCode for hands-off PR improvement
 - **Label-based routing** — directing issues to different prompt templates automatically
 - **Parallel agent execution** — multiple agents reviewing the same PR simultaneously
 - **Command integration with PIV Loop** — bug fix, enhancement, and code review workflows
@@ -126,7 +126,7 @@ jobs:
 
 ### Comparison
 
-| Aspect | Hybrid (Claude Code) | Autonomous (Cursor) | Deterministic (Codex) |
+| Aspect | Hybrid (OpenCode) | Autonomous (Cursor) | Deterministic (Codex) |
 |--------|---------------------|--------------------|-----------------------|
 | **Agent does** | Branch, implement, post comment | Everything: branch, fix, PR, comment | Only writes code |
 | **Workflow does** | Trigger, permissions | Trigger, permissions | Branch, PR, comments, all Git ops |
@@ -143,7 +143,7 @@ These flags in prompt templates control agent vs workflow responsibility:
 | `$CREATE_PR` | `false` | `true` | `false` |
 | `$COMMENT_ON_ISSUE` | `true` | `true` | `false` |
 
-### Hybrid (Claude Code Pattern)
+### Hybrid (OpenCode Pattern)
 
 Agent is autonomous until PR creation. The workflow:
 1. User comments `@claude-fix` or `@claude-create` on an issue
@@ -188,7 +188,7 @@ Maximum control — the workflow defines exact PR format, commit messages, and b
 
 ### Local → GitHub Transformation
 
-Local commands (`.claude/commands/`) become GitHub prompt templates (`.github/workflows/prompts/`) with three adaptations: extra INPUT, configuration flags, and adjusted OUTPUT.
+Local commands (`.opencode/commands/`) become GitHub prompt templates (`.github/workflows/prompts/`) with three adaptations: extra INPUT, configuration flags, and adjusted OUTPUT.
 
 ### Extra INPUT — GitHub Context Variables
 
@@ -274,7 +274,7 @@ The same INPUT→PROCESS→OUTPUT framework applies. The adaptation is mechanica
 | `/rca` + `/implement-fix` | `bug-fix-github.md` | `.github/workflows/prompts/` |
 | `/code-review` | `code-review-github.md` | `.github/workflows/prompts/` |
 
-All templates live in `.github/workflows/prompts/` — NOT in `.claude/commands/`. They're consumed by GitHub Actions workflows, not by local slash commands.
+All templates live in `.github/workflows/prompts/` — NOT in `.opencode/commands/`. They're consumed by GitHub Actions workflows, not by local slash commands.
 
 ---
 
@@ -287,7 +287,7 @@ Two complementary tools working in a cycle:
 | Component | Type | Role | Setup |
 |-----------|------|------|-------|
 | **CodeRabbit** | GitHub App | Automatically reviews every PR | Install once from GitHub Marketplace |
-| **Claude Code** | GitHub Action | Applies CodeRabbit's fixes, pushes back | `claude-fix-coderabbit.yml` workflow |
+| **OpenCode** | GitHub Action | Applies CodeRabbit's fixes, pushes back | `claude-fix-coderabbit.yml` workflow |
 
 ### The Loop
 
@@ -342,7 +342,7 @@ Each agent gets: separate GitHub Actions runner, separate environment, separate 
 **Pattern**: Deterministic context gathering + AI-generated narrative.
 
 1. Workflow deterministically gathers: commits between tags, changed files, closed PRs, contributors
-2. Claude Code generates changelog narrative from structured context
+2. OpenCode generates changelog narrative from structured context
 3. Workflow deterministically publishes release with generated changelog
 
 **Key insight**: Separate data gathering (deterministic, reliable) from content generation (AI, creative). This hybrid pattern applies to many automation scenarios.
@@ -430,7 +430,7 @@ jobs:
 
 **GitHub Actions**: Free tier includes 2,000 minutes/month for private repos (unlimited for public). After free tier: $0.008/minute. Concurrent job limits: 20 for free accounts.
 
-**Claude Code usage**: When using `CLAUDE_CODE_OAUTH_TOKEN` (recommended), workflow runs draw from your MAX/Pro subscription — no separate API charges. Subscription usage is shared between claude.ai web and Claude Code (including GitHub Actions runs).
+**OpenCode usage**: When using `CLAUDE_CODE_OAUTH_TOKEN` (recommended), workflow runs draw from your MAX/Pro subscription — no separate API charges. Subscription usage is shared between claude.ai web and OpenCode (including GitHub Actions runs).
 
 **WARNING**: If you set `ANTHROPIC_API_KEY` as a secret instead of `CLAUDE_CODE_OAUTH_TOKEN`, workflows will bill per-token via API — potentially much more expensive.
 
@@ -477,7 +477,7 @@ Manual → Commands → Chained → GitHub Actions → Remote System (see Remote
 
 **Long answer**: Most teams only need one approach. Hybrid is the recommended starting point because it gives the agent autonomy for implementation while keeping PR creation as a human checkpoint. Move to Autonomous only after extensive testing proves reliability. Deterministic is for teams that need maximum control over Git operations — common in regulated industries or large organizations.
 
-### "Can I use this with Cursor or Codex instead of Claude Code?"
+### "Can I use this with Cursor or Codex instead of OpenCode?"
 
 **Short answer**: Yes, adapt the invocation step.
 
@@ -493,7 +493,7 @@ Manual → Commands → Chained → GitHub Actions → Remote System (see Remote
 
 **Short answer**: No, but it's recommended for automated reviews.
 
-**Long answer**: CodeRabbit provides the automated review side of the loop. Without it, you can still trigger Claude Code manually with `@claude-fix` on PRs, but you lose the automatic review → fix → re-review cycle. Alternatives: use GitHub's built-in code review with human reviewers, or configure another review bot. The key value is the **automated cycle**, not CodeRabbit specifically.
+**Long answer**: CodeRabbit provides the automated review side of the loop. Without it, you can still trigger OpenCode manually with `@claude-fix` on PRs, but you lose the automatic review → fix → re-review cycle. Alternatives: use GitHub's built-in code review with human reviewers, or configure another review bot. The key value is the **automated cycle**, not CodeRabbit specifically.
 
 ### "What about memory.md in CI? How do I get cross-session memory?"
 
@@ -531,7 +531,7 @@ Manual → Commands → Chained → GitHub Actions → Remote System (see Remote
 - GitHub Actions fundamentals — workflow anatomy, triggers, setup
 - Three integration approaches — Hybrid, Autonomous, Deterministic
 - Prompt template adaptation — local commands → GitHub templates
-- The automated review-fix loop — CodeRabbit + Claude Code
+- The automated review-fix loop — CodeRabbit + OpenCode
 - Label-based routing — directing issues to the right workflow
 - Parallel agent execution — multiple agents on the same PR
 - Command integration with PIV Loop — bug fix, enhancement, code review

@@ -1,6 +1,6 @@
 # Command Design Template
 
-> Use this guide when creating new slash commands for `.claude/commands/`.
+> Use this guide when creating new slash commands for `.opencode/commands/`.
 > Every command should follow the INPUT → PROCESS → OUTPUT framework.
 
 ---

@@ -8,7 +8,7 @@
 
 ### Step 1: Create the File
 
-Create a new markdown file at `.claude/agents/{name}.md` (project-scoped) or `~/.claude/agents/{name}.md` (personal).
+Create a new markdown file at `.opencode/agents/{name}.md` (project-scoped) or `~/.opencode/agents/{name}.md` (personal).
 
 The filename determines the agent's identity. Use lowercase with hyphens: `code-reviewer.md`, `system-analyzer.md`, `research-assistant.md`.
 
@@ -43,7 +43,7 @@ Be specific about what the agent IS and IS NOT. This prevents scope drift.
 ## Context Gathering
 
 Read these files to understand project standards:
-- `CLAUDE.md` — project rules and conventions
+- `AGENTS.md` — project rules and conventions
 - `reference/validation-strategy.md` — validation criteria
 
 Then read the files that were changed (provided by main agent or specified in arguments).

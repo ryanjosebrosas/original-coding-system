@@ -15,7 +15,7 @@ GitHub provides all of this. Issues become task assignments, PRs become proposed
 The recommended setup uses two complementary tools:
 
 1. **CodeRabbit** (GitHub App) — Automatically reviews every PR. Posts suggestions using GitHub's native suggestion format. Free for open source repos.
-2. **Claude Code** (GitHub Action) — Automatically applies CodeRabbit's suggested fixes and pushes them back to the PR branch. This triggers CodeRabbit to re-review.
+2. **OpenCode** (GitHub Action) — Automatically applies CodeRabbit's suggested fixes and pushes them back to the PR branch. This triggers CodeRabbit to re-review.
 
 ```
 Developer creates PR → CodeRabbit reviews → Claude fixes → CodeRabbit re-reviews → (repeat)
@@ -23,7 +23,7 @@ Developer creates PR → CodeRabbit reviews → Claude fixes → CodeRabbit re-r
 
 The loop runs hands-off while the developer is offline. An iteration cap (`MAX_ITERATIONS`, default 3) prevents infinite cycles. Commit prefix tracking (`[claude-fix]`) counts iterations.
 
-**Key distinction**: CodeRabbit is a GitHub App (install once, no YAML needed for reviews). Claude Code runs via a GitHub Action workflow (`claude-fix-coderabbit.yml`).
+**Key distinction**: CodeRabbit is a GitHub App (install once, no YAML needed for reviews). OpenCode runs via a GitHub Action workflow (`claude-fix-coderabbit.yml`).
 
 ### Three Approaches
 
@@ -50,14 +50,14 @@ A GitHub Action workflow (`.github/workflows/*.yml`) defines automated steps tri
 3. **Checkout repository** — Get the codebase into the runner environment
 4. **Load prompt template** — Read the instruction file from `.github/workflows/prompts/`
 5. **Variable substitution** — Replace `$REPOSITORY`, `$ISSUE_NUMBER`, `$BRANCH_NAME`, etc.
-6. **Invoke Claude Code** — Send instructions via `anthropics/claude-code-action`
+6. **Invoke OpenCode** — Send instructions via `anthropics/claude-code-action`
 7. **Post-processing** — Create PR, comment on issue (if deterministic approach)
 
 **Review-fix workflow structure** (`claude-fix-coderabbit.yml`):
 1. **Trigger** — `on: pull_request_review` (when CodeRabbit posts a review) or `on: issue_comment` (`@claude-fix` on PR)
 2. **Iteration check** — Count `[claude-fix]` commits, stop if MAX_ITERATIONS reached
 3. **Checkout PR branch** — Get the code being reviewed
-4. **Invoke Claude Code** — Read CodeRabbit's review comments and apply fixes
+4. **Invoke OpenCode** — Read CodeRabbit's review comments and apply fixes
 5. **Commit and push** — Triggers CodeRabbit to re-review automatically
 
 **Comment-based routing:**
@@ -69,7 +69,7 @@ See `reference/github-workflows/` for complete example YAML files.
 
 ### Prompt Template Adaptation
 
-Local commands (`.claude/commands/`) become GitHub prompt templates (`.github/workflows/prompts/`) with these adaptations:
+Local commands (`.opencode/commands/`) become GitHub prompt templates (`.github/workflows/prompts/`) with these adaptations:
 
 **Extra INPUT — GitHub context:**
 ```
@@ -152,5 +152,5 @@ Manual Prompts → Reusable Commands → Chained Commands → Remote Automation
 ### Reference Files
 
 - **Prompt templates**: `.github/workflows/prompts/` — GitHub-adapted versions of prime, planning+execute, and bug-fix
-- **Example workflows**: `reference/github-workflows/` — Ready-to-use YAML files for Claude Code
+- **Example workflows**: `reference/github-workflows/` — Ready-to-use YAML files for OpenCode
 - **Setup checklist**: `templates/GITHUB-SETUP-CHECKLIST.md` — Step-by-step instructions for adding GitHub Actions and CodeRabbit to your project

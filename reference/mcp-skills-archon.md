@@ -8,7 +8,7 @@ This guide explains **how MCP servers and Cloud Skills extend the PIV Loop with 
 
 ### The Journey to External Integration
 
-The System Foundations guide established the **why** — the system gap and mental models. The PIV Loop Practice guide taught the **how** — the PIV Loop in practice. The Global Rules Optimization guide taught **how to build** — modular CLAUDE.md and strategic context loading. The Command Design Framework guide taught **how to automate** — slash commands and the INPUT→PROCESS→OUTPUT framework. The Planning Methodology guide taught **how to plan** — the 6-phase planning methodology. The Implementation Discipline guide taught **execution discipline** — implementing from plans reliably and evolving the system through meta-reasoning. The Validation Discipline guide taught **validation discipline** — the 5-level pyramid, code review, system review, and divergence analysis. The GitHub Orchestration guide taught **GitHub integration** — using GitHub Actions as the orchestration layer. The Remote Agentic System guide taught **remote system architecture** — persistent sessions, multi-platform access, and the orchestrator pattern. This guide teaches **external system integration** — how MCP servers connect your AI coding assistant to databases, browsers, and task managers, while Cloud Skills provide progressive knowledge transfer without bloating your context window.
+The System Foundations guide established the **why** — the system gap and mental models. The PIV Loop Practice guide taught the **how** — the PIV Loop in practice. The Global Rules Optimization guide taught **how to build** — modular AGENTS.md and strategic context loading. The Command Design Framework guide taught **how to automate** — slash commands and the INPUT→PROCESS→OUTPUT framework. The Planning Methodology guide taught **how to plan** — the 6-phase planning methodology. The Implementation Discipline guide taught **execution discipline** — implementing from plans reliably and evolving the system through meta-reasoning. The Validation Discipline guide taught **validation discipline** — the 5-level pyramid, code review, system review, and divergence analysis. The GitHub Orchestration guide taught **GitHub integration** — using GitHub Actions as the orchestration layer. The Remote Agentic System guide taught **remote system architecture** — persistent sessions, multi-platform access, and the orchestrator pattern. This guide teaches **external system integration** — how MCP servers connect your AI coding assistant to databases, browsers, and task managers, while Cloud Skills provide progressive knowledge transfer without bloating your context window.
 
 With MCP and Skills, the PIV Loop gains access to external tools (databases, browsers, knowledge bases) and structured knowledge (conventions, patterns, methodologies) — all through standardized protocols that keep context usage efficient.
 
@@ -39,7 +39,7 @@ MCP uses a client-server architecture with three layers:
 
 ```text
 AI Coding Assistant (Client)  →  MCP Server  →  External Service
-    (Claude Code, Cursor,         (Supabase,      (Database,
+    (OpenCode, Cursor,         (Supabase,      (Database,
      Codex, Gemini CLI)            Playwright,      Browser,
                                    Archon, Git)     Task Manager)
 ```
@@ -60,7 +60,7 @@ Each MCP server exposes up to three types of functionality:
 
 Three transport types: **HTTP** (recommended for cloud services), **stdio** (local processes via stdin/stdout), **SSE** (deprecated, being phased out).
 
-Supported by all major coding assistants: Claude Code, Cursor, Codex, Gemini CLI, Windsurf, Zed, Continue — any tool supporting the MCP standard.
+Supported by all major coding assistants: OpenCode, Cursor, Codex, Gemini CLI, Windsurf, Zed, Continue — any tool supporting the MCP standard.
 
 MCP is an open standard developed by Anthropic and donated to the Linux Foundation's AAIF, ensuring vendor-neutral portability.
 
@@ -73,7 +73,7 @@ claude mcp get <name>                       # Show server details
 claude mcp remove <name>                    # Remove a server
 ```
 
-Server configuration lives in `.claude/settings.json` (project-level) or `~/.claude/settings.json` (user-level).
+Server configuration lives in `.opencode/settings.json` (project-level) or `~/.opencode/settings.json` (user-level).
 
 ---
 
@@ -135,7 +135,7 @@ Skills solve the token cost problem differently from Tool Search — through a *
 A skill is a **directory** (not a single file):
 
 ```text
-.claude/skills/ast-grep/
+.opencode/skills/ast-grep/
 ├── SKILL.md          # Entry point + frontmatter (required)
 ├── references/       # Detailed docs (on-demand, Tier 3)
 │   └── rule_reference.md
@@ -314,7 +314,7 @@ Converting `/planning` from a command to a skill demonstrates progressive disclo
 | Session start reduction | Baseline | **80-85% reduction** |
 | Per-planning-session cost | ~600 tokens | ~500 tokens (Tier 1 + Tier 2) |
 
-**Implementation pattern**: Keep the command (`.claude/commands/planning.md`) for backward compatibility. Add a skill directory (`.claude/skills/planning-methodology/`) with SKILL.md + references/ for users who want progressive loading. Both coexist — no migration required.
+**Implementation pattern**: Keep the command (`.opencode/commands/planning.md`) for backward compatibility. Add a skill directory (`.opencode/skills/planning-methodology/`) with SKILL.md + references/ for users who want progressive loading. Both coexist — no migration required.
 
 Best for teams with 10+ commands where upfront token cost matters.
 
@@ -405,7 +405,7 @@ memory.md and Archon solve **different problems** and complement each other:
 
 **Steps**:
 
-1. Create directory: `.claude/skills/your-pattern/`
+1. Create directory: `.opencode/skills/your-pattern/`
 2. Write `SKILL.md` with YAML frontmatter:
    - `name`: kebab-case identifier
    - `description`: specific action-oriented sentence (this determines auto-load)
@@ -446,11 +446,11 @@ memory.md and Archon solve **different problems** and complement each other:
 
 **Long answer**: Each server consumes tokens (mitigated by Tool Search above 3 servers). Add one server, verify it provides value for 5+ features, then consider adding another. Monitor context usage with `/context`. Most developers benefit from 1-3 servers (typically Archon + one domain-specific server like Supabase or Playwright).
 
-### "When should I create a Skill vs add content to CLAUDE.md?"
+### "When should I create a Skill vs add content to AGENTS.md?"
 
 **Short answer**: Skill when content exceeds 250 lines or benefits from progressive loading.
 
-**Long answer**: Apply the Two-Question Framework (see `reference/global-rules-optimization.md`). Is the knowledge constant or task-specific? If constant and needed every session, put it in CLAUDE.md sections. If task-specific and large (250+ lines, 3+ reference files), create a skill directory. Skills cost ~100 tokens upfront vs potentially thousands for always-loaded sections. The progressive disclosure model is specifically designed for knowledge that's needed sometimes, not always.
+**Long answer**: Apply the Two-Question Framework (see `reference/global-rules-optimization.md`). Is the knowledge constant or task-specific? If constant and needed every session, put it in AGENTS.md sections. If task-specific and large (250+ lines, 3+ reference files), create a skill directory. Skills cost ~100 tokens upfront vs potentially thousands for always-loaded sections. The progressive disclosure model is specifically designed for knowledge that's needed sometimes, not always.
 
 ### "Is Archon required for task management?"
 

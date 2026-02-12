@@ -37,6 +37,6 @@ Create a concise, actionable reference guide following this structure:
 1. Research the provided link thoroughly
 2. Analyze the existing codebase for matching patterns
 3. Create the guide following the structure above
-4. Keep it focused — ONE task type only, no general principles (those belong in CLAUDE.md)
+4. Keep it focused — ONE task type only, no general principles (those belong in AGENTS.md)
 
 Save the guide as `reference/{task_type}_guide.md`.

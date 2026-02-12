@@ -1,5 +1,5 @@
 ```
-CLAUDE.md                              # Layer 1: Global rules (slim, @references)
+AGENTS.md                              # Layer 1: Global rules (slim, @references)
 README.md                              # Public-facing project README with PIV Loop diagrams
 memory.md                              # Cross-session memory (optional, from MEMORY-TEMPLATE.md)
 .coderabbit.yaml                       # CodeRabbit config template (copy to project root)
@@ -12,7 +12,7 @@ sections/                              # Auto-loaded rule sections (every sessio
   15_archon_workflow.md                #   Archon integration pointer (slim — loads reference/archon-workflow.md)
 reference/                             # On-demand guides (loaded when needed)
   archon-workflow.md                   #   Archon task management & RAG workflow (moved from sections/)
-  layer1-guide.md                      #   How to build CLAUDE.md for real projects
+  layer1-guide.md                      #   How to build AGENTS.md for real projects
   validation-strategy.md               #   5-level validation pyramid, linting, tests
   file-structure.md                    #   This file — project directory layout
   command-design-overview.md           #   Slash commands & INPUT→PROCESS→OUTPUT
@@ -23,7 +23,7 @@ reference/                             # On-demand guides (loaded when needed)
   git-worktrees-overview.md            #   Git worktrees, parallel implementation
   system-foundations.md                #   System gap, mental models, self-assessment
   piv-loop-practice.md                #   PIV Loop in practice, 4 Pillars, validation
-  global-rules-optimization.md        #   Modular CLAUDE.md, Two-Question Framework
+  global-rules-optimization.md        #   Modular AGENTS.md, Two-Question Framework
   command-design-framework.md          #   Slash commands, INPUT→PROCESS→OUTPUT (deep dive)
   planning-methodology-guide.md        #   6-phase planning, PRD, Vertical Slice
   implementation-discipline.md         #   Execute command, meta-reasoning, save states
@@ -38,8 +38,8 @@ reference/                             # On-demand guides (loaded when needed)
   multi-model-strategy.md              #   When to use Haiku/Sonnet/Opus for cost optimization
   multi-instance-routing.md            #   Route tasks to different Claude accounts (claude1/2/3/zai)
   github-workflows/                    #   Example GitHub Action YAML files
-    claude-fix.yml                     #     Claude Code issue fix/create workflow
-    claude-fix-coderabbit.yml          #     Claude Code auto-fix from CodeRabbit reviews
+    claude-fix.yml                     #     OpenCode issue fix/create workflow
+    claude-fix-coderabbit.yml          #     OpenCode auto-fix from CodeRabbit reviews
     README.md                          #     Workflow setup instructions
 .github/workflows/                     # GitHub Action workflows & prompt templates
   claude-fix-coderabbit.yml            #   Review-fix loop workflow (copy to project)
@@ -67,9 +67,9 @@ templates/
   VALIDATION-REPORT-TEMPLATE.md        # Standard format for validation output
 requests/
   {feature}-plan.md                    # Layer 2: Feature plans go here
-.claude/commands/                      # Slash commands (reusable prompts)
+.opencode/commands/                      # Slash commands (reusable prompts)
   agents.md                            #   /agents — generate subagent definition files
-  init-c.md                            # /init-c — generate CLAUDE.md for a new project
+  init-c.md                            # /init-c — generate AGENTS.md for a new project
   prime.md                             # /prime — load codebase context
   planning.md                          # /planning — create implementation plan
   execute.md                           # /execute — implement from plan
@@ -85,7 +85,7 @@ requests/
   new-worktree.md                      # /new-worktree — create git worktrees with optional parallel setup
   merge-worktrees.md                   # /merge-worktrees — safely merge feature branches from worktrees
   parallel-e2e.md                      # /parallel-e2e — parallel end-to-end with worktrees
-.claude/skills/                        # Cloud Skills (progressive loading)
+.opencode/skills/                        # Cloud Skills (progressive loading)
   planning-methodology/                #   6-phase planning methodology (example skill)
     SKILL.md                           #   Entry point + frontmatter (Tier 1+2)
     references/                        #   Detailed docs (Tier 3, on-demand)
@@ -111,7 +111,7 @@ requests/
     references/                        #   Detailed docs (loaded on-demand)
     examples/                          #   Example outputs
     scripts/                           #   Executable scripts
-.claude/agents/                        # Custom subagents (project-specific, user-created)
+.opencode/agents/                        # Custom subagents (project-specific, user-created)
   _examples/                           # Example agents (copy and customize)
     research-codebase.md               #   Haiku codebase exploration agent
     research-external.md               #   Sonnet documentation research agent
