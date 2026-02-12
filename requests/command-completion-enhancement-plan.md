@@ -2,18 +2,19 @@
 
 ## Feature Description
 
-Complete the placeholder `code-review-fix.md` command (currently 24 lines), create the missing `/agents` command for generating subagents, and resolve the open questions in the multi-instance routing reference guide. These are the three command-layer gaps identified during the reference-to-implementation audit.
+Complete the placeholder `code-review-fix.md` command (currently 24 lines), create the missing `/agents` command for generating subagents, enhance `/planning` with an interactive discovery phase, and resolve the open questions in the multi-instance routing reference guide. These are the four command-layer gaps identified during the reference-to-implementation audit.
 
 ## User Story
 
-As a developer using the PIV Loop system, I want a fully functional `/code-review-fix` command, an `/agents` command for creating subagents, and verified multi-instance routing documentation, so that the command layer is 100% complete with no placeholders or unverified assumptions.
+As a developer using the PIV Loop system, I want a fully functional `/code-review-fix` command, an `/agents` command for creating subagents, an interactive `/planning` that acts as a collaborative discovery buddy, and verified multi-instance routing documentation, so that the command layer is 100% complete and the planning experience is genuinely collaborative.
 
 ## Problem Statement
 
-Three command-layer issues were identified:
+Four command-layer issues were identified:
 1. `/code-review-fix` is a 24-line placeholder — it lacks the structured approach needed for reliable fix application (no severity prioritization, no pattern matching, no selectivity principle)
 2. The subagents reference guides mention an `/agents` command for generating agents, but it doesn't exist
-3. The multi-instance routing guide (reference/multi-instance-routing.md) has 5 "Questions to Investigate" (lines 427-435) that are unanswered, including whether agent frontmatter supports an `instance` field
+3. `/planning` is purely mechanical — it doesn't act as a collaborative buddy that challenges ideas, asks about inspiration, or helps discover better paths. The PIV Loop's vibe planning phase should be integrated into the command, not separate.
+4. The multi-instance routing guide (reference/multi-instance-routing.md) has 5 "Questions to Investigate" (lines 427-435) that are unanswered, including whether agent frontmatter supports an `instance` field
 
 ## Solution Statement
 
@@ -199,6 +200,53 @@ Ensure sections/08_file_structure.md reflects the new /agents command.
 - **GOTCHA**: The generated agent's output format MUST include the "don't auto-fix" instruction — this prevents the main agent from acting on findings without user approval. This is the #1 mistake in subagent design.
 - **VALIDATE**: `powershell -Command "if (Test-Path '.claude/commands/agents.md') { Write-Host 'OK'; (Get-Content '.claude/commands/agents.md').Count } else { Write-Host 'MISSING' }"`
 
+### UPDATE .claude/commands/planning.md — Add Interactive Discovery Phase
+
+- **IMPLEMENT**: Add a new "Phase 0: Interactive Discovery" before the current Phase 1. This phase transforms `/planning` from a mechanical research-and-plan tool into a collaborative discovery buddy. Insert after the frontmatter/header and before Phase 1 (~40-60 new lines):
+
+  **Phase 0: Interactive Discovery (Vibe Planning Buddy)**
+
+  Before researching or planning, engage the user in collaborative discovery:
+
+  1. **Understand the user's level**: Ask what their experience is with this type of feature. Adapt language — technical users get architecture questions, non-technical users get outcome-focused questions.
+
+  2. **Challenge the idea constructively**: Ask probing questions:
+     - "What problem does this solve for your users?"
+     - "Have you seen this done well somewhere? Share a link or repo and I'll analyze their approach."
+     - "What's the simplest version of this that would still be valuable?"
+     - "What happens if we DON'T build this?"
+
+  3. **Explore inspiration**: If the user has reference projects/repos:
+     - Ask for the GitHub repo URL
+     - Analyze their implementation approach (file structure, patterns, tech choices)
+     - Identify what to adopt vs what to do differently
+     - If no inspiration: suggest 2-3 approaches and explain trade-offs
+
+  4. **Scope negotiation**: Help find the right scope:
+     - Push back on scope creep: "That sounds like 3 features — which one delivers the most value?"
+     - Suggest vertical slices: "Could we build just the [core thing] first and add [extras] later?"
+     - Identify hidden complexity: "This looks simple but [X] usually causes problems — let me check."
+
+  5. **Confirm readiness**: Before proceeding to Phase 1:
+     - Summarize the agreed scope (1-3 sentences)
+     - List key decisions made during discovery
+     - Ask: "Does this capture what we're building? Anything I'm missing?"
+     - Only proceed to Phase 1 after user confirms
+
+  **Rules for Phase 0**:
+  - This is a CONVERSATION, not a checklist — adapt to the user's responses
+  - Be genuinely curious and challenging, not just asking questions to check boxes
+  - If the user has a clear vision and wants to skip discovery, respect that: "Sounds like you've thought this through — let me jump into research."
+  - Spend 3-10 minutes here depending on clarity. Don't rush, but don't over-discuss.
+
+  Also update Phase 1 to acknowledge Phase 0:
+  - Add: "Using context from Phase 0 discovery (if conducted), proceed to scope the feature formally."
+
+- **PATTERN**: Conversational AI interaction pattern (AskUserQuestion for key decisions, open dialogue for exploration)
+- **IMPORTS**: None
+- **GOTCHA**: Phase 0 must NOT be forced on users who already have a clear feature spec. Include the escape hatch: "If the user provides a detailed feature description or plan reference, skip Phase 0 and proceed to Phase 1." The interactive phase is for discovery, not bureaucracy.
+- **VALIDATE**: `powershell -Command "Select-String -Path '.claude/commands/planning.md' -Pattern 'Phase 0|Interactive Discovery|Vibe Planning Buddy' | Measure-Object | Select-Object -ExpandProperty Count"` — should be >= 2
+
 ### UPDATE reference/multi-instance-routing.md
 
 - **IMPLEMENT**: Resolve the 5 open questions at lines 427-435:
@@ -283,6 +331,9 @@ powershell -Command "Select-String -Path 'reference/multi-instance-routing.md' -
 
 - [ ] code-review-fix.md is 120-150 lines with severity prioritization and selectivity principle
 - [ ] agents.md generates agent files using the 5-component design framework
+- [ ] planning.md has Phase 0 Interactive Discovery that acts as a collaborative buddy
+- [ ] Phase 0 adapts to user's technical level and challenges ideas constructively
+- [ ] Phase 0 has escape hatch for users with clear specs
 - [ ] multi-instance-routing.md has all 5 questions answered with "Verified Answers" section
 - [ ] All commands have proper frontmatter (description, argument-hint where needed)
 - [ ] sections/08_file_structure.md includes agents.md entry
