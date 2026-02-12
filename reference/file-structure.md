@@ -56,7 +56,11 @@ templates/
   MEMORY-TEMPLATE.md                   # Template for project memory (cross-session context)
   COMMAND-TEMPLATE.md                  # How to design new slash commands
   AGENT-TEMPLATE.md                    # How to design new subagents
+  BASELINE-ASSESSMENT-TEMPLATE.md      # Self-assessment for measuring PIV Loop improvement
   GITHUB-SETUP-CHECKLIST.md            # Step-by-step GitHub Actions setup
+  META-REASONING-CHECKLIST.md          # 5-step meta-reasoning + WHERE-to-fix framework
+  TOOL-DOCSTRING-TEMPLATE.md           # 7-element template for agent tool documentation
+  VALIDATION-REPORT-TEMPLATE.md        # Standard format for validation output
 requests/
   {feature}-plan.md                    # Layer 2: Feature plans go here
 .claude/commands/                      # Slash commands (reusable prompts)

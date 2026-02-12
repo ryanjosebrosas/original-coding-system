@@ -299,23 +299,23 @@ Verify each template is findable from its reference guide:
 
 ## ACCEPTANCE CRITERIA
 
-- [ ] All 5 new files created
-- [ ] Each template follows the established header/placeholder pattern
-- [ ] Templates are concise (under 100 lines each, preferably 50-80)
-- [ ] .coderabbit.yaml is valid YAML with helpful comments
-- [ ] reference/file-structure.md updated with all new entries
-- [ ] No reference guide prose is duplicated — templates contain placeholders and brief instructions only
-- [ ] Each template can be immediately used without reading the reference guide
+- [x] All 5 new files created
+- [x] Each template follows the established header/placeholder pattern
+- [x] Templates are concise (under 100 lines each, preferably 50-80)
+- [x] .coderabbit.yaml is valid YAML with helpful comments
+- [x] reference/file-structure.md updated with all new entries
+- [x] No reference guide prose is duplicated — templates contain placeholders and brief instructions only
+- [x] Each template can be immediately used without reading the reference guide
 
 ---
 
 ## COMPLETION CHECKLIST
 
-- [ ] All tasks completed in order
-- [ ] Each task validation passed
-- [ ] All validation commands executed successfully
+- [x] All tasks completed in order
+- [x] Each task validation passed
+- [x] All validation commands executed successfully
 - [ ] Manual verification confirms templates match source material
-- [ ] File structure documentation updated
+- [x] File structure documentation updated
 
 ---
 
