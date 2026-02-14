@@ -47,12 +47,12 @@ Context is organized in layers — auto-loaded context stays minimal so the AI h
 graph TD
     AGENTS["AGENTS.md<br/>~2K tokens auto-loaded"] --> S["sections/<br/>6 core rules"]
     AGENTS -.->|"on-demand"| R["reference/<br/>20+ deep guides"]
-    AGENTS -.->|"on-demand"| T["templates/<br/>16 templates"]
+    AGENTS -.->|"on-demand"| T["templates/<br/>24 templates"]
 
     CMD[".opencode/commands/<br/>21 commands"] -->|"reads"| T
     CMD -->|"produces"| REQ["requests/<br/>feature plans"]
 
-    AG[".opencode/agents/<br/>12 agents"] -.->|"loads"| R
+    AG[".opencode/agents/<br/>16 agents + 8 examples"] -.->|"loads"| R
 
     MEM["memory.md<br/>cross-session context"] -.-> CMD
     ARCHON["Archon MCP<br/>task management + RAG"] -.-> CMD
@@ -96,6 +96,9 @@ Start with `/prime` to understand the system, then try `/planning` on a small fe
 | `/end-to-end-feature` | Full autonomous pipeline | Trusted, simple features |
 | `/new-worktree` | Create parallel branch | Multi-feature work |
 | `/parallel-e2e` | Parallel multi-feature | Advanced parallel builds |
+| `/tmux-worktrees` | tmux session with worktrees | Parallel terminal work |
+| `/create-agent` | Generate new agent definition | Adding specialized agents |
+| `/activate-agents` | Enable example agents | Activating dormant agents |
 | `/init-c` | Generate AGENTS.md for new project | New projects |
 
 ---
@@ -108,10 +111,14 @@ My-Coding-System/
 ├── memory.md              # Cross-session memory
 ├── sections/              # Core rule sections (auto-loaded)
 ├── reference/             # Deep guides (on-demand, ~89K tokens)
-├── templates/             # Reusable templates (16 files)
+├── templates/             # Reusable templates (24 files)
 ├── requests/              # Feature plans (per PIV loop)
 ├── .opencode/commands/    # Commands (21 commands)
-└── .opencode/agents/      # Agents (12 agents)
+└── .opencode/agents/      # Agents (16 active + 8 examples)
+    ├── core-*.md          #   Core orchestrators (2)
+    ├── subagent-*.md      #   Subagents (8)
+    ├── specialist-*.md    #   Domain specialists (6)
+    └── _examples/         #   Example agents (8 dormant)
 ```
 
 ---
