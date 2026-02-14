@@ -115,11 +115,11 @@ grep "CLAUDE.md" memory.md && echo "FAIL: Stale CLAUDE.md reference" || echo "PA
 
 ## SUB-PLAN CHECKLIST
 
-- [ ] Task 1: memory.md updated (3 entries)
-- [ ] Task 2: GITHUB-SETUP-CHECKLIST.md Claude→OpenCode
-- [ ] Task 3: setup-github-automation.md dead refs removed
-- [ ] Task 4: quick-github-setup.md dead refs removed
-- [ ] Task 5: Skills docs clarified
+- [x] Task 1: memory.md updated (3 entries)
+- [x] Task 2: GITHUB-SETUP-CHECKLIST.md Claude→OpenCode
+- [x] Task 3: setup-github-automation.md dead refs removed
+- [x] Task 4: quick-github-setup.md dead refs removed (file deleted)
+- [x] Task 5: Skills docs clarified
 
 ---
 

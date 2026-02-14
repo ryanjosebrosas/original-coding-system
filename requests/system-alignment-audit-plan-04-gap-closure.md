@@ -115,11 +115,11 @@ grep "System Alignment Audit" memory.md && echo "PASS: Lesson learned added" || 
 
 ## SUB-PLAN CHECKLIST
 
-- [ ] Task 1: Skills decision documented (keep as pattern)
-- [ ] Task 2: Workflow decision made (copy or remove)
-- [ ] Task 3: Final dead reference sweep
-- [ ] Task 4: Command template compliance verified
-- [ ] Task 5: memory.md lesson learned added
+- [x] Task 1: Skills decision documented (keep as pattern)
+- [x] Task 2: Workflow decision made (copy or remove) — Fixed refs in github-integration.md
+- [x] Task 3: Final dead reference sweep
+- [x] Task 4: Command template compliance verified
+- [x] Task 5: memory.md lesson learned added
 
 ---
 

@@ -130,12 +130,12 @@ done
 
 ## SUB-PLAN CHECKLIST
 
-- [ ] Task 1: agents.md renamed to create-agent.md
-- [ ] Task 2: References updated
-- [ ] Task 3: quick-github-setup merged into setup-github-automation
-- [ ] Task 4: quick-github-setup.md deleted
-- [ ] Task 5: tmux-worktrees.md expanded
-- [ ] Task 6: claude-mcp.md decided (enhanced or removed)
+- [x] Task 1: agents.md renamed to create-agent.md
+- [x] Task 2: References updated
+- [x] Task 3: quick-github-setup merged into setup-github-automation
+- [x] Task 4: quick-github-setup.md deleted
+- [x] Task 5: tmux-worktrees.md expanded
+- [x] Task 6: claude-mcp.md decided (enhanced or removed) — REMOVED
 
 ---
 

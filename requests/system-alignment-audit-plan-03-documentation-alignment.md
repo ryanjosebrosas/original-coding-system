@@ -129,12 +129,12 @@ grep -r "claude-sonnet-4[^-]" .opencode/agents/ templates/ && echo "WARN: Potent
 
 ## SUB-PLAN CHECKLIST
 
-- [ ] Task 1: file-structure.md command count corrected
-- [ ] Task 2: file-structure.md agent inventory aligned
-- [ ] Task 3: subagents-overview.md inventory aligned
-- [ ] Task 4: _examples/README.md model references fixed
-- [ ] Task 5: README.md count updated (if needed)
-- [ ] Task 6: Template model references verified
+- [x] Task 1: file-structure.md command count corrected
+- [x] Task 2: file-structure.md agent inventory aligned
+- [x] Task 3: subagents-overview.md inventory aligned
+- [x] Task 4: _examples/README.md model references fixed
+- [x] Task 5: README.md count updated (if needed)
+- [x] Task 6: Template model references verified
 
 ---
 
