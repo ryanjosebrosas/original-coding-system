@@ -36,14 +36,20 @@ Ask the user to clarify anything that's ambiguous BEFORE writing the PRD.
 
 Based on the product domain, consider consulting specialists for architectural guidance:
 
-**If product involves frontend UI** and `specialist-frontend` exists (`ls .opencode/agents/specialist-frontend.md`):
-- Consider `@specialist-frontend` for component architecture, accessibility, and UX patterns
+**Always check availability**:
+```bash
+ls .opencode/agents/specialist-*.md 2>/dev/null
+```
 
-**If product involves API/backend** and `specialist-backend` exists (`ls .opencode/agents/specialist-backend.md`):
-- Consider `@specialist-backend` for API design, authentication patterns, and data modeling
+**Core specialists** (invoke if available and relevant):
+- `@specialist-frontend` — UI/UX implications, component architecture, accessibility
+- `@specialist-backend` — API design, authentication patterns, data modeling
+- `@specialist-devops` — Deployment architecture, CI/CD pipeline design
 
-**If product involves DevOps/CI** and `specialist-devops` exists (`ls .opencode/agents/specialist-devops.md`):
-- Consider `@specialist-devops` for deployment architecture and pipeline design
+**Domain specialists** (invoke when applicable):
+- `@specialist-copywriter` — If product has user-facing copy, CTAs, or microcopy
+- `@specialist-technical-writer` — If product requires user documentation
+- `@specialist-data` — If product involves data pipelines, warehouses, or analytics
 
 **Specialists are advisory** — the PRD author makes final decisions. Skip if specialists not available or not relevant to the product domain.
 

@@ -34,8 +34,8 @@ Universal AI agent for questions, tasks, and workflow coordination. Your singula
 - Clarify ambiguities before proceeding
 
 ### 2. Discover
-- Use `@explore` for codebase exploration
-- Use `@general` for multi-step research
+- Use Task tool with `subagent_type: explore` for codebase exploration
+- Use Task tool with `subagent_type: general` for multi-step research
 - Gather context before proposing
 
 ### 3. Propose
@@ -65,17 +65,17 @@ Universal AI agent for questions, tasks, and workflow coordination. Your singula
 
 ## Delegation Rules
 
-Delegate to specialists when:
-- **4+ files** affected — use `@general` for parallel work
-- **Specialized knowledge** required — use domain-specific subagent
-- **Complex multi-step task** — break down and use `@general`
+Delegate using the **Task tool** when:
+- **4+ files** affected — use `subagent_type: general` for parallel work
+- **Specialized knowledge** required — use domain-specific specialist
+- **Complex multi-step task** — break down and use `subagent_type: general`
 
-### Available Subagents
+### Available Delegation Targets
 
-| Subagent | When to Use |
-|----------|-------------|
-| `@general` | Multi-step research, parallel execution |
-| `@explore` | Fast codebase exploration, file patterns |
+| subagent_type | When to Use |
+|---------------|-------------|
+| `general` | Multi-step research, parallel execution |
+| `explore` | Fast codebase exploration, file patterns |
 
 Note: Additional subagents (ContextScout, TaskManager, etc.) available if created in `.opencode/agents/`.
 

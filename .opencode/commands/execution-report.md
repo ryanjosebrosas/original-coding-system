@@ -28,6 +28,8 @@ Reflect on:
 
 ## Generate Report
 
+> **Output format**: `templates/VALIDATION-REPORT-TEMPLATE.md`
+
 Save to: `requests/execution-reports/[feature-name]-report.md`
 
 ### Meta Information
@@ -81,3 +83,14 @@ Based on this implementation, what should change for next time?
 - Plan command improvements: [suggestions]
 - Execute command improvements: [suggestions]
 - AGENTS.md additions: [suggestions]
+
+---
+
+## Next Step
+
+**For process analysis**, compare execution against plan:
+```
+/system-review requests/{feature-name}-plan.md requests/execution-reports/{feature-name}-report.md
+```
+
+This analyzes divergence from plan and suggests process improvements.

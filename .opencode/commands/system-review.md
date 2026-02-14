@@ -109,6 +109,9 @@ Based on patterns across divergences, suggest:
 
 ## Output Format
 
+> **Output format**: `templates/SYSTEM-REVIEW-TEMPLATE.md`
+> **Analysis prompts**: `templates/META-REASONING-CHECKLIST.md`
+
 Save your analysis to: `requests/system-reviews/[feature-name]-review.md`
 
 ### Overall Alignment Score: __/10

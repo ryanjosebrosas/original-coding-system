@@ -80,7 +80,24 @@ Implement the feature from the plan document created in Step 2.
 
 ---
 
-## Step 4: Commit - Save Changes
+## Step 4: Code Review - Validate Implementation
+
+Run code review to validate implementation quality:
+
+```
+/code-review
+```
+
+**If issues found**, fix them before committing:
+```
+/code-review-fix requests/code-reviews/{feature-name}-review.md
+```
+
+**If review passed**, proceed to commit.
+
+---
+
+## Step 5: Commit - Save Changes
 
 Create a git commit for all changes:
 
@@ -92,7 +109,7 @@ Create a git commit for all changes:
 
 ---
 
-## Step 5: Create Pull Request
+## Step 6: Create Pull Request
 
 Automatically create a PR to complete feature delivery:
 
@@ -108,8 +125,8 @@ Automatically create a PR to complete feature delivery:
    ```
 
 3. **Generate PR content** using the commit history and changes:
-   - **Title**: Use conventional commit format from the commit message (first 72 chars)
-   - **Description**:
+    - **Title**: Use conventional commit format from the commit message (first 72 chars)
+    - **Description** (see `templates/PR-DESCRIPTION-TEMPLATE.md`):
      ```markdown
       ## Summary
       [Brief description of what was implemented - from $ARGUMENTS]
@@ -143,7 +160,7 @@ Automatically create a PR to complete feature delivery:
 
 ## Final Summary
 
-After completing all 5 steps, provide:
+After completing all 6 steps, provide:
 
 ### Feature Implementation Complete ✅
 
@@ -153,8 +170,9 @@ After completing all 5 steps, provide:
 1. ✅ Prime - Codebase context loaded
 2. ✅ Planning - Plan created at `requests/[feature-name]-plan.md`
 3. ✅ Execute - Feature implemented and validated
-4. ✅ Commit - Changes committed to git
-5. ✅ Pull Request - PR created and ready for review
+4. ✅ Code Review - Implementation quality verified
+5. ✅ Commit - Changes committed to git
+6. ✅ Pull Request - PR created and ready for review
 
 **Outputs:**
 - Plan document: `requests/[feature-name]-plan.md`

@@ -11,114 +11,122 @@ sections/                              # Auto-loaded rule sections (every sessio
   05_decision_framework.md             #   When to proceed vs ask
   15_archon_workflow.md                #   Archon integration pointer (slim — loads reference/archon-workflow.md)
 reference/                             # On-demand guides (loaded when needed)
-  archon-workflow.md                   #   Archon task management & RAG workflow (moved from sections/)
+  archon-workflow.md                   #   Archon task management & RAG workflow
   layer1-guide.md                      #   How to build AGENTS.md for real projects
   validation-strategy.md               #   5-level validation pyramid, linting, tests
   file-structure.md                    #   This file — project directory layout
   command-design-overview.md           #   Slash commands & INPUT→PROCESS→OUTPUT
+  command-design-framework.md          #   Slash commands deep dive
+  command-agent-mapping.md             #   Which commands use which agents
+  agent-routing.md                     #   Decision tree for agent selection
+  handoff-protocol.md                  #   How agents communicate results
   github-integration.md                #   GitHub Actions, remote agents, orchestration
+  github-orchestration.md              #   GitHub Actions, 3 approaches, review-fix loop
   remote-system-overview.md            #   Remote Agentic Coding System, orchestrator
+  remote-system-guide.md               #   Setup & deployment guide for remote coding agent
+  remote-agentic-system.md             #   Remote system, orchestrator, cloud deployment
   mcp-skills-overview.md               #   MCP protocol, cloud skills, progressive loading
+  mcp-skills-archon.md                 #   MCP servers, Cloud Skills, Archon integration
   subagents-overview.md                #   Subagents, parallel execution, context isolation
+  subagents-guide.md                   #   Subagent creation, frontmatter, output patterns
+  subagents-deep-dive.md               #   Subagents, context handoff, agent design framework
   git-worktrees-overview.md            #   Git worktrees, parallel implementation
+  git-worktrees-parallel.md            #   Git worktrees, parallel implementation, vertical slices
+  tmux-integration.md                  #   tmux session management for worktrees
   system-foundations.md                #   System gap, mental models, self-assessment
-  piv-loop-practice.md                #   PIV Loop in practice, 4 Pillars, validation
-  global-rules-optimization.md        #   Modular AGENTS.md, Two-Question Framework
-  command-design-framework.md          #   Slash commands, INPUT→PROCESS→OUTPUT (deep dive)
+  piv-loop-practice.md                 #   PIV Loop in practice, 4 Pillars, validation
+  global-rules-optimization.md         #   Modular AGENTS.md, Two-Question Framework
   planning-methodology-guide.md        #   6-phase planning, PRD, Vertical Slice
   implementation-discipline.md         #   Execute command, meta-reasoning, save states
   validation-discipline.md             #   5-level pyramid, code review, system review
-  github-orchestration.md              #   GitHub Actions, 3 approaches, review-fix loop
-  remote-agentic-system.md             #   Remote system, orchestrator, cloud deployment
-  mcp-skills-archon.md                 #   MCP servers, Cloud Skills, Archon integration
-  subagents-deep-dive.md               #   Subagents, context handoff, agent design framework
-  git-worktrees-parallel.md            #   Git worktrees, parallel implementation, vertical slices
-  remote-system-guide.md               #   Setup & deployment guide for remote coding agent
-  subagents-guide.md                   #   Subagent creation, frontmatter, output patterns
   multi-model-strategy.md              #   When to use Haiku/Sonnet/Opus for cost optimization
   multi-instance-routing.md            #   Route tasks to different Claude accounts (claude1/2/3/zai)
   github-workflows/                    #   Example GitHub Action YAML files
-    claude-fix.yml                     #     OpenCode issue fix/create workflow
-    claude-fix-coderabbit.yml          #     OpenCode auto-fix from CodeRabbit reviews
+    opencode-fix.yml                   #     OpenCode issue fix/create workflow
+    opencode-fix-coderabbit.yml        #     OpenCode auto-fix from CodeRabbit reviews
     README.md                          #     Workflow setup instructions
 .github/workflows/                     # GitHub Action workflows & prompt templates
-  claude-fix-coderabbit.yml            #   Review-fix loop workflow (copy to project)
+  claude-fix.yml                       #   Issue fix workflow (copy to project)
+  coderabbit-auto-merge.yml            #   Auto-merge on CodeRabbit approval
+  coderabbit-approval-notify.yml       #   Notify on CodeRabbit approval
   prompts/                             #   GitHub-adapted prompt templates
     prime-github.md                    #     Prime for GitHub Actions context
     end-to-end-feature-github.md       #     Full PIV Loop for enhancement issues
     bug-fix-github.md                  #     RCA + fix for bug issues
+    rca-github.md                      #     Root cause analysis
+    plan-feature-github.md             #     Feature planning
+    execute-github.md                  #     Implementation from plan
+    implement-fix-github.md            #     Fix implementation
+    code-review-github.md              #     Code review for GitHub PRs
 templates/
   PRD-TEMPLATE.md                      # Template for Layer 1 PRD (what to build)
   STRUCTURED-PLAN-TEMPLATE.md          # Template for Layer 2 plans (per feature)
-  SUB-PLAN-TEMPLATE.md                 # Individual sub-plan template (150-250 lines, self-contained)
-  VIBE-PLANNING-GUIDE.md              # Example prompts for vibe planning
+  SUB-PLAN-TEMPLATE.md                 # Individual sub-plan template (150-250 lines)
+  PLAN-OVERVIEW-TEMPLATE.md            # Master file for decomposed plan series
+  SESSION-CONTEXT-TEMPLATE.md          # Session context for multi-agent workflows
+  VIBE-PLANNING-GUIDE.md               # Example prompts for vibe planning
   IMPLEMENTATION-PROMPT.md             # Reusable prompt for implementation phase
   VALIDATION-PROMPT.md                 # Reusable prompt for validation phase
+  VALIDATION-REPORT-TEMPLATE.md        # Standard format for validation output
   NEW-PROJECT-CHECKLIST.md             # Step-by-step guide for new projects
-  PLAN-OVERVIEW-TEMPLATE.md            # Master file for decomposed plan series (overview + index)
   CREATE-REFERENCE-GUIDE-PROMPT.md     # Prompt to generate on-demand reference guides
   MEMORY-TEMPLATE.md                   # Template for project memory (cross-session context)
   COMMAND-TEMPLATE.md                  # How to design new slash commands
   AGENT-TEMPLATE.md                    # How to design new subagents
+  SKILL-TEMPLATE.md                    # How to design MCP skills
   BASELINE-ASSESSMENT-TEMPLATE.md      # Self-assessment for measuring PIV Loop improvement
   GITHUB-SETUP-CHECKLIST.md            # Step-by-step GitHub Actions setup
   META-REASONING-CHECKLIST.md          # 5-step meta-reasoning + WHERE-to-fix framework
   TOOL-DOCSTRING-TEMPLATE.md           # 7-element template for agent tool documentation
-  VALIDATION-REPORT-TEMPLATE.md        # Standard format for validation output
 requests/
   {feature}-plan.md                    # Layer 2: Feature plans go here
-.opencode/commands/                      # Slash commands (reusable prompts)
-  agents.md                            #   /agents — generate subagent definition files
-  init-c.md                            # /init-c — generate AGENTS.md for a new project
-  prime.md                             # /prime — load codebase context
-  planning.md                          # /planning — create implementation plan
-  execute.md                           # /execute — implement from plan
-  commit.md                            # /commit — conventional git commit
-  rca.md                               # /rca — root cause analysis (GitHub issues)
-  implement-fix.md                     # /implement-fix — fix from RCA document
-  end-to-end-feature.md                # /end-to-end-feature — autonomous workflow
-  create-prd.md                        # /create-prd — generate PRD from conversation
-  code-review.md                       # /code-review — technical code review
-  code-review-fix.md                   # /code-review-fix — fix issues from code review
-  execution-report.md                  # /execution-report — implementation report
-  system-review.md                     # /system-review — divergence analysis
-  new-worktree.md                      # /new-worktree — create git worktrees with optional parallel setup
-  merge-worktrees.md                   # /merge-worktrees — safely merge feature branches from worktrees
-  parallel-e2e.md                      # /parallel-e2e — parallel end-to-end with worktrees
-.opencode/skills/                        # Cloud Skills (progressive loading)
-  planning-methodology/                #   6-phase planning methodology (example skill)
-    SKILL.md                           #   Entry point + frontmatter (Tier 1+2)
-    references/                        #   Detailed docs (Tier 3, on-demand)
-      6-phase-process.md               #     Phase-by-phase methodology
-      template-guide.md                #     Template section-filling guide
-  worktree-management/                 #   Git worktree parallel workflow
-    SKILL.md                           #   Entry point + frontmatter (Tier 1+2)
-    references/                        #   Detailed docs (Tier 3, on-demand)
-      worktree-workflow.md             #     Setup + merge workflow
-      conflict-prevention.md           #     Conflict prevention strategies
-  parallel-implementation/             #   Parallel end-to-end pipeline
-    SKILL.md                           #   Entry point + frontmatter (Tier 1+2)
-    references/                        #   Detailed docs (Tier 3, on-demand)
-      parallel-workflow.md             #     Full 8-stage pipeline
-      troubleshooting.md              #     Common issues and fixes
-  github-automation/                   #   GitHub Actions setup methodology
-    SKILL.md                           #   Entry point + frontmatter (Tier 1+2)
-    references/                        #   Detailed docs (Tier 3, on-demand)
-      setup-workflow.md                #     Step-by-step setup
-      workflow-templates.md            #     Template customization
-  {skill-name}/                        #   Additional skills follow same structure
-    SKILL.md                           #   Entry point + frontmatter (required)
-    references/                        #   Detailed docs (loaded on-demand)
-    examples/                          #   Example outputs
-    scripts/                           #   Executable scripts
-.opencode/agents/                        # Custom subagents (project-specific, user-created)
-  _examples/                           # Example agents (copy and customize)
-    research-codebase.md               #   Haiku codebase exploration agent
-    research-external.md               #   Sonnet documentation research agent
-    code-review-type-safety.md         #   Type safety reviewer (parallel review)
-    code-review-security.md            #   Security vulnerability reviewer
-    code-review-architecture.md        #   Architecture & patterns reviewer
-    code-review-performance.md         #   Performance & optimization reviewer
-    README.md                          #   How to use and customize examples
-  {agent-name}.md                      # Your custom project-specific agents
+.opencode/commands/                    # Slash commands (21 total)
+  create-agent.md                      #   /create-agent — generate subagent definition files
+  activate-agents.md                   #   /activate-agents — copy example agents to active
+  init-c.md                            #   /init-c — generate AGENTS.md for a new project
+  prime.md                             #   /prime — load codebase context
+  planning.md                          #   /planning — create implementation plan
+  execute.md                           #   /execute — implement from plan
+  commit.md                            #   /commit — conventional git commit
+  rca.md                               #   /rca — root cause analysis (GitHub issues)
+  implement-fix.md                     #   /implement-fix — fix from RCA document
+  end-to-end-feature.md                #   /end-to-end-feature — autonomous workflow
+  parallel-e2e.md                      #   /parallel-e2e — parallel end-to-end with worktrees
+  create-prd.md                        #   /create-prd — generate PRD from conversation
+  create-pr.md                         #   /create-pr — create GitHub PR
+  code-review.md                       #   /code-review — technical code review
+  code-review-fix.md                   #   /code-review-fix — fix issues from code review
+  execution-report.md                  #   /execution-report — implementation report
+  system-review.md                     #   /system-review — divergence analysis
+  new-worktree.md                      #   /new-worktree — create git worktrees
+  merge-worktrees.md                   #   /merge-worktrees — safely merge feature branches
+  tmux-worktrees.md                    #   /tmux-worktrees — tmux session management
+  setup-github-automation.md           #   /setup-github-automation — GitHub setup (includes quick mode)
+.opencode/agents/                      # Custom subagents (2 core, 8 subagent, 6 specialist + 8 examples)
+  core-openagent.md                    #   Primary universal agent
+  core-opencoder.md                    #   Development orchestrator
+  subagent-contextscout.md             #   Internal context discovery
+  subagent-externalscout.md            #   External docs fetcher
+  subagent-taskmanager.md              #   Task breakdown with Archon
+  subagent-batchexecutor.md            #   Parallel execution coordinator
+  subagent-coderagent.md               #   Atomic coding executor
+  subagent-buildagent.md               #   Build validation runner
+  subagent-testengineer.md             #   Test authoring specialist
+  subagent-docwriter.md                #   Documentation specialist
+  specialist-frontend.md               #   Frontend domain expert
+  specialist-backend.md                #   Backend domain expert
+  specialist-devops.md                 #   DevOps domain expert
+  specialist-data.md                   #   Data domain expert
+  specialist-copywriter.md             #   Copy/UX writing expert
+  specialist-technical-writer.md       #   Technical docs expert
+  _examples/                           #   Example agents (copy to activate)
+    README.md                          #     How to use and customize examples
+    research-codebase.md               #     Codebase exploration agent
+    research-external.md               #     External docs research agent
+    code-review-type-safety.md         #     Type safety reviewer
+    code-review-security.md            #     Security vulnerability reviewer
+    code-review-architecture.md        #     Architecture & patterns reviewer
+    code-review-performance.md         #     Performance & optimization reviewer
+    plan-validator.md                  #     Plan structure validator
+    test-generator.md                  #     Test case suggestion agent
 ```

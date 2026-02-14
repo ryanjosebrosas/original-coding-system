@@ -21,8 +21,8 @@ These are **primary agents** (always available, Tab-cyclable) that orchestrate d
 
 | Agent | Model | Mode | Purpose |
 |-------|-------|------|---------|
-| **core-openagent** | Sonnet | Primary | Universal agent for questions, tasks, workflow coordination |
-| **core-opencoder** | Sonnet | Primary | Development orchestrator for complex coding, architecture, refactoring |
+| **core-openagent** | Opus 4.5 | Primary | Universal agent for questions, tasks, workflow coordination |
+| **core-opencoder** | Opus 4.5 | Primary | Development orchestrator for complex coding, architecture, refactoring |
 
 ### When to Use
 

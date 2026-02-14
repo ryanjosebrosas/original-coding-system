@@ -79,9 +79,10 @@ Requires frontmatter: `allowed-tools: Bash(git status:*)`
 description: Brief description (shown in /help)
 argument-hint: [expected-args]
 allowed-tools: Bash(git:*), Read, Write, Edit
-model: claude-sonnet-4
 ---
 ```
+
+> **Note**: Commands don't use `model` — that's only for agents. Commands run in the current session's model.
 
 ---
 

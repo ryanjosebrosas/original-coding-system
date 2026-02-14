@@ -1,5 +1,7 @@
 # MCP Servers, Cloud Skills & Archon Integration
 
+> **Note**: The Cloud Skills system is a documented pattern. Skills are created on-demand when needed, not pre-populated. This reference describes how skills work when you choose to implement them.
+
 This guide explains **how MCP servers and Cloud Skills extend the PIV Loop with external tool access and progressive context loading** — covering the MCP protocol, token cost management, Cloud Skills architecture, Archon integration for knowledge bases and task management, PIV Loop integration, and practical examples — going deeper than the guide at `reference/mcp-skills-overview.md`.
 
 ---

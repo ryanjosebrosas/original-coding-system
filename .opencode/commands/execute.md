@@ -112,7 +112,35 @@ Check off met items in ACCEPTANCE CRITERIA (`- [ ]` → `- [x]`) and COMPLETION 
 
 ### Ready for Commit
 - Confirm all changes complete and validations pass
-- Ready for `/commit`
+
+---
+
+## Next Steps (in order)
+
+**1. Review execution** (optional):
+```
+/execution-report
+```
+Generates summary at `requests/execution-reports/{feature-name}-report.md`
+
+**2. Code review** (recommended):
+```
+/code-review
+```
+Reviews implementation quality. Output at `requests/code-reviews/{feature-name}-review.md`
+
+**3. Commit**:
+```
+/commit
+```
+Saves work with conventional commit message.
+
+**4. Create PR** (if applicable):
+```
+/create-pr
+```
+
+---
 
 ## Notes
 

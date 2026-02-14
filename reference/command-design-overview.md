@@ -178,7 +178,7 @@ When using commands remotely via GitHub Actions, the same INPUT → PROCESS → 
 - **Extra INPUT**: GitHub context (repository, issue number, branch name, issue body)
 - **Configuration flags**: `$CREATE_BRANCH`, `$CREATE_PR`, `$COMMENT_ON_ISSUE` — control what the agent handles vs what the workflow handles deterministically
 - **Extra OUTPUT**: Branch creation, PR creation, issue comments
-- **Automated reviews**: CodeRabbit (GitHub App) auto-reviews PRs; OpenCode auto-applies fixes via `claude-fix-coderabbit.yml`
+- **Automated reviews**: CodeRabbit (GitHub App) auto-reviews PRs; OpenCode auto-applies fixes via `opencode-fix-coderabbit.yml`
 
 Prompt templates for GitHub live in `.github/workflows/prompts/`. Example workflows live in `reference/github-workflows/`. See `reference/github-integration.md` for the full guide.
 

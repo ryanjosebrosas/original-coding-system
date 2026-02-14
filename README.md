@@ -49,7 +49,7 @@ graph TD
     AGENTS -.->|"on-demand"| R["reference/<br/>20+ deep guides"]
     AGENTS -.->|"on-demand"| T["templates/<br/>16 templates"]
 
-    CMD[".opencode/commands/<br/>20 commands"] -->|"reads"| T
+    CMD[".opencode/commands/<br/>21 commands"] -->|"reads"| T
     CMD -->|"produces"| REQ["requests/<br/>feature plans"]
 
     AG[".opencode/agents/<br/>12 agents"] -.->|"loads"| R
@@ -110,7 +110,7 @@ My-Coding-System/
 ├── reference/             # Deep guides (on-demand, ~89K tokens)
 ├── templates/             # Reusable templates (16 files)
 ├── requests/              # Feature plans (per PIV loop)
-├── .opencode/commands/    # Commands (20 commands)
+├── .opencode/commands/    # Commands (21 commands)
 └── .opencode/agents/      # Agents (12 agents)
 ```
 

@@ -68,12 +68,15 @@ Read `templates/STRUCTURED-PLAN-TEMPLATE.md` now — it defines the exact struct
 
 ### Research Mode Selection
 
-**If custom agents exist** in `.opencode/agents/`: Use **Parallel Research Mode** (5-10 agents)
-**If not**: Use **Standard Research Mode** (2 built-in agents)
-
+**Check agent availability**:
 ```bash
 ls .opencode/agents/research-*.md 2>/dev/null | wc -l
 ```
+
+- If count >= 2: Use **Parallel Research Mode** (5-10 Task agents)
+- If count < 2: Use **Standard Research Mode** (2 built-in agents)
+
+> Note: Research agents are in `_examples/` by default. Run `/activate-agents` to enable.
 
 ---
 
@@ -207,6 +210,27 @@ Include EXECUTION ROUTING in overview: Primary: opencode2 (Sonnet), Secondary: o
 
 **CRITICAL**: This plan is for ANOTHER AGENT in a fresh conversation. It must contain ALL information needed — patterns, file paths with line numbers, exact commands, documentation links.
 
+---
+
+## Output
+
+Save completed plan to: `requests/{feature-name}-plan.md`
+
+## Next Step
+
+**Recommended command**:
+```
+/execute requests/{feature-name}-plan.md
+```
+
+Replace `{feature-name}` with the actual feature name used in the plan filename.
+
+**For complex features** (4+ phases, 15+ tasks):
+- Plan is decomposed into sub-plans
+- Execute in order: `/execute requests/{feature}-plan-01-*.md`, then 02, etc.
+
+---
+
 ## Confirmation
 
-Report: feature name, plan file path, complexity, key risks, confidence score, next step (`/execute`).
+Report: feature name, plan file path, complexity, key risks, confidence score.

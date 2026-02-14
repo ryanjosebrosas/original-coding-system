@@ -15,8 +15,8 @@ Together they create an automated review-fix loop: CodeRabbit reviews → Claude
 
 | Workflow | Trigger | Purpose |
 |----------|---------|---------|
-| `claude-fix-coderabbit.yml` | CodeRabbit review (auto) or `@claude-fix` on PR | Auto-apply CodeRabbit review suggestions |
-| `claude-fix.yml` | `@claude-fix` or `@claude-create` on Issues | Run fix (bug) or full PIV Loop (enhancement) from issues |
+| `opencode-fix-coderabbit.yml` | CodeRabbit review (auto) or `@opencode-fix` on PR | Auto-apply CodeRabbit review suggestions |
+| `opencode-fix.yml` | `@opencode-fix` or `@opencode-create` on Issues | Run fix (bug) or full PIV Loop (enhancement) from issues |
 
 **Note**: Code reviews are handled by CodeRabbit (GitHub App), not a workflow. See `templates/GITHUB-SETUP-CHECKLIST.md` for installation steps.
 

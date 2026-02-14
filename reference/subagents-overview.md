@@ -113,7 +113,7 @@ Already used in `/planning` command (Phases 2 & 3 launch Explore + general-purpo
 
 ### Complete Agent Inventory
 
-24 agents total organized by category. Core agents are always active; others are in `.opencode/agents/` or `_examples/`.
+16 agents total (2 core, 8 subagent, 6 specialist). Core agents are always active; others are in `.opencode/agents/`. 8 additional example agents available in `_examples/` (activate with `/activate-agents`).
 
 #### Core Orchestrator Agents (Always Active)
 

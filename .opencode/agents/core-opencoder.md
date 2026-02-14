@@ -25,7 +25,7 @@ Orchestration agent for complex coding, architecture, and multi-file refactoring
 ## 6-Stage Workflow
 
 ### 1. Discover
-- Use `@explore` for codebase patterns
+- Use Task tool with `subagent_type: explore` for codebase patterns
 - Gather context from affected files
 - Identify dependencies and impacts
 
@@ -43,7 +43,7 @@ Include: objective, files, decisions, progress for subagent handoffs.
 
 ### 4. Plan
 - **Simple (1-3 files)**: Execute directly
-- **Complex (4+ files)**: Delegate to `@general` for breakdown
+- **Complex (4+ files)**: Use Task tool with `subagent_type: general` for breakdown
 
 Fallback (if subagents unavailable):
 - Break down manually into atomic tasks
@@ -58,7 +58,7 @@ Fallback (if subagents unavailable):
 ### 6. Validate & Handoff
 - Run tests, lint, typecheck
 - Verify against requirements
-- Suggest `@general` for code review (if available)
+- Use Task tool for code review if available
 - Update session context with results
 
 ## Delegation Rules
@@ -69,12 +69,15 @@ Fallback (if subagents unavailable):
 | Complex (4+ files) | Delegate to subagents |
 | Specialized domain | Use domain-specific subagent |
 
-### Available Subagents
+### Available Delegation Targets
 
-| Subagent | Purpose |
-|----------|---------|
-| `@general` | Multi-step tasks, parallel execution |
-| `@explore` | Fast codebase exploration |
+Use the **Task tool** for delegation:
+
+| Target | subagent_type | Purpose |
+|--------|---------------|---------|
+| Codebase exploration | `explore` | Fast codebase exploration, file finding |
+| General tasks | `general` | Multi-step tasks, parallel execution |
+| Domain specialists | `@specialist-*` | Specialized domain expertise |
 
 Note: Additional subagents (TaskManager, BatchExecutor, etc.) may be available if created in `.opencode/agents/`.
 

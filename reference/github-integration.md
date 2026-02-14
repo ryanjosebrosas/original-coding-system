@@ -21,9 +21,9 @@ The recommended setup uses two complementary tools:
 Developer creates PR → CodeRabbit reviews → Claude fixes → CodeRabbit re-reviews → (repeat)
 ```
 
-The loop runs hands-off while the developer is offline. An iteration cap (`MAX_ITERATIONS`, default 3) prevents infinite cycles. Commit prefix tracking (`[claude-fix]`) counts iterations.
+The loop runs hands-off while the developer is offline. An iteration cap (`MAX_ITERATIONS`, default 3) prevents infinite cycles. Commit prefix tracking (`[opencode-fix]`) counts iterations.
 
-**Key distinction**: CodeRabbit is a GitHub App (install once, no YAML needed for reviews). OpenCode runs via a GitHub Action workflow (`claude-fix-coderabbit.yml`).
+**Key distinction**: CodeRabbit is a GitHub App (install once, no YAML needed for reviews). OpenCode runs via a GitHub Action workflow (`opencode-fix-coderabbit.yml`).
 
 ### Three Approaches
 
@@ -44,8 +44,8 @@ When integrating AI coding agents into GitHub for issue-triggered work, there ar
 
 A GitHub Action workflow (`.github/workflows/*.yml`) defines automated steps triggered by repository events.
 
-**Issue-triggered workflow structure** (`claude-fix.yml`):
-1. **Trigger** — `on: issue_comment` (when someone comments `@claude-fix` or `@claude-create`)
+**Issue-triggered workflow structure** (`opencode-fix.yml`):
+1. **Trigger** — `on: issue_comment` (when someone comments `@opencode-fix` or `@opencode-create`)
 2. **Permission check** — Verify the commenter is an authorized user
 3. **Checkout repository** — Get the codebase into the runner environment
 4. **Load prompt template** — Read the instruction file from `.github/workflows/prompts/`
@@ -53,16 +53,16 @@ A GitHub Action workflow (`.github/workflows/*.yml`) defines automated steps tri
 6. **Invoke OpenCode** — Send instructions via `anthropics/claude-code-action`
 7. **Post-processing** — Create PR, comment on issue (if deterministic approach)
 
-**Review-fix workflow structure** (`claude-fix-coderabbit.yml`):
-1. **Trigger** — `on: pull_request_review` (when CodeRabbit posts a review) or `on: issue_comment` (`@claude-fix` on PR)
-2. **Iteration check** — Count `[claude-fix]` commits, stop if MAX_ITERATIONS reached
+**Review-fix workflow structure** (`opencode-fix-coderabbit.yml`):
+1. **Trigger** — `on: pull_request_review` (when CodeRabbit posts a review) or `on: issue_comment` (`@opencode-fix` on PR)
+2. **Iteration check** — Count `[opencode-fix]` commits, stop if MAX_ITERATIONS reached
 3. **Checkout PR branch** — Get the code being reviewed
 4. **Invoke OpenCode** — Read CodeRabbit's review comments and apply fixes
 5. **Commit and push** — Triggers CodeRabbit to re-review automatically
 
 **Comment-based routing:**
-- `@claude-fix` or `@claude-create` on an Issue — triggers the fix/create workflow
-- `@claude-fix` on a Pull Request — manually triggers the review-fix workflow
+- `@opencode-fix` or `@opencode-create` on an Issue — triggers the fix/create workflow
+- `@opencode-fix` on a Pull Request — manually triggers the review-fix workflow
 - Issue labels (`enhancement` vs `bug`) determine which prompt template loads
 
 See `reference/github-workflows/` for complete example YAML files.

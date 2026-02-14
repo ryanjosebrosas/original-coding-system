@@ -60,6 +60,9 @@ Create a PR following this structure:
 - `chore: <concise description>` - Maintenance tasks
 
 **Description Format:**
+
+> **Full format**: `templates/PR-DESCRIPTION-TEMPLATE.md`
+
 ```markdown
 ## Summary
 <1-3 sentences describing what and why>

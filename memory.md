@@ -10,13 +10,13 @@
 ## Key Decisions
 <!-- Format: - [YYYY-MM-DD] Decision — Reason -->
 - [2026-02-12] Migrated from mem0 MCP to file-based memory.md — Simpler, no external dependency, version-controlled
-- [2026-02-12] Slimmed CLAUDE.md by moving sections 06-14 to reference/ — Saves ~12,000 tokens per session
-- [2026-02-12] Adopted 3-tier skills architecture (SKILL.md → references/) — Progressive disclosure for complex workflows
+- [2026-02-12] Slimmed AGENTS.md by keeping only essential sections (01-05, 15) auto-loaded via @-references — Saves ~12,000 tokens per session
+- [2026-02-12] Adopted 3-tier skills architecture (SKILL.md → references/) — Progressive disclosure for complex workflows (documented pattern, not yet implemented)
 - [2026-02-12] Plan decomposition for complex features — `<!-- PLAN-SERIES -->` marker triggers series mode in `/execute`
 - [2026-02-12] Moved Archon workflow to on-demand reference — Auto-loaded pointer is 5 lines, full guide at `reference/archon-workflow.md`
 - [2026-02-13] Added agent orchestration layer — Session context, handoff protocol, routing guide enable multi-agent coordination
 - [2026-02-13] Session context is optional for simple plans — Only 4+ tasks trigger session initialization in /execute
-- [2026-02-13] Command-agent integration — 12 commands enhanced with optional agent integration (graceful fallback if unavailable)
+- [2026-02-13] Command-agent integration — 21 commands available (after consolidation), selective agent integration (graceful fallback if unavailable)
 - [2026-02-13] Adopted opencode-worktree plugin — Zero-friction parallel development with `worktree_create`/`worktree_delete` tools
 
 ## Architecture Patterns
@@ -29,7 +29,7 @@
 - **Flat agent naming**: Prefix convention (`core-`, `subagent-`, `specialist-`) instead of subdirectories. Used in: `.opencode/agents/`
 - **Session Context Pattern**: `.tmp/sessions/{id}/context.md` provides shared state for multi-agent workflows. Used in: complex /execute
 - **Handoff Protocol**: Standardized output format (Mission Echo, Findings, Summary) enables agent chaining. Used in: all subagents
-- **Command-Agent Integration**: Commands check for agent availability with fallback (`ls .opencode/agents/{agent}.md`). Used in: 12 commands
+- **Command-Agent Integration**: Commands check for agent availability with fallback (`ls .opencode/agents/{agent}.md`). Used in: 13 commands
 - **Worktree Plugin**: Use `worktree_create`/`worktree_delete` tools for parallel workflows. Config: `.opencode/worktree.jsonc`. Used in: `/new-worktree`, `/parallel-e2e`, `/merge-worktrees`
 
 ## Gotchas & Pitfalls
@@ -47,10 +47,12 @@
 - **CLAUDE.md restructure**: Auto-loading 14 sections burned tokens on irrelevant context — Keep auto-loaded sections to essential rules only
 - **Command compression**: Commands compressed 43-59% with no functionality loss — AI follows concise instructions as well as verbose ones
 - **/prime token bloat**: Original /prime consumed 19% of context (37K tokens) — Optimized to ~8K by removing verbose output, Archon RAG, full git status
+- **System Alignment Audit 2026-02-14**: Comprehensive audit found 12 dead refs, 6 stale docs, 3 redundant commands. Fixed by removing dead refs, consolidating commands, aligning counts. Lesson: Audit quarterly to prevent drift between docs and codebase.
 
 ## Session Notes
 <!-- Format: - [YYYY-MM-DD] Brief summary of what was done -->
-- [2026-02-12] OpenAgents system plan created — 22 agents, 5 sub-plans, inspired by OpenAgentsControl but adapted for PIV Loop
+- [2026-02-14] System alignment audit — 4 sub-plans: ref cleanup, command consolidation, doc alignment, gap closure. 21 commands, fixed stale refs, aligned counts
+- [2026-02-12] OpenAgents system plan created — 16 agents, 5 sub-plans, inspired by OpenAgentsControl but adapted for PIV Loop
 - [2026-02-12] OpenCode migration COMPLETE — All 5 sub-plans executed: foundation, commands, agents, docs, validation
 - [2026-02-12] OpenCode migration: Sub-plan 03 agents — 4 skills + 8 example agents converted to OpenCode format
 - [2026-02-12] OpenCode migration: Sub-plan 01 foundation — AGENTS.md created, .opencode/ structure established
@@ -59,6 +61,7 @@
 - [2026-02-12] Token efficiency: compressed 5 commands (43-59%), slimmed auto-loaded context (66%), added README.md with Mermaid diagrams
 - [2026-02-13] Agent orchestration layer — Added session context template, handoff protocol, agent routing guide, /activate-agents command
 - [2026-02-13] Optimized /prime for token efficiency — 8 changes: slim output format, short git status, removed Archon RAG, top-3 memory only
+- [2026-02-13] tmux worktree integration — ~/.tmux.conf, tmux-worktree.sh script, /tmux-worktrees command, reference guide
 
 ---
 

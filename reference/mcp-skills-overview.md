@@ -1,5 +1,7 @@
 ### Extending the PIV Loop
 
+> **Note**: The Cloud Skills system is a documented pattern. Skills are created on-demand when needed, not pre-populated. This reference describes how skills work when you choose to implement them.
+
 MCP (Model Context Protocol) and Cloud Skills are two complementary integration technologies. MCP provides **access** to external systems — databases, browsers, APIs, task managers. Skills provide **knowledge** about how to do things — procedures, conventions, domain expertise. Together they expand what the PIV Loop can automate without bloating the context window.
 
 Think of MCP as USB-C for AI — a universal connector standard that lets any AI tool talk to any external service through a standardized protocol.

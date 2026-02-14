@@ -104,6 +104,8 @@ Look for:
 
 ## Output: Create RCA Document
 
+> **Output format**: `templates/RCA-TEMPLATE.md`
+
 Save analysis as: `docs/rca/issue-$ARGUMENTS.md`
 
 ### Required RCA Document Structure

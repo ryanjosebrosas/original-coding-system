@@ -1,6 +1,6 @@
 ---
 description: Automatically setup GitHub Actions workflows and secrets for OpenCode and/or Codex
-argument-hint: [opencode|codex|both]
+argument-hint: [opencode|codex|both|quick]
 ---
 
 # Setup GitHub Automation
@@ -8,6 +8,8 @@ argument-hint: [opencode|codex|both]
 **Agent Selection**: $ARGUMENTS (default: both)
 
 This command automatically configures GitHub Actions workflows and secrets for AI-powered code review and fixes.
+
+> **Quick Mode**: Use `quick` as argument to skip interactive prompts and use defaults. Best for CI/CD or scripted setup.
 
 ---
 
@@ -109,20 +111,18 @@ Determine which workflow to deploy:
 
 ```bash
 if [ "$AGENT_CHOICE" == "both" ]; then
-  # Use multi-agent workflow
-  cp .github/workflows/multi-agent-fix.yml /tmp/workflow.yml
-  WORKFLOW_NAME="multi-agent-fix.yml"
-  WORKFLOW_DESC="Multi-agent (OpenCode + Codex)"
+  # Multi-agent setup - deploy both workflows
+  cp reference/github-workflows/opencode-fix.yml .github/workflows/
+  echo "📋 Deployed: OpenCode fix workflow"
+  echo "⚠️  Note: Codex integration requires additional setup. See reference/github-integration.md"
 elif [ "$AGENT_CHOICE" == "opencode" ]; then
   # Use OpenCode-only workflow
-  cp .github/workflows/opencode-fix-coderabbit.yml /tmp/workflow.yml
+  cp reference/github-workflows/opencode-fix-coderabbit.yml .github/workflows/
   WORKFLOW_NAME="opencode-fix-coderabbit.yml"
   WORKFLOW_DESC="OpenCode only"
 elif [ "$AGENT_CHOICE" == "codex" ]; then
-  # Use Codex-only workflow (extract from multi-agent)
-  # Extract just the codex-fix job
-  WORKFLOW_NAME="codex-fix-coderabbit.yml"
-  WORKFLOW_DESC="Codex only"
+  echo "⚠️  Codex-only workflow not yet available"
+  echo "   Use 'both' mode for combined OpenCode + Codex setup"
 fi
 
 echo "📋 Deploying workflow: $WORKFLOW_DESC"

@@ -15,6 +15,20 @@ ls .opencode/agents/code-review-*.md 2>/dev/null | wc -l
 
 ---
 
+## Review Mode Selection
+
+**Check specialist availability**:
+```bash
+ls .opencode/agents/code-review-*.md 2>/dev/null | wc -l
+```
+
+- If count >= 4: Use **Parallel Review Mode** (type-safety, security, architecture, performance)
+- If count < 4: Use **Standard Review Mode** (comprehensive single-pass review)
+
+> Note: Review specialists are in `_examples/` by default. Run `/activate-agents` to enable.
+
+---
+
 ## PARALLEL REVIEW MODE (Preferred)
 
 Launch four Task agents simultaneously:
@@ -59,6 +73,8 @@ Run specific tests for issues found. Confirm type errors are legitimate. Validat
 
 ## Output Format (Both Modes)
 
+> **Output format**: `templates/CODE-REVIEW-TEMPLATE.md`
+
 Save to: `requests/code-reviews/[feature-name]-review.md`
 
 ### Review Summary
@@ -96,3 +112,19 @@ If CRITICAL security issues found, list separately with attack vector, impact, a
 - Suggest fixes, don't just complain
 - Flag security issues as CRITICAL
 - In parallel mode, deduplicate across agents
+
+---
+
+## Next Step
+
+**If issues found**:
+```
+/code-review-fix requests/code-reviews/{feature-name}-review.md
+```
+
+**If review passed**:
+```
+/commit
+```
+
+Replace `{feature-name}` with the feature name from the plan.

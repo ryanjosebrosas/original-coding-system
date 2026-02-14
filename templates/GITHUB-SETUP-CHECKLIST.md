@@ -73,10 +73,10 @@ Copy the workflow YAML files to your repository:
 mkdir -p .github/workflows
 
 # Copy the review-fix loop workflow (auto-applies CodeRabbit suggestions)
-cp reference/github-workflows/claude-fix-coderabbit.yml .github/workflows/
+cp reference/github-workflows/opencode-fix-coderabbit.yml .github/workflows/
 
 # Copy the issue-triggered fix workflow
-cp reference/github-workflows/claude-fix.yml .github/workflows/
+cp reference/github-workflows/opencode-fix.yml .github/workflows/
 ```
 
 ---
@@ -89,7 +89,7 @@ Copy the GitHub-adapted prompt templates:
 # Create the prompts directory
 mkdir -p .github/workflows/prompts
 
-# Copy prompt templates (used by claude-fix.yml for issue-triggered fixes)
+# Copy prompt templates (used by opencode-fix.yml for issue-triggered fixes)
 cp .github/workflows/prompts/*.md your-project/.github/workflows/prompts/
 ```
 
@@ -102,11 +102,11 @@ The three prompt files:
 
 ## Step 7: Customize for Your Project
 
-1. **Update authorized users** — In `claude-fix.yml`, replace `your-github-username` with your actual GitHub username(s)
+1. **Update authorized users** — In `opencode-fix.yml`, replace `your-github-username` with your actual GitHub username(s)
 2. **Customize CodeRabbit** — Adjust `.coderabbit.yaml` settings for your project
 3. **Customize prompts** — Add project-specific instructions, tech stack details, and conventions to the prompt templates
 4. **Adjust labels** — Ensure your issue labels match what the workflows expect (`enhancement`, `bug`, etc.)
-5. **Tune iteration limit** — Adjust `MAX_ITERATIONS` in `claude-fix-coderabbit.yml` (default: 3)
+5. **Tune iteration limit** — Adjust `MAX_ITERATIONS` in `opencode-fix-coderabbit.yml` (default: 3)
 
 ---
 
@@ -137,7 +137,7 @@ Verify:
 For issue-triggered fixes:
 1. Create a new issue (e.g., "Update README formatting")
 2. Add the `enhancement` label
-3. Comment: `@claude-create`
+3. Comment: `@opencode-create`
 4. Go to **Actions** tab and watch the workflow run
 5. Check the issue for the agent's response
 
@@ -150,9 +150,9 @@ For issue-triggered fixes:
 | CodeRabbit doesn't review PRs | Check App installation: Settings → Integrations → CodeRabbit |
 | Reviews are too noisy | Set `reviews.profile: "chill"` in `.coderabbit.yaml` |
 | OpenCode workflow doesn't trigger | Verify `CLAUDE_CODE_OAUTH_TOKEN` secret exists; check Actions tab for errors |
-| Comment not recognized | Ensure comment starts with exact trigger (e.g., `@claude-fix`) |
+| Comment not recognized | Ensure comment starts with exact trigger (e.g., `@opencode-fix`) |
 | Can't create PR | Enable PR creation in Settings → Actions → General |
-| Infinite loop | Check `MAX_ITERATIONS` setting; verify `[claude-fix]` commit prefix |
+| Infinite loop | Check `MAX_ITERATIONS` setting; verify `[opencode-fix]` commit prefix |
 | Free tier after trial | Private repos need Lite/Pro plan for full CodeRabbit reviews |
 | Workflow fails silently | Check Actions tab → click the failed run → view logs |
 | Org-level block | Enable Actions permissions at the organization level too |

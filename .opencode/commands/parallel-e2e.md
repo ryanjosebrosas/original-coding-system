@@ -17,6 +17,20 @@ This command chains the full PIV Loop for **multiple features simultaneously**. 
 
 ---
 
+## Agent Integration (Optional)
+
+**Check agent availability**:
+```bash
+ls .opencode/agents/subagent-taskmanager.md .opencode/agents/subagent-buildagent.md 2>/dev/null | wc -l
+```
+
+- If count == 2: Use **Enhanced Mode** with TaskManager for dependency analysis, BuildAgent for validation
+- If count < 2: Use **Standard Mode** (manual coordination)
+
+> Agents are optional but recommended for complex multi-feature workflows.
+
+---
+
 ## Step 0: Parse Arguments & Validate
 
 1. Split `$ARGUMENTS` by `|` delimiter into a list of feature descriptions
