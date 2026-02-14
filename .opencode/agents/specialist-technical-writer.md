@@ -1,7 +1,7 @@
 ---
 description: Use for technical documentation. Specializes in tutorials, API guides, how-to articles, and developer documentation.
 mode: subagent
-model: kimi-for-coding/k2p5
+model: zhipuai-coding-plan/glm-5
 tools:
   write: true
   edit: true

@@ -1,7 +1,7 @@
 ---
 description: Use for executing individual coding subtasks. Implements atomic changes following session context and standards, validates after each change.
 mode: subagent
-model: openai/gpt-5.2-codex
+model: zhipuai-coding-plan/glm-5
 tools:
   write: true
   edit: true

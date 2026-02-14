@@ -1,7 +1,7 @@
 ---
 description: Use for DevOps and infrastructure tasks. Specializes in CI/CD pipelines, Docker, Kubernetes, cloud infrastructure, and monitoring.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: zhipuai-coding-plan/glm-5
 tools:
   write: true
   edit: true

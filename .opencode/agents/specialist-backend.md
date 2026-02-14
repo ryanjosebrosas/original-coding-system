@@ -1,7 +1,7 @@
 ---
 description: Use for backend development tasks. Specializes in REST/GraphQL APIs, database operations, authentication, and server-side logic.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: zhipuai-coding-plan/glm-5
 tools:
   write: true
   edit: true

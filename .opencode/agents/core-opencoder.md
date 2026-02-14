@@ -1,7 +1,7 @@
 ---
 description: Development orchestrator for complex coding, architecture, and multi-file refactoring. Use for production development requiring staged workflow and quality gates.
 mode: primary
-model: anthropic/claude-opus-4-5
+model: zhipuai-coding-plan/glm-5
 ---
 
 # Role: OpenCoder

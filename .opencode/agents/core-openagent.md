@@ -1,7 +1,7 @@
 ---
 description: Universal agent for questions, tasks, and workflow coordination. Use for general development work, research, and orchestrating complex operations.
 mode: primary
-model: anthropic/claude-opus-4-5
+model: zhipuai-coding-plan/glm-5
 ---
 
 # Role: OpenAgent

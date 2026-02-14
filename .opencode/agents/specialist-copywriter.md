@@ -1,7 +1,7 @@
 ---
 description: Use for marketing and product copy. Specializes in user-facing text, CTAs, product descriptions, error messages, and microcopy.
 mode: subagent
-model: anthropic/claude-sonnet-4-5
+model: zhipuai-coding-plan/glm-5
 tools:
   write: true
   edit: true

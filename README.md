@@ -1,16 +1,66 @@
 # My Coding System
 
-A comprehensive AI-assisted development methodology combining systematic planning, implementation discipline, and validation strategies.
+**Turn AI into a reliable development partner.**
+
+Stop babysitting AI through every implementation. My Coding System gives you structured workflows, intelligent context management, and built-in quality gates — so AI produces great code the first time.
 
 Built for [OpenCode](https://opencode.ai) | Powered by the PIV Loop
 
 ---
 
-## What is this?
+## Why My Coding System?
 
-This is NOT an application — it's a **development methodology** for building applications with AI assistance. It provides structured workflows (slash commands), context management (auto-loaded rules + on-demand guides), and quality gates (code review, validation) that turn AI from a "guess and check" tool into a reliable development partner.
+**The Problem:** AI assistants are powerful but unreliable. They hallucinate APIs, miss edge cases, and produce code that "looks right" but breaks in production. Every session feels like starting from scratch.
 
-The core idea: give the AI exactly the right context at the right time, and it produces dramatically better output. Too little context and it guesses. Too much context and it drowns. This system manages that balance automatically.
+**The Solution:** Give AI exactly the right context at the right time. My Coding System manages context automatically — auto-loaded rules for core workflows, on-demand guides for deep dives. The result: consistent, high-quality output without the guesswork.
+
+**What You Get:**
+- **Predictable AI behavior** — Context is loaded systematically, not randomly
+- **Built-in quality gates** — Code review and validation catch issues before commit
+- **Cross-session memory** — AI remembers decisions across conversations
+- **Parallel workflows** — Work on multiple features simultaneously with git worktrees
+
+---
+
+## Quick Start
+
+### Prerequisites
+- [OpenCode CLI](https://opencode.ai) installed
+- Git configured
+
+### First Time?
+Start with `/prime` to understand the system, then try `/planning` on a small feature.
+
+### Setup
+
+```bash
+# 1. Clone this repo (or copy to your project)
+git clone https://github.com/your-org/my-coding-system.git
+
+# 2. Start a session — AI learns your codebase
+/prime
+# → Context loaded. Ready for planning | implementation | review.
+
+# 3. Plan a feature — AI creates structured implementation guide
+/planning Add user authentication with JWT
+# → Creates requests/add-user-auth-jwt-plan.md (500+ lines of context)
+
+# 4. Execute the plan — AI implements step-by-step
+/execute requests/add-user-auth-jwt-plan.md
+# → Implements tasks, validates each, reports progress
+
+# 5. Commit your work
+/commit
+# → Git commit with conventional format + memory update
+```
+
+### What Happens Next
+
+After your first feature:
+- **Code review**: `/code-review` validates quality
+- **Fix issues**: `/code-review-fix` addresses findings
+- **Create PR**: `/create-pr` opens pull request
+- **Parallel work**: `/new-worktree` starts a parallel feature branch
 
 ---
 
@@ -39,69 +89,111 @@ graph LR
 
 ---
 
-## System Architecture
+## Commands
 
-Context is organized in layers — auto-loaded context stays minimal so the AI has maximum context window for actual work. Deep guides load on-demand only when relevant.
+### Essential Workflow
 
-```mermaid
-graph TD
-    AGENTS["AGENTS.md<br/>~2K tokens auto-loaded"] --> S["sections/<br/>6 core rules"]
-    AGENTS -.->|"on-demand"| R["reference/<br/>22 deep guides"]
-    AGENTS -.->|"on-demand"| T["templates/<br/>25 templates"]
-
-    CMD[".opencode/commands/<br/>22 commands"] -->|"reads"| T
-    CMD -->|"produces"| REQ["requests/<br/>feature plans"]
-
-    AG[".opencode/agents/<br/>16 agents + 8 examples"] -.->|"loads"| R
-
-    MEM["memory.md<br/>cross-session context"] -.-> CMD
-    STATE[".tmp/piv-state.json<br/>cross-command state"] -.-> CMD
-    ARCHON["Archon MCP<br/>task management + RAG"] -.-> CMD
-
-    REQ -->|"/execute"| IMPL["Implementation"]
-    IMPL -->|"/commit"| GIT["Git Save Points"]
-```
-
-Auto-loaded context is kept minimal (~2K tokens) so the AI has maximum context window available for actual work. Deep guides are loaded on-demand only when relevant.
-
----
-
-## Quick Start
-
-### Prerequisites
-- [OpenCode CLI](https://opencode.ai) installed
-- Git configured
-
-### Setup
-1. Clone this repo (or copy to your project)
-2. Run `/prime` to load codebase context
-3. Run `/planning [feature description]` to create a plan
-4. Run `/execute requests/feature-plan.md` to implement
-5. Run `/commit` to save your work
-
-### First Time?
-Start with `/prime` to understand the system, then try `/planning` on a small feature.
-
----
-
-## Core Commands
+These 5 commands cover 90% of daily development:
 
 | Command | Description | When to Use |
 |---------|-------------|-------------|
 | `/prime` | Quick codebase handshake (~8K tokens) | Start of every session |
 | `/planning [feature]` | Create implementation plan | Before building any feature |
 | `/execute [plan]` | Implement from plan file | After planning |
-| `/commit` | Git commit with conventional format | After implementation |
 | `/code-review` | Technical quality review | After implementation |
+| `/commit` | Git commit with conventional format | After validation |
+
+### Advanced Operations
+
+| Command | Description | When to Use |
+|---------|-------------|-------------|
 | `/code-review-fix` | Fix review findings | After code review |
 | `/end-to-end-feature` | Full autonomous pipeline | Trusted, simple features |
 | `/session-resume` | Resume interrupted work | After paused execution |
 | `/new-worktree` | Create parallel branch | Multi-feature work |
 | `/parallel-e2e` | Parallel multi-feature | Advanced parallel builds |
+| `/merge-worktrees` | Merge completed worktrees | After parallel work |
 | `/tmux-worktrees` | tmux session with worktrees | Parallel terminal work |
 | `/create-agent` | Generate new agent definition | Adding specialized agents |
 | `/activate-agents` | Enable example agents | Activating dormant agents |
+| `/create-pr` | Open pull request | After commit |
+| `/create-prd` | Create product requirements doc | New features |
+| `/rca` | Root cause analysis | Debugging |
+| `/implement-fix` | Implement fix from RCA | After RCA |
+| `/system-review` | Audit system alignment | Quarterly maintenance |
+| `/execution-report` | Generate execution summary | After /execute |
+| `/setup-github-automation` | Configure CI/CD automation | Project setup |
 | `/init-c` | Generate AGENTS.md for new project | New projects |
+
+---
+
+## Which Command Should I Use?
+
+```mermaid
+flowchart TD
+    START["New Session"] --> PRIME["/prime"]
+    PRIME --> GOAL{"What's your goal?"}
+    
+    GOAL -->|"New feature"| PLAN["/planning [feature]"]
+    GOAL -->|"Resume work"| RESUME["/session-resume"]
+    GOAL -->|"Fix bug"| RCA["/rca"]
+    
+    PLAN --> EXEC["/execute [plan]"]
+    EXEC --> REVIEW["/code-review"]
+    REVIEW --> PASS{"Pass?"}
+    
+    PASS -->|"Yes"| COMMIT["/commit"]
+    PASS -->|"No"| FIX["/code-review-fix"]
+    FIX --> REVIEW
+    
+    RCA --> IMPL["/implement-fix"]
+    IMPL --> REVIEW
+    
+    COMMIT --> PR["/create-pr"]
+    
+    style PRIME fill:#e1f5fe
+    style PLAN fill:#e8f5e9
+    style EXEC fill:#e8f5e9
+    style REVIEW fill:#fff3e0
+    style COMMIT fill:#f3e5f5
+```
+
+---
+
+## Architecture
+
+```mermaid
+flowchart TB
+    subgraph AUTO["Auto-Loaded (~2K tokens)"]
+        A["AGENTS.md"] --> S["sections/"]
+    end
+    
+    subgraph DEMAND["On-Demand"]
+        R["reference/"]
+        T["templates/"]
+    end
+    
+    subgraph GEN["Generated"]
+        REQ["requests/"]
+        TMP[".tmp/"]
+    end
+    
+    AUTO --> CMD["Commands"]
+    DEMAND --> CMD
+    CMD --> REQ
+    REQ --> IMPL["Implementation"]
+    IMPL --> GEN
+    
+    style AUTO fill:#e8f5e9
+    style DEMAND fill:#fff3e0
+    style GEN fill:#e3f2fd
+```
+
+| Tier | Purpose | Token Cost |
+|------|---------|------------|
+| **Auto-loaded** | Core rules always available | ~2K |
+| **On-demand** | Deep guides when needed | ~89K available |
+| **Generated** | Plans, state, session context | Variable |
 
 ---
 
@@ -109,21 +201,15 @@ Start with `/prime` to understand the system, then try `/planning` on a small fe
 
 ```
 My-Coding-System/
-├── AGENTS.md              # Auto-loaded rules (slim, ~2K tokens)
+├── AGENTS.md              # Auto-loaded rules (~2K tokens)
 ├── memory.md              # Cross-session memory
-├── sections/              # Core rule sections (auto-loaded)
-├── reference/             # Deep guides (on-demand, 22 files)
-├── templates/             # Reusable templates (25 files)
+├── sections/              # Core rule sections (6 files)
+├── reference/             # Deep guides (22 files)
+├── templates/             # Reusable templates (24 files)
 ├── requests/              # Feature plans (per PIV loop)
 ├── .tmp/                  # Runtime state (gitignored)
-│   ├── piv-state.json     # Cross-command state
-│   └── sessions/          # Session contexts
-├── .opencode/commands/    # Commands (22 commands)
-└── .opencode/agents/      # Agents (16 active + 8 examples)
-    ├── core-*.md          #   Core orchestrators (2)
-    ├── subagent-*.md      #   Subagents (8)
-    ├── specialist-*.md    #   Domain specialists (6)
-    └── _examples/         #   Example agents (8 dormant)
+├── .opencode/commands/    # Commands (22 files)
+└── .opencode/agents/      # Agents (24 active + 8 examples)
 ```
 
 ---
@@ -158,16 +244,11 @@ My-Coding-System/
 
 ## Token Budget
 
-The system manages tokens carefully to maximize context window for actual work:
+| Context Type | Tokens | When Loaded |
+|--------------|--------|-------------|
+| Auto-loaded | ~2K | Every session |
+| `/prime` | ~8K | Session start |
+| Commands | 0.5-2.2K | When invoked |
+| Reference guides | ~89K total | On-demand only |
 
-- **Auto-loaded**: ~2K tokens (AGENTS.md + 6 sections)
-- **`/prime`**: ~8K tokens (optimized handshake — project type, git state, memory highlights)
-- **Commands**: loaded only when invoked (largest: `/planning` ~2.2K tokens)
-- **Reference guides**: loaded only when needed (~89K tokens available)
-- **Typical session**: <15K tokens of system context, leaving 85%+ for implementation
-
-### Design Principle
-
-> Prime is a handshake, not a deep dive.
-
-The `/prime` command deliberately avoids verbose output. It provides just enough context to proceed — project purpose, current branch, top memory entries. For deeper analysis, load specific reference guides on-demand.
+> **Design principle**: Prime is a handshake, not a deep dive. Load specific reference guides only when needed.

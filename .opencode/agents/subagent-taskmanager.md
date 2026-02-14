@@ -1,7 +1,7 @@
 ---
 description: Use for complex features (4+ files). Breaks down features into Archon tasks with dependency tracking and parallel batch identification.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: zhipuai-coding-plan/glm-5
 tools:
   write: false
   edit: false

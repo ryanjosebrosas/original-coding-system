@@ -1,7 +1,7 @@
 ---
 description: Use for generating comprehensive documentation. Analyzes code and existing docs, then creates or updates documentation following project conventions.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: zhipuai-coding-plan/glm-5
 tools:
   write: true
   edit: true

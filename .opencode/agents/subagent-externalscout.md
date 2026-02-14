@@ -1,7 +1,7 @@
 ---
 description: Use when working with external libraries or frameworks. Fetches CURRENT documentation from official sources to avoid outdated AI training data.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: zhipuai-coding-plan/glm-5
 tools:
   write: false
   edit: false

@@ -1,7 +1,7 @@
 ---
 description: Use after implementation to add test coverage. Writes unit, integration, and edge case tests following project patterns and conventions.
 mode: subagent
-model: kimi-for-coding/k2p5
+model: zhipuai-coding-plan/glm-5
 tools:
   write: true
   edit: true

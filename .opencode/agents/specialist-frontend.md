@@ -1,7 +1,7 @@
 ---
 description: Use for frontend development tasks. Specializes in React/Vue/Svelte, CSS/Tailwind, state management, accessibility, and responsive design.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: zhipuai-coding-plan/glm-5
 tools:
   write: true
   edit: true

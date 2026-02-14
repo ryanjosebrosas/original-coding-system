@@ -1,7 +1,7 @@
 ---
 description: Use for data engineering tasks. Specializes in data pipelines, SQL optimization, analytics, ETL processes, and data visualization.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: zhipuai-coding-plan/glm-5
 tools:
   write: true
   edit: true
