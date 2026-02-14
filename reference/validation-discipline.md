@@ -35,158 +35,19 @@ Choice #1 is necessary. Choice #2 is what compounds. The validation discipline i
 
 ## 2. The 5-Level Validation Pyramid
 
-Each level gates the next. Don't proceed to the next level if the current one fails. This prevents wasting time running expensive integration tests when a linting error would catch the issue in seconds.
+> The **5-Level Validation Pyramid** is documented at `validation-pyramid.md`.
+> This section covers discipline around validation, not the levels themselves.
 
-```
-        Level 5: Human Review
-              (Alignment with intent)
-                    |
-        Level 4: Integration Tests
-              (System behavior)
-                    |
-        Level 3: Unit Tests
-              (Isolated logic)
-                    |
-        Level 2: Type Safety
-              (Type checking)
-                    |
-        Level 1: Syntax & Style
-              (Linting, formatting)
-```
+**Key principle**: Each level gates the next. Don't proceed to the next level if the current one fails.
 
-### Level 1 — Syntax & Style
+**Quick reference**:
+- Level 1: Syntax & Style (lint, format) — fastest, run first
+- Level 2: Type Safety (type check) — before tests
+- Level 3: Unit Tests (isolated logic) — focused then full suite
+- Level 4: Integration Tests (system behavior) — after units pass
+- Level 5: Human Review (alignment) — AI does 1-4, humans do 5
 
-**What it catches**: Syntax errors, formatting inconsistencies, import issues, style violations.
-
-**Tools**: Linters (`ruff`, `eslint`, `biome`), formatters (`black`, `prettier`), auto-fix on save.
-
-**When to run**: After every file write. Most editors and AI tools can do this automatically.
-
-**Why it matters**: The fastest, cheapest check. If your code doesn't parse, nothing else matters. Running linting first prevents false positives at higher levels (a type checker may report errors that are actually just syntax issues).
-
-**Common commands**:
-```bash
-# Python
-ruff check . --fix
-ruff format .
-
-# TypeScript/JavaScript
-npx eslint . --fix
-npx prettier --write .
-
-# Go
-go fmt ./...
-golangci-lint run
-```
-
-### Level 2 — Type Safety
-
-**What it catches**: Type mismatches, missing return types, incorrect function signatures, null/undefined handling.
-
-**Tools**: Type checkers (`mypy`, `pyright`, `tsc --noEmit`).
-
-**When to run**: After implementation, before tests. Type errors can cause tests to fail for the wrong reason.
-
-**Why it matters**: Catches an entire category of bugs that tests might miss — especially in dynamically typed languages where type hints exist but aren't enforced.
-
-**Common commands**:
-```bash
-# Python
-mypy app/ --strict
-pyright
-
-# TypeScript
-npx tsc --noEmit
-
-# Go (built into compiler)
-go build ./...
-```
-
-**AI-specific pitfall**: AI agents frequently generate code that *looks* correct but has subtle type issues — wrong generic parameters, missing optional markers, incorrect union types. Type checking catches these before runtime.
-
-### Level 3 — Unit Tests
-
-**What it catches**: Logic errors, edge cases, incorrect calculations, broken algorithms.
-
-**Tools**: Test frameworks (`pytest`, `jest`, `vitest`, `go test`).
-
-**When to run**: After type checking passes. Run focused tests first (just the feature), then the full suite.
-
-**Why it matters**: Verifies that individual functions and classes work correctly in isolation.
-
-**Common commands**:
-```bash
-# Python
-pytest tests/unit/ -v
-pytest tests/ -k "test_feature_name"
-
-# TypeScript/JavaScript
-npx jest --testPathPattern="feature-name"
-npx vitest run
-
-# Go
-go test ./... -v
-```
-
-**Critical pitfall — AI mocking tests to pass**: AI agents will sometimes write tests that mock so heavily they test nothing real. Watch for:
-- Tests that mock the function being tested (circular)
-- Tests with no real assertions (just `assert mock.called`)
-- Tests where all external dependencies are mocked away
-- Tests that pass trivially regardless of implementation
-
-**Rule**: Reject mocks without justification. If you see a mock, ask: "What real behavior is this test verifying?" If the answer is "nothing," the test is fake.
-
-### Level 4 — Integration Tests
-
-**What it catches**: Component interaction bugs, database issues, API contract violations, race conditions.
-
-**Tools**: Same test frameworks with integration markers, test databases, fixtures.
-
-**When to run**: After unit tests pass. Uses more resources, takes longer, so run last.
-
-**Why it matters**: Individual components can work perfectly in isolation but fail when combined. Integration tests verify the connections between components.
-
-**Common commands**:
-```bash
-# Python (with markers)
-pytest tests/integration/ -v
-pytest -m integration
-
-# TypeScript
-npx jest --testPathPattern="integration"
-
-# Docker-based
-docker compose up -d test-db && pytest tests/integration/ && docker compose down
-```
-
-**Best practices**:
-- Mock **external services** (Stripe, SendGrid) but not **internal components**
-- Use test fixtures and factories for database setup
-- Clean up after each test (use transactions or truncation)
-- Run against a real test database, not mocks
-
-### Level 5 — Human Review
-
-**What it catches**: Architectural drift, intent misalignment, pattern violations, security oversights, over-engineering.
-
-**How to do it**: Read the git diff. Compare implementation against the plan. Look at the big picture.
-
-**When to do it**: After levels 1-4 pass. This is the final gate before merge/commit.
-
-**Why it matters**: AI handles mechanical validation (levels 1-4). Humans judge strategic alignment — does this implementation actually solve the right problem the right way?
-
-**What to look for**:
-- Does the implementation match the plan? (Or did the AI drift?)
-- Are the right patterns being followed? (Check against AGENTS.md conventions)
-- Is the approach sound architecturally? (Or is it a hack that will cause problems later?)
-- Are there security concerns the automated checks missed?
-- Is there unnecessary complexity? (YAGNI violations)
-
-**The 80/20 of human review**: Focus on:
-1. New files — these define new patterns
-2. Public interfaces — API contracts, function signatures
-3. Database changes — migrations, schema modifications
-4. Security-sensitive code — auth, input validation, data access
+See `validation-pyramid.md` for detailed level descriptions, commands, and pitfalls.
 
 ---
 

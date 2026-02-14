@@ -46,9 +46,10 @@ Your AGENTS.md should cover these sections. Use `/init-c` to generate them autom
 - **Method 2: Include in slash commands (recommended)** — reference the guide in slash command prompts using `@reference/guide.md`. Guarantees the guide is loaded for the task. More reliable, better for consistency.
 - See `templates/COMMAND-TEMPLATE.md` for how to design commands with the INPUT → PROCESS → OUTPUT framework.
 
-**Two-question framework for deciding:**
-1. Is this constant or task-specific? (constant → Layer 1, task-specific → Layer 2)
-2. Needed every session? (yes → auto-load in sections/, no → on-demand in reference/)
+### Two-Question Framework
+
+> See `global-rules-optimization.md` for the Two-Question Framework.
+> Use these questions to decide what belongs in auto-loaded vs on-demand context.
 
 ### Layer 1 Reconciliation
 

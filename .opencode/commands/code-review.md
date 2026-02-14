@@ -17,6 +17,13 @@ ls .opencode/agents/code-review-*.md 2>/dev/null | wc -l
 
 ## Review Mode Selection
 
+**Read PIV state** (if `.tmp/piv-state.json` exists):
+- Load feature name and plan file path
+- Update `phase` to "validating"
+- Read plan file for acceptance criteria context
+
+**If state file doesn't exist**: Ask user for feature name, or infer from git diff.
+
 **Check specialist availability**:
 ```bash
 ls .opencode/agents/code-review-*.md 2>/dev/null | wc -l

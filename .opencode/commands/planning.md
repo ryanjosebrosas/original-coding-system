@@ -57,6 +57,12 @@ Read `templates/STRUCTURED-PLAN-TEMPLATE.md` now — it defines the exact struct
 **Goal**: Fill → Feature Description, User Story, Problem Statement, Solution Statement, Feature Metadata
 
 1. Check memory.md for past decisions about this feature area
+
+**If ContextScout available** (`ls .opencode/agents/subagent-contextscout.md`):
+- Launch `@subagent-contextscout` with query: "{feature area} patterns"
+- Review findings for existing patterns that should inform planning
+- Skip if agent not available
+
 2. Parse the feature request. If unclear, ask user to clarify BEFORE continuing.
 3. Create User Story: `As a [user], I want [goal], so that [benefit]`
 4. State Problem and Solution approach
@@ -142,6 +148,17 @@ Cross-check key findings — do code patterns still exist? Are library versions 
 3. **Plan testing strategy**: unit tests, integration tests, edge cases
 4. **Define acceptance criteria**: specific, measurable, includes functional requirements + test coverage + pattern compliance
 
+### Memory Update (Key Decisions)
+
+After Phase 4, prompt user: "Key architectural decisions made. Add to memory.md? (y/n)"
+
+If yes, append to memory.md:
+```markdown
+- [{date}] Decision: {decision} — Reason: {rationale}
+```
+
+This captures decisions BEFORE implementation, when rationale is fresh.
+
 ---
 
 ## PHASE 4.5: Plan Decomposition Decision
@@ -217,6 +234,23 @@ Include EXECUTION ROUTING in overview: Primary: opencode2 (Sonnet), Secondary: o
 Save completed plan to: `requests/{feature-name}-plan.md`
 
 ## Next Step
+
+**Create PIV state file** (enables cross-command context):
+```bash
+mkdir -p .tmp
+cat > .tmp/piv-state.json << EOF
+{
+  "feature_name": "{feature-name}",
+  "plan_file": "requests/{feature-name}-plan.md",
+  "phase": "planning",
+  "started_at": "$(date -Iseconds 2>/dev/null || date +%Y-%m-%dT%H:%M:%S)",
+  "updated_at": "$(date -Iseconds 2>/dev/null || date +%Y-%m-%dT%H:%M:%S)",
+  "acceptance_criteria_met": [],
+  "acceptance_criteria_pending": ["extract from plan"],
+  "notes": ""
+}
+EOF
+```
 
 **Recommended command**:
 ```

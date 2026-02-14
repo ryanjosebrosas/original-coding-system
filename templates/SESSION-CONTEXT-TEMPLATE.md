@@ -12,6 +12,24 @@
 - **Parent Command**: /execute requests/{feature}-plan.md
 - **Archon Project ID**: {project_id or "N/A"}
 
+## Session Status
+
+- **Status**: [initializing | active | paused | completed | archived]
+- **Last Updated**: {timestamp}
+
+### Lifecycle
+
+1. `initializing` → Session created
+2. `active` → Execution in progress
+3. `paused` → Execution interrupted (user stopped, error)
+4. `completed` → All tasks done, awaiting commit
+5. `archived` → Session archived to memory.md
+
+Commands update status:
+- `/execute` creates at `initializing`, sets `active` when running
+- `/execution-report` sets `paused` if incomplete
+- `/commit` sets `archived` after archiving
+
 ---
 
 ## Objective

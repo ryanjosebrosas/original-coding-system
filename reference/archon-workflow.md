@@ -269,16 +269,14 @@ session_info()
 
 ## Violation Examples
 
-**WRONG** - Using TodoWrite instead of Archon:
+**WRONG** - Long RAG query:
 ```python
-# Don't do this!
-TaskCreate(subject="...", description="...")
+rag_search_knowledge_base(query="how do I implement user authentication with OAuth2 and JWT tokens")
 ```
 
-**CORRECT** - Using Archon:
+**CORRECT** - Short, focused query:
 ```python
-# Do this instead!
-manage_task("create", project_id="...", title="...", description="...")
+rag_search_knowledge_base(query="OAuth2 JWT authentication")
 ```
 
 **WRONG** - Skipping task status updates:
@@ -289,17 +287,13 @@ manage_task("create", project_id="...", title="...", description="...")
 
 **CORRECT** - Following task cycle:
 ```python
-# 1. Get task
 find_tasks(filter_by="status", filter_value="todo")
-
-# 2. Start work
 manage_task("update", task_id="task-123", status="doing")
-
-# 3. Implement code...
-
-# 4. Mark for review
+# ... implement code ...
 manage_task("update", task_id="task-123", status="review")
 ```
+
+See `memory.md` gotcha: "Archon queries: Long RAG queries return poor results — Keep to 2-5 keywords"
 
 ---
 

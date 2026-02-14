@@ -31,6 +31,7 @@
 - **Handoff Protocol**: Standardized output format (Mission Echo, Findings, Summary) enables agent chaining. Used in: all subagents
 - **Command-Agent Integration**: Commands check for agent availability with fallback (`ls .opencode/agents/{agent}.md`). Used in: 13 commands
 - **Worktree Plugin**: Use `worktree_create`/`worktree_delete` tools for parallel workflows. Config: `.opencode/worktree.jsonc`. Used in: `/new-worktree`, `/parallel-e2e`, `/merge-worktrees`
+- **PIV State File**: `.tmp/piv-state.json` carries feature context between commands (planning → execute → code-review → commit). Created by `/planning`, deleted by `/commit`. Used in: PIV Loop handoffs
 
 ## Gotchas & Pitfalls
 <!-- Format: - **Area**: What goes wrong — How to avoid -->
@@ -40,6 +41,7 @@
 - **Context bloat**: Loading all reference guides wastes tokens — Only load on-demand guides when needed
 - **Session context**: Only create for 4+ task plans — Simpler plans don't need the overhead
 - **Agent activation**: Example agents in _examples/ are dormant — Use /activate-agents to copy to active location
+- **GitHub prompts drift**: `.github/workflows/prompts/` mirrors commands but isn't auto-synced — Update manually when commands change
 
 ## Lessons Learned
 <!-- Format: - **Context**: Lesson — Impact on future work -->
@@ -51,6 +53,7 @@
 
 ## Session Notes
 <!-- Format: - [YYYY-MM-DD] Brief summary of what was done -->
+- [2026-02-15] System Cohesion Audit — 5 sub-plans: token efficiency, agent integration, PIV continuity, cross-system connections, persistence. Added /session-resume, PIV state file, validation-pyramid.md. 22 commands, 25 templates.
 - [2026-02-14] System alignment audit — 4 sub-plans: ref cleanup, command consolidation, doc alignment, gap closure. 21 commands, fixed stale refs, aligned counts
 - [2026-02-12] OpenAgents system plan created — 16 agents, 5 sub-plans, inspired by OpenAgentsControl but adapted for PIV Loop
 - [2026-02-12] OpenCode migration COMPLETE — All 5 sub-plans executed: foundation, commands, agents, docs, validation
@@ -66,3 +69,28 @@
 ---
 
 > **Sizing guide**: Keep this file under 100 lines. Large files waste context tokens at session start. Archive old entries to `memory-archive.md` if needed.
+
+## Entry Criteria
+
+Log to memory.md if:
+- New dependency introduced
+- Architectural decision made
+- Gotcha discovered during implementation
+- Pattern deviation from established norms
+- Non-obvious fix applied
+- Session completed with learnings
+
+Don't log:
+- Routine changes (formatting, typos)
+- Decisions that might be reversed
+- Information already in reference guides
+
+## Session Archival
+
+When `/commit` completes:
+1. Read `.tmp/sessions/{id}/context.md` (if exists)
+2. Extract key decisions and findings
+3. Append 1-line summary to Session Notes section
+4. Set session status to `archived`
+
+Archived sessions remain in `.tmp/sessions/` for `/session-resume`.

@@ -8,27 +8,27 @@ Reference guide for which agents are integrated into each command, when they tri
 |---------|-------------|-------------------|----------|
 | `/rca` | ContextScout, ExternalScout | Always (if available) | Yes |
 | `/implement-fix` | ContextScout, BuildAgent | Always (if available) | No |
-| `/code-review-fix` | BuildAgent | After all fixes complete | No |
+| `/code-review-fix` | ContextScout, BuildAgent | Start + End (if available) | No |
 | `/create-prd` | Specialists (frontend/backend/devops) | Domain-specific (if available) | No |
 | `/init-c` | ContextScout | Existing codebases only | No |
-| `/end-to-end-feature` | TaskManager, BuildAgent, TestEngineer | >8 tasks triggers TaskManager | No |
+| `/end-to-end-feature` | ContextScout, TaskManager, BuildAgent, TestEngineer | ContextScout at start, >8 tasks triggers TaskManager | No |
 | `/system-review` | ContextScout | Always (if available) | No |
-| `/commit` | TestEngineer (suggestion) | feat/fix without tests | No |
+| `/commit` | BuildAgent, TestEngineer (suggestion) | Pre-commit validation | No |
 | `/create-pr` | DocWriter | >5 files changed | No |
 | `/execution-report` | ContextScout | Always (if available) | No |
 | `/merge-worktrees` | BuildAgent | After all merges | No |
 | `/prime` | None (inventory only) | Always reports agent count | N/A |
-| `/planning` | Research agents | Already integrated | Yes |
+| `/planning` | ContextScout, Research agents | Phase 1 (if available) | Yes |
 | `/code-review` | Review agents | Already integrated | Yes |
-| `/execute` | Plan-validator | Already integrated | No |
+| `/execute` | ContextScout, BuildAgent, Plan-validator | Start + End (if available) | No |
 
 ## No-Change Commands
 
 These commands work better without agent overhead:
 
-- `/quick-github-setup` — Script execution, no agent benefit
+- `/setup-github-automation` — Script execution, no agent benefit
 - `/activate-agents` — Meta-command for agent management
-- `/agents` — Agent creation command
+- `/create-agent` — Agent creation command
 
 ## Integration Patterns
 

@@ -25,7 +25,16 @@ For complex features (High complexity, 15+ tasks, 4+ phases), `/planning` automa
 **Do NOT** take your PRD and use it as a structured plan. Break it into granular Layer 2 plans — one per PIV loop.
 
 ### Implementation
-- Start a **new conversation** (fresh context)
+
+**Recommended**: Start implementation in a **fresh conversation** (clean context).
+
+**Critical — Before switching conversations**:
+1. Run `/execution-report` in the CURRENT conversation (while implementation context is active)
+2. This captures implementation reasoning for the validation phase
+3. Then switch to fresh conversation for `/code-review`
+
+The `.tmp/piv-state.json` file carries feature context between conversations.
+
 - Feed ONLY the structured plan: `/execute requests/{feature}-plan.md`
 - Or use prompt: `templates/IMPLEMENTATION-PROMPT.md` (for non-OpenCode tools)
 - Trust but verify: watch loosely, don't micromanage
@@ -36,3 +45,16 @@ For complex features (High complexity, 15+ tasks, 4+ phases), `/planning` automa
 - Use checklist: `templates/VALIDATION-PROMPT.md`
 - Small issues: one-off fix prompts
 - Major issues: revert to git save point, tweak plan, retry
+
+### Parallel Development with Worktrees
+
+For multiple simultaneous features, use git worktrees:
+
+```
+/new-worktree feature/auth    # Creates ../project-feature-auth
+/new-worktree feature/api     # Creates ../project-feature-api
+```
+
+Each worktree is an independent PIV Loop: Plan → Implement → Validate → Commit in isolation. Merge back to main with `/merge-worktrees`.
+
+See `reference/git-worktrees-overview.md` for full details.

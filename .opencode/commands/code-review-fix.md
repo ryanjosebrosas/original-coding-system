@@ -14,6 +14,11 @@ Review input: $ARGUMENTS
 
 ## Step 1: Load
 
+**If ContextScout available** (`ls .opencode/agents/subagent-contextscout.md`):
+- Launch `@subagent-contextscout` with query: "{component from review} architecture"
+- Understanding existing patterns helps make better fix decisions
+- Skip if agent not available (or for trivial fixes like typos/formatting)
+
 **File path**: Read and parse by standard format (severity/category/file/issue/detail/suggestion).
 **Inline description**: Treat as issue(s), default severity: major.
 **No input**: Check `requests/code-reviews/` for most recent review. If none, ask user.

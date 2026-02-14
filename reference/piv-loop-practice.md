@@ -433,68 +433,25 @@ Don't power through with a flawed plan. Fix the plan, commit it, then resume imp
 
 ### The 5-Level Validation Pyramid
 
+> See `validation-pyramid.md` for the canonical 5-level validation pyramid.
+> This section provides PIV Loop-specific validation context.
+
 Validation happens in strict order. Each level gates the next. **Don't run unit tests if linting fails.**
 
-```
-        Level 5: Human Review
-              (Alignment with intent)
-                    |
-        Level 4: Integration Tests
-              (System behavior)
-                    |
-        Level 3: Unit Tests
-              (Isolated logic)
-                    |
-        Level 2: Type Safety
-              (Type checking)
-                    |
-        Level 1: Syntax & Style
-              (Linting, formatting)
-```
-
-**Level 1 — Syntax & Style**:
+**Quick commands** (adapt to your stack):
 ```bash
-# Ruff Linting Check
-uv run ruff check src/
+# Level 1: Syntax & Style
+uv run ruff check src/ && uv run ruff format --check src/
 
-# Ruff Formatting Check
-uv run ruff format --check src/
-```
-
-Catch obvious errors fast. Fix immediately.
-
-**Level 2 — Type Safety**:
-```bash
-# Mypy Type Checking (Strict Mode)
+# Level 2: Type Safety
 uv run mypy src/
-```
 
-Catch type errors before runtime. Strict mode recommended.
-
-**Level 3 — Unit Tests**:
-```bash
-# Unit Tests
+# Level 3: Unit Tests
 uv run pytest tests/ -m unit -v
-```
 
-Test isolated functions and classes. Verify logic correctness.
-
-**Level 4 — Integration Tests**:
-```bash
-# Start server first
-uv run uvicorn src.main:app --host 0.0.0.0 --port 8030 --reload
-
-# Then run integration tests
+# Level 4: Integration Tests
 uv run pytest tests/ -m integration -v
 ```
-
-Test system interactions. Verify components work together.
-
-**Level 5 — Human Review**:
-- Code review (git diffs)
-- Manual testing (UI, workflows)
-- Alignment with intent (does it solve the right problem?)
-- Edge cases not covered by tests
 
 ### Validation Report Format
 

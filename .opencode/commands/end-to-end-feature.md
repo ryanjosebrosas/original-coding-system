@@ -15,6 +15,11 @@ This command chains 4 core commands for autonomous feature development.
 
 ## Step 1: Prime - Load Codebase Context
 
+**If ContextScout available** (`ls .opencode/agents/subagent-contextscout.md`):
+- Launch `@subagent-contextscout` with query: "{feature description} patterns"
+- Context discovery informs autonomous planning
+- Skip if agent not available
+
 Execute the priming workflow to understand the codebase:
 
 Build comprehensive understanding by:

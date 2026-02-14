@@ -26,6 +26,13 @@ If staging specific files: `git diff HEAD -- $ARGUMENTS`
 
 Determine type (feat/fix/refactor/docs/test/chore/perf/style/plan), scope, and description (imperative mood, 50 chars). Add body if significant context needed.
 
+### 2.5. Pre-Commit Validation (Optional)
+
+**If BuildAgent available** (`ls .opencode/agents/subagent-buildagent.md`):
+- Launch `@subagent-buildagent` for pre-commit validation
+- Fix any errors before proceeding
+- Skip if agent not available
+
 ### 3. Stage and Commit
 
 ```bash
@@ -55,11 +62,21 @@ git show --stat
 
 **Next**: Push to remote (`git push`) or continue development.
 
-### 5. Update Memory (if memory.md exists)
+### 5. Session Archival (if session exists)
+
+**If `.tmp/sessions/{id}/context.md` exists**:
+1. Read session context
+2. Extract key decisions, blockers resolved, patterns discovered
+3. Append 1-line summary to memory.md Session Notes: `- [{date}] Session {id}: {feature} — {summary}`
+4. Update session status to `archived` in context.md
+
+**If no session**: Skip — proceed to memory update.
+
+### 6. Update Memory (if memory.md exists)
 
 Append to memory.md: session note, any lessons/gotchas/decisions discovered. Keep entries 1-2 lines each. Don't repeat existing entries. Skip if memory.md doesn't exist.
 
-### 6. Report Completion
+### 7. Report Completion
 
 **Archon** (if available): `manage_project("update", project_id="...", description="Feature complete, committed: {hash}")`
 

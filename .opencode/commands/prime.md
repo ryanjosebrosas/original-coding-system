@@ -57,6 +57,12 @@ Report agents in `.opencode/agents/` (if directory exists):
 
 Keep this lightweight — just count, don't load agent files.
 
+### 5.6. Worktree Status (if worktrees exist)
+
+!`git worktree list 2>/dev/null | grep -v "^$" | wc -l`
+
+Report: "Worktrees: X active (use `/merge-worktrees` when complete)" or "No worktrees active"
+
 ## Output Report
 
 **Token budget**: Keep output under 50 lines / ~1500 tokens. Prime is a handshake, not a deep dive.

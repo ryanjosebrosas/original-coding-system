@@ -13,6 +13,18 @@ This command automatically configures GitHub Actions workflows and secrets for A
 
 ---
 
+## Workflow Templates
+
+This command copies workflows from `reference/github-workflows/` to `.github/workflows/`.
+
+**Note**: The `.github/workflows/prompts/` directory contains GitHub-adapted prompts that mirror local commands. These are NOT synchronized automatically. If a local command changes, update the corresponding prompt manually.
+
+Template files:
+- `reference/github-workflows/opencode-fix.yml` → `.github/workflows/opencode-fix.yml`
+- `reference/github-workflows/opencode-fix-coderabbit.yml` → `.github/workflows/opencode-fix-coderabbit.yml`
+
+---
+
 ## INPUT
 
 **Required Information:**

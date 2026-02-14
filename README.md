@@ -46,15 +46,16 @@ Context is organized in layers — auto-loaded context stays minimal so the AI h
 ```mermaid
 graph TD
     AGENTS["AGENTS.md<br/>~2K tokens auto-loaded"] --> S["sections/<br/>6 core rules"]
-    AGENTS -.->|"on-demand"| R["reference/<br/>20+ deep guides"]
-    AGENTS -.->|"on-demand"| T["templates/<br/>24 templates"]
+    AGENTS -.->|"on-demand"| R["reference/<br/>22 deep guides"]
+    AGENTS -.->|"on-demand"| T["templates/<br/>25 templates"]
 
-    CMD[".opencode/commands/<br/>21 commands"] -->|"reads"| T
+    CMD[".opencode/commands/<br/>22 commands"] -->|"reads"| T
     CMD -->|"produces"| REQ["requests/<br/>feature plans"]
 
     AG[".opencode/agents/<br/>16 agents + 8 examples"] -.->|"loads"| R
 
     MEM["memory.md<br/>cross-session context"] -.-> CMD
+    STATE[".tmp/piv-state.json<br/>cross-command state"] -.-> CMD
     ARCHON["Archon MCP<br/>task management + RAG"] -.-> CMD
 
     REQ -->|"/execute"| IMPL["Implementation"]
@@ -94,6 +95,7 @@ Start with `/prime` to understand the system, then try `/planning` on a small fe
 | `/code-review` | Technical quality review | After implementation |
 | `/code-review-fix` | Fix review findings | After code review |
 | `/end-to-end-feature` | Full autonomous pipeline | Trusted, simple features |
+| `/session-resume` | Resume interrupted work | After paused execution |
 | `/new-worktree` | Create parallel branch | Multi-feature work |
 | `/parallel-e2e` | Parallel multi-feature | Advanced parallel builds |
 | `/tmux-worktrees` | tmux session with worktrees | Parallel terminal work |
@@ -110,10 +112,13 @@ My-Coding-System/
 ├── AGENTS.md              # Auto-loaded rules (slim, ~2K tokens)
 ├── memory.md              # Cross-session memory
 ├── sections/              # Core rule sections (auto-loaded)
-├── reference/             # Deep guides (on-demand, ~89K tokens)
-├── templates/             # Reusable templates (24 files)
+├── reference/             # Deep guides (on-demand, 22 files)
+├── templates/             # Reusable templates (25 files)
 ├── requests/              # Feature plans (per PIV loop)
-├── .opencode/commands/    # Commands (21 commands)
+├── .tmp/                  # Runtime state (gitignored)
+│   ├── piv-state.json     # Cross-command state
+│   └── sessions/          # Session contexts
+├── .opencode/commands/    # Commands (22 commands)
 └── .opencode/agents/      # Agents (16 active + 8 examples)
     ├── core-*.md          #   Core orchestrators (2)
     ├── subagent-*.md      #   Subagents (8)
@@ -138,6 +143,7 @@ My-Coding-System/
 | Guide | Load when... |
 |-------|-------------|
 | `reference/layer1-guide.md` | Setting up AGENTS.md for a new project |
+| `reference/validation-pyramid.md` | Understanding 5-level validation hierarchy |
 | `reference/validation-strategy.md` | Planning or running validation |
 | `reference/file-structure.md` | Looking up where files belong |
 | `reference/command-design-overview.md` | Designing or modifying slash commands |

@@ -24,6 +24,18 @@ Read the plan file.
 - Read the ENTIRE plan carefully — all tasks, dependencies, validation commands, testing strategy
 - Check `memory.md` for gotchas related to this feature area
 
+**If ContextScout available** (`ls .opencode/agents/subagent-contextscout.md`):
+- Launch `@subagent-contextscout` with query: "patterns for {plan topic}"
+- Cache findings for reference during execution
+- Skip if agent not available
+
+**Read PIV state** (if `.tmp/piv-state.json` exists):
+- Load current context (feature name, phase, acceptance criteria)
+- Update `phase` to "executing"
+- If session initialized, add `session_id` to state
+
+**If state file doesn't exist**: Continue without it (backwards compatible).
+
 ### 1.25. Plan Validation (optional)
 
 **If plan-validator agent exists** in `.opencode/agents/`: Use the @plan-validator agent to validate the plan structure. Review findings. If Critical issues found, report to user before proceeding. If no critical issues, continue.
@@ -64,6 +76,8 @@ For EACH task in "Step by Step Tasks":
 
 **e.** **Archon** (if available): `manage_task("update", task_id="...", status="review")`
 
+**f.** **Update PIV state** (if `.tmp/piv-state.json` exists): Move completed criterion from `acceptance_criteria_pending` to `acceptance_criteria_met`.
+
 ### 2.5. Series Mode Execution (if plan series detected)
 
 For each sub-plan in PLAN INDEX order:
@@ -90,6 +104,11 @@ Execute ALL validation commands from the plan in order. Fix failures before cont
 - All tests passing
 - All validations pass
 - Code follows project conventions
+
+**If BuildAgent available** (`ls .opencode/agents/subagent-buildagent.md`):
+- Launch `@subagent-buildagent` to validate integrated code
+- Fix any build errors before marking complete
+- Skip if agent not available
 
 **Archon** (if available): `manage_task("update", task_id="...", status="done")` for all tasks. `manage_project("update", ..., description="Implementation complete, ready for commit")`
 
